@@ -5,10 +5,8 @@ import type { Brand } from '~~/shared/interfaces/AppConfigProps';
 const configStore = useConfigStore();
 const { loggedIn, user, fetch: refreshSession } = useUserSession();
 
-const credentials = reactive({
-  email: '',
-  password: '',
-  brand: configStore.selectedBrand
+const brand = ref(
+  configStore.selectedBrand
     ? {
         title: configStore.selectedBrand.name,
         value: configStore.selectedBrand.appId,
@@ -17,6 +15,11 @@ const credentials = reactive({
         title: '',
         value: '' as const,
       },
+);
+
+const credentials = reactive({
+  email: '',
+  password: '',
 });
 
 const errorMessage = ref('');
@@ -24,10 +27,10 @@ const isLoading = ref(false);
 const passShow = ref(false);
 
 watch(
-  () => credentials.brand.value,
+  () => brand.value,
   async (newBrand) => {
-    if (newBrand) {
-      await configStore.selectbrand(newBrand);
+    if (newBrand.value) {
+      await configStore.selectbrand(newBrand.value);
     }
   },
 );
@@ -36,7 +39,7 @@ async function login() {
   try {
     await $fetch('/api/login', {
       method: 'POST',
-      body: credentials,
+      body: { ...credentials, appId: brand.value.value },
     });
 
     // Refresh the session on client-side and redirect to the home page
@@ -66,7 +69,7 @@ const DropDownList = BRAND_LIST.map(({ title, value }) => ({
         @submit.prevent="login"
       >
         <v-select
-          v-model="credentials.brand"
+          v-model="brand"
           label="Selecione uma marca"
           return-object
           prepend-inner-icon="mdi-flag-outline"

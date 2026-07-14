@@ -17,3 +17,9 @@ export interface ProductResponseProps {
     Grid: ProductGrid;
   };
 }
+
+export type SearchProductResponse = {
+  success: boolean;
+  message: string;
+  data: ProductGrid;
+};

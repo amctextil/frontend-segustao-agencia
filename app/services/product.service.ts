@@ -1,6 +1,9 @@
 import { BRAND_LIST } from '~/constants/config';
 import type { Brand } from '~~/shared/interfaces/AppConfigProps';
-import type { ProductResponseProps } from '~~/shared/interfaces/ProductResponseProps';
+import type {
+  ProductResponseProps,
+  SearchProductResponse,
+} from '~~/shared/interfaces/ProductResponseProps';
 
 const getByList = async (
   appId: Brand['value'],
@@ -23,4 +26,14 @@ const getByList = async (
   return response.Model.Grid;
 };
 
-export const ProductService = { getByList };
+const getBySearch = async (
+  pesquisa: string,
+  appId: Brand['value'],
+  pagina = 1,
+) => {
+  return await $fetch<SearchProductResponse>(
+    `/api/product/search?appId=${appId}&pagina=${pagina}&pesquisa=${pesquisa}`,
+  );
+};
+
+export const ProductService = { getByList, getBySearch };
