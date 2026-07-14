@@ -8,15 +8,19 @@
         {{ SITEMAP[$route.path.replace(/\d+/g, 'id')] }}
       </v-app-bar-title>
       <v-app-bar-title v-else-if="!!user">
-        Bem-vindo de volta,
+        Bem-vindo
         {{ (user?.name || '').split(' ')[0] }}
       </v-app-bar-title>
       <v-app-bar-title v-else>Bem-vindo </v-app-bar-title>
 
       <template #append>
-        <v-app-bar-title class="mx-4">{{
-          configStore.brandName || ''
-        }}</v-app-bar-title>
+        <v-row class="align-center">
+          <v-app-bar-title class="mx-4">{{
+            configStore.brandName || ''
+          }}</v-app-bar-title>
+
+          <v-btn icon="mdi-shopping" />
+        </v-row>
       </template>
     </v-app-bar>
 
