@@ -5,6 +5,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     'nuxt-auth-utils',
     '@pinia/nuxt',
+    '@nuxt/image',
   ],
 
   devtools: {
@@ -12,6 +13,10 @@ export default defineNuxtConfig({
   },
 
   css: ['~/assets/css/main.css'],
+
+  colorMode: {
+    preference: 'light',
+  },
 
   routeRules: {
     '/': { prerender: true },
