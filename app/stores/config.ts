@@ -7,9 +7,10 @@ import type {
 
 type BrandsConfig = Record<Brand['value'], AppConfigProps>;
 
-export const useMyConfigStore = defineStore('config', {
+export const useConfigStore = defineStore('config', {
   state: () => ({
     brandsConfig: {} as BrandsConfig,
+    selectedBrand: null as AppConfigProps | null,
     isLoadingBrand: true,
   }),
   actions: {

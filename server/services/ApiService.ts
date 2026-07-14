@@ -45,7 +45,7 @@ export class ApiService {
     this.logRequest(init.method, fullUrl, init);
 
     try {
-      const response = await $fetch<T>(fullUrl, init);
+      const response = (await $fetch<T>(fullUrl, init)) as T;
       this.logResponse(init.method, fullUrl, response);
       return response;
     } catch (error) {

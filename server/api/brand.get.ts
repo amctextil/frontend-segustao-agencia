@@ -8,7 +8,7 @@ interface BrandQuery {
 export default defineEventHandler(async (event) => {
   const query = getQuery<BrandQuery>(event);
 
-  const response: AppConfigProps = await apiHub.get<AppConfigProps>(
+  const response = await apiHub.get<AppConfigProps>(
     `/api/v1/public/application/${query.appId}`,
   );
 
