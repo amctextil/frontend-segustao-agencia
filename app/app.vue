@@ -22,7 +22,11 @@ useSeoMeta({
 </script>
 
 <template>
-  <UApp>
-    <NuxtPage />
-  </UApp>
+  <NuxtLoadingIndicator />
+
+  <NuxtLayout>
+    <v-app>
+      <NuxtPage />
+    </v-app>
+  </NuxtLayout>
 </template>

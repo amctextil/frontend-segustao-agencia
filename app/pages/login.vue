@@ -7,8 +7,20 @@ const { loggedIn, user, fetch: refreshSession } = useUserSession();
 const credentials = reactive({
   email: '',
   password: '',
-  brand: configStore.selectedBrand ? configStore.selectedBrand.appId : '',
+  brand: configStore.selectedBrand
+    ? {
+        title: configStore.selectedBrand.name,
+        value: configStore.selectedBrand.appId,
+      }
+    : {
+        title: '',
+        value: '',
+      },
 });
+
+const errorMessage = ref('');
+const isLoading = ref(false);
+
 async function login() {
   try {
     await $fetch('/api/login', {
@@ -25,7 +37,7 @@ async function login() {
 }
 
 const DropDownList = BRAND_LIST.map(({ title, value }) => ({
-  label: title,
+  title: title as string,
   value: value as string,
 }));
 </script>
@@ -33,36 +45,44 @@ const DropDownList = BRAND_LIST.map(({ title, value }) => ({
 <template>
   <NuxtLayout name="login">
     <div
-      class="m-8 md:w-2/3 flex flex-col items-center justify-center gap-8 text-gray-700"
+      class="ma-8 w-md-66 d-flex flex-column align-center justify-center ga-8 text-grey-darken-3"
     >
-      <h1 class="self-start text-2xl font-semibold">Login</h1>
+      <h1 class="align-self-start text-h4">Login</h1>
 
-      <form
-        class="w-full flex flex-col gap-8 text-gray-800"
+      <v-form
+        ref="form"
+        class="w-100 d-flex flex-column ga-4 text-grey-darken-4"
         @submit.prevent="login"
       >
-        <UFormField label="Marca" name="brand">
-          <USelect
-            v-model="credentials.brand"
-            class="w-full"
-            :items="DropDownList"
-          />
-        </UFormField>
+        <v-select
+          v-model="credentials.brand"
+          label="Selecione uma marca"
+          return-object
+          prepend-inner-icon="mdi-flag-outline"
+          :items="DropDownList"
+          :disabled="configStore.isLoadingBrand"
+        />
 
-        <UFormField label="Email" name="email">
-          <UInput v-model="credentials.email" class="w-full" />
-        </UFormField>
+        <v-text-field
+          v-model="credentials.email"
+          label="E-mail"
+          prepend-inner-icon="mdi-email-outline"
+          type="email"
+          :disabled="configStore.isLoadingBrand"
+        />
 
-        <UFormField label="Password" name="password">
-          <UInput
-            v-model="credentials.password"
-            type="password"
-            class="w-full"
-          />
-        </UFormField>
+        <v-btn
+          :loading="isLoading"
+          :disabled="configStore.isLoadingBrand"
+          type="submit"
+        >
+          Entrar
+        </v-btn>
 
-        <UButton type="submit" color="success"> Entrar </UButton>
-      </form>
+        <strong class="text-center text-red-darken-1"
+          >{{ errorMessage }}&nbsp;</strong
+        >
+      </v-form>
     </div>
   </NuxtLayout>
 </template>

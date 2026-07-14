@@ -2,20 +2,18 @@
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
-    '@nuxt/ui',
     'nuxt-auth-utils',
     '@pinia/nuxt',
     '@nuxt/image',
+    'vuetify-nuxt-module',
   ],
 
   devtools: {
     enabled: true,
   },
 
-  css: ['~/assets/css/main.css'],
-
-  colorMode: {
-    preference: 'light',
+  build: {
+    transpile: ['vuetify'],
   },
 
   routeRules: {
@@ -31,5 +29,10 @@ export default defineNuxtConfig({
         braceStyle: '1tbs',
       },
     },
+  },
+
+  vuetify: {
+    moduleOptions: {/* module specific options */},
+    vuetifyOptions: './vuetify.config.ts', // <== you can omit it
   },
 });
