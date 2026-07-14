@@ -21,6 +21,7 @@ const credentials = reactive({
 
 const errorMessage = ref('');
 const isLoading = ref(false);
+const passShow = ref(false);
 
 watch(
   () => credentials.brand.value,
@@ -80,6 +81,30 @@ const DropDownList = BRAND_LIST.map(({ title, value }) => ({
           type="email"
           :disabled="configStore.isLoadingBrand"
         />
+
+        <ClientOnly>
+          <v-text-field
+            v-model="credentials.password"
+            label="Senha"
+            counter
+            prepend-inner-icon="mdi-key-outline"
+            :append-inner-icon="passShow ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="passShow ? 'text' : 'password'"
+            :disabled="configStore.isLoadingBrand"
+            @click:append-inner="passShow = !passShow"
+          />
+
+          <template #fallback>
+            <v-text-field
+              label="Senha"
+              prepend-inner-icon="mdi-key-outline"
+              append-inner-icon="mdi-eye-off"
+              type="password"
+              :disabled="configStore.isLoadingBrand"
+              :loading="true"
+            />
+          </template>
+        </ClientOnly>
 
         <v-btn
           :loading="isLoading"

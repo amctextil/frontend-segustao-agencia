@@ -8,8 +8,10 @@ async function logout() {
 </script>
 
 <template>
-  <div>
-    <h1>Welcome {{ user.name }}</h1>
-    <button @click="logout">Logout</button>
-  </div>
+  <NuxtLayout name="main">
+    <div>
+      <h1>Welcome {{ user.name }}</h1>
+      <button @click="logout">Logout</button>
+    </div>
+  </NuxtLayout>
 </template>

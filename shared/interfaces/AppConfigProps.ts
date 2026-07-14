@@ -22,9 +22,4 @@ export interface AppConfigProps {
   appId: Brand['value'];
 }
 
-export interface ColorsState {
-  background: string;
-  text: string;
-}
-
 export type Brand = (typeof BRAND_LIST)[number];

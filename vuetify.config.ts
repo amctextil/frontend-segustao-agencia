@@ -12,6 +12,7 @@ export default defineVuetifyConfiguration({
   // },
   // directives,
   theme: {
+    defaultTheme: 'light',
     themes: {
       light: {
         dark: false,
