@@ -1,17 +1,25 @@
 export const BRAND_LIST = [
-  // { title: 'Clc', value: 'clc' },
-  { title: 'Colcci', value: 'colcci' },
-  { title: 'Colcci Sport', value: 'colccisport' },
-  { title: 'Forum', value: 'forum' },
-  { title: 'Isy', value: 'isy' },
-  { title: "L'Cecci", value: 'lcecci' },
-  { title: 'Oasis', value: 'oasis' },
-  { title: 'Open', value: 'open' },
-  { title: 'Replay', value: 'replay' },
-  { title: 'Skazi', value: 'skazi' },
-  { title: 'Sommer', value: 'sommer' },
-  { title: 'Triton', value: 'triton' },
-  { title: 'Tufi Duek', value: 'tufiduek' },
+  // { title: 'Clc', value: 'clc', shopURL: 'https://clc.com.br' },
+  { title: 'Colcci', value: 'colcci', shopURL: 'https://colcci.com.br' },
+  {
+    title: 'Colcci Sport',
+    value: 'colccisport',
+    shopURL: 'https://colccisport.com.br',
+  },
+  { title: 'Forum', value: 'forum', shopURL: 'https://forum.com.br' },
+  { title: 'Isy', value: 'isy', shopURL: 'https://www.souisy.com.br' },
+  { title: "L'Cecci", value: 'lcecci', shopURL: 'https://lcecci.com.br' },
+  { title: 'Oasis', value: 'oasis', shopURL: 'https://oasis.com.br' },
+  { title: 'Open', value: 'open', shopURL: 'https://open.com.br' },
+  {
+    title: 'Replay',
+    value: 'replay',
+    shopURL: 'https://www.replayjeans.com.br',
+  },
+  { title: 'Skazi', value: 'skazi', shopURL: 'https://skazi.com.br' },
+  { title: 'Sommer', value: 'sommer', shopURL: 'https://sommer.com.br' },
+  { title: 'Triton', value: 'triton', shopURL: 'https://triton.com.br' },
+  { title: 'Tufi Duek', value: 'tufiduek', shopURL: 'https://tufiduek.com.br' },
 ] as const;
 
 export const SITEMAP: { [key: string]: string } = {
