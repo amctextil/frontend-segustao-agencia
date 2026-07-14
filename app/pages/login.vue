@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { BRAND_LIST } from '~/constants/config';
+import type { Brand } from '~~/shared/interfaces/AppConfigProps';
 
 const configStore = useConfigStore();
 const { loggedIn, user, fetch: refreshSession } = useUserSession();
@@ -14,12 +15,21 @@ const credentials = reactive({
       }
     : {
         title: '',
-        value: '',
+        value: '' as const,
       },
 });
 
 const errorMessage = ref('');
 const isLoading = ref(false);
+
+watch(
+  () => credentials.brand.value,
+  async (newBrand) => {
+    if (newBrand) {
+      await configStore.selectbrand(newBrand);
+    }
+  },
+);
 
 async function login() {
   try {
@@ -38,7 +48,7 @@ async function login() {
 
 const DropDownList = BRAND_LIST.map(({ title, value }) => ({
   title: title as string,
-  value: value as string,
+  value: value as '' | Brand['value'],
 }));
 </script>
 

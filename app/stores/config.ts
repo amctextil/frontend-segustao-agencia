@@ -11,18 +11,23 @@ export const useConfigStore = defineStore('config', {
   state: () => ({
     brandsConfig: {} as BrandsConfig,
     selectedBrand: null as AppConfigProps | null,
-    isLoadingBrand: true,
+    isLoadingBrand: false,
   }),
   actions: {
     finishLoading() {
       this.isLoadingBrand = false;
     },
-    async fetchAppConfig(appId: Brand['value']) {
+    async selectbrand(appId: Brand['value']) {
       this.isLoadingBrand = true;
 
       try {
+        if (this.brandsConfig[appId]) {
+          this.selectedBrand = this.brandsConfig[appId];
+        }
+
         const data = await BrandService.get(appId);
         this.brandsConfig[appId] = data;
+        this.selectedBrand = data;
       } finally {
         this.isLoadingBrand = false;
       }

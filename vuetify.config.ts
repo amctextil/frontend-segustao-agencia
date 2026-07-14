@@ -17,6 +17,7 @@ export default defineVuetifyConfiguration({
         dark: false,
         colors: {
           'brand-blue': '#003c72',
+          'brand-orange': '#ff5100',
         },
       },
     },
