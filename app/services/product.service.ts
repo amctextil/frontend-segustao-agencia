@@ -1,3 +1,4 @@
+import fakeProducts from '~/assets/products.fake.json';
 import { BRAND_LIST } from '~/constants/config';
 import type { Brand } from '~~/shared/interfaces/AppConfigProps';
 import type {
@@ -12,6 +13,12 @@ const getByList = async (
   sort = 'nome-produto',
 ) => {
   const baseURL = BRAND_LIST.find((item) => item.value === appId)?.shopURL;
+
+  if (import.meta.dev) {
+    const response = fakeProducts as ProductResponseProps;
+    console.log('🚀 ~ getByList ~ response:', response);
+    return response.Model.Grid;
+  }
 
   const response = await $fetch<ProductResponseProps>(
     `${baseURL}/${list}.json?pg=${page}&o=${sort}`,
