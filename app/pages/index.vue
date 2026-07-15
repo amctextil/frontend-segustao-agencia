@@ -1,12 +1,7 @@
 <script setup lang="ts">
 import { ProductService } from '~/services/product.service';
 
-const { user, clear: clearSession } = useUserSession();
-
-async function logout() {
-  await clearSession();
-  await navigateTo('/login');
-}
+const { user } = useUserSession();
 
 const list = await ProductService.getByList(user.value!.appId, 1, 'roupas');
 </script>
@@ -14,10 +9,11 @@ const list = await ProductService.getByList(user.value!.appId, 1, 'roupas');
 <template>
   <NuxtLayout name="main">
     <div>
-      <h1>Welcome {{ user!.nome }}</h1>
-      <button @click="logout">Logout</button>
-
-      {{ list.Products.map((item) => item.Name) }}
+      <ProductGridItem
+        v-for="item in list.Products"
+        :key="item.ProductID"
+        :model-value="item"
+      />
     </div>
   </NuxtLayout>
 </template>

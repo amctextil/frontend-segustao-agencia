@@ -4,14 +4,14 @@
       :style="`background-color: ${configStore.colors.background} !important; color: ${configStore.colors.text} !important;`"
       elevation="1"
     >
-      <v-app-bar-title v-if="SITEMAP[$route.path.replace(/\d+/g, 'id')]">
-        {{ SITEMAP[$route.path.replace(/\d+/g, 'id')] }}
+      <v-app-bar-title v-if="pageTitle">
+        {{ pageTitle }}
       </v-app-bar-title>
-      <v-app-bar-title v-else-if="!!user">
+      <v-app-bar-title v-else>
+        <v-btn icon="mdi-logout" class="me-4" @click="logout" />
         Bem-vindo
         {{ (user?.nome || '').split(' ')[0] }}
       </v-app-bar-title>
-      <v-app-bar-title v-else>Bem-vindo </v-app-bar-title>
 
       <template #append>
         <v-row class="align-center">
@@ -35,8 +35,16 @@
 <script lang="ts" setup>
 import { SITEMAP } from '~/constants/config';
 
-const { user } = useUserSession();
+const { user, clear: clearSession } = useUserSession();
 const configStore = useConfigStore();
+const route = useRoute();
+
+const pageTitle = SITEMAP[route.path.replace(/\d+/g, 'id')];
+
+async function logout() {
+  await clearSession();
+  await navigateTo('/login');
+}
 </script>
 
 <style></style>
