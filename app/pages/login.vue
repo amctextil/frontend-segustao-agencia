@@ -37,6 +37,9 @@ watch(
 
 async function login() {
   try {
+    errorMessage.value = '';
+    isLoading.value = true;
+
     await $fetch('/api/login', {
       method: 'POST',
       body: { ...credentials, appId: brand.value.value },
@@ -45,8 +48,14 @@ async function login() {
     // Refresh the session on client-side and redirect to the home page
     await refreshSession();
     await navigateTo('/');
-  } catch {
-    alert('Bad credentials');
+  } catch (error) {
+    if (import.meta.dev) {
+      console.log('🚀 ~ login ~ error:', error);
+    }
+
+    errorMessage.value = 'Erro ao fazer login';
+  } finally {
+    isLoading.value = false;
   }
 }
 

@@ -9,7 +9,7 @@
       </v-app-bar-title>
       <v-app-bar-title v-else-if="!!user">
         Bem-vindo
-        {{ (user?.name || '').split(' ')[0] }}
+        {{ (user?.nome || '').split(' ')[0] }}
       </v-app-bar-title>
       <v-app-bar-title v-else>Bem-vindo </v-app-bar-title>
 
