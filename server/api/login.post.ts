@@ -18,12 +18,15 @@ export default defineEventHandler(async (event) => {
     // this server util is auto-imported by the auth-utils module
     await setUserSession(event, {
       user: {
-        name: 'John Doe',
+        id: Math.random() * 99999,
+        nome: 'John Doe',
         appId,
       },
+      loggedInAt: new Date().toISOString(),
     });
     return {};
   }
+
   throw createError({
     status: 401,
     message: 'Usuário ou senha inválidos',

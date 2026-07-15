@@ -20,6 +20,11 @@ export default defineNuxtConfig({
     '/': { prerender: true },
   },
 
+  devServer: {
+    port: Number(process.env.NUXT_DEV_PORT) || 3000,
+    host: process.env.NUXT_DEV_HOST || 'localhost',
+  },
+
   compatibilityDate: '2026-06-30',
 
   eslint: {

@@ -3,7 +3,7 @@ import { BRAND_LIST } from '~/constants/config';
 import type { Brand } from '~~/shared/interfaces/AppConfigProps';
 
 const configStore = useConfigStore();
-const { loggedIn, user, fetch: refreshSession } = useUserSession();
+const { fetch: refreshSession } = useUserSession();
 
 const brand = ref(
   configStore.selectedBrand
