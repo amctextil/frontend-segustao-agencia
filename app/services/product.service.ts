@@ -16,7 +16,6 @@ const getByList = async (
 
   if (import.meta.dev) {
     const response = fakeProducts as ProductResponseProps;
-    console.log('🚀 ~ getByList ~ response:', response);
     return response.Model.Grid;
   }
 

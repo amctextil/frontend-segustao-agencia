@@ -1,6 +1,10 @@
 export interface SCNProductProps {
+  AllowOnlyAdditionalPurchase: boolean;
   Availability: string;
   AvailabilityText: string;
+  BrowsingImage: BrowsingImage;
+  BrowsingImages: BrowsingImage[];
+
   CurrentSkuID: number;
   IntegrationID: string;
   Items: SCNVariant[];
@@ -24,6 +28,22 @@ export interface SCNProductProps {
   SKU: string;
   Descriptions: SCNProductDescription[];
   Url: string;
+}
+
+export interface BrowsingImage {
+  HasMediaPath: boolean;
+  Height: number;
+  Index: number;
+  MaxHeight: number;
+  MaxWidth: number;
+  MediaPath: string;
+  MediaSizeType: string;
+  MediaType: string;
+  ProductPath: string;
+  Title?: string;
+  Url?: string;
+  VariationPath: string;
+  Width: number;
 }
 
 interface Option {

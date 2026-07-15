@@ -8,7 +8,6 @@
         {{ pageTitle }}
       </v-app-bar-title>
       <v-app-bar-title v-else>
-        <v-btn icon="mdi-logout" class="me-4" @click="logout" />
         Bem-vindo
         {{ (user?.nome || '').split(' ')[0] }}
       </v-app-bar-title>
@@ -20,6 +19,8 @@
           }}</v-app-bar-title>
 
           <v-btn icon="mdi-shopping" />
+
+          <v-btn icon="mdi-logout" @click="logout" />
         </v-row>
       </template>
     </v-app-bar>
