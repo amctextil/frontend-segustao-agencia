@@ -1,6 +1,8 @@
 <template>
   <NuxtLayout name="main">
     <h1>detalhes do produto</h1>
+
+    <span>{{ product?.Name }}</span>
   </NuxtLayout>
 </template>
 

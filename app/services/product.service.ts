@@ -1,4 +1,3 @@
-import { BRAND_LIST } from '~~/shared/constants/config';
 import type { Brand } from '~~/shared/interfaces/AppConfigProps';
 import type {
   ProductGrid,
@@ -31,13 +30,16 @@ const getBySearch = async (
 };
 
 const getProductByUrl = async (productUrl: string, appId: Brand['value']) => {
-  const baseURL = BRAND_LIST.find((item) => item.value === appId)?.shopURL;
+  // const baseURL = BRAND_LIST.find((item) => item.value === appId)?.shopURL;
 
+  // const response = await useFetch<SCNProductProps>(
+  //   `${baseURL}/${productUrl}.json`,
+  //   {
+  //     mode: 'no-cors',
+  //   },
+  // );
   const response = await useFetch<SCNProductProps>(
-    `${baseURL}/${productUrl}.json`,
-    {
-      mode: 'no-cors',
-    },
+    `/api/product?appId=${appId}&productUrl=${productUrl}`,
   );
 
   return response.data.value;
