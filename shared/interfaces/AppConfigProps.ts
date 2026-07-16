@@ -1,4 +1,4 @@
-import type { BRAND_LIST } from '~/constants/config';
+import type { BRAND_LIST } from '~~/shared/constants/config';
 
 interface BrandProps {
   id: number;

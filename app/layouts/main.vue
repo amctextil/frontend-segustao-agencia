@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import { SITEMAP } from '~/constants/config';
+import { SITEMAP } from '~~/shared/constants/config';
 
 const { user, clear: clearSession } = useUserSession();
 const configStore = useConfigStore();

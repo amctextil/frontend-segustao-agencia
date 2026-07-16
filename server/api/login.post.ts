@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { BRAND_LIST } from '~/constants/config';
+import { BRAND_LIST } from '~~/shared/constants/config';
 
 const bodySchema = z.object({
   email: z.email(),

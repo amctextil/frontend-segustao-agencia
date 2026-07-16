@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { WDColors } from 'widelab-utils';
-import { BRAND_LIST } from '~/constants/config';
 import { BrandService } from '~/services/brand.service';
+import { BRAND_LIST } from '~~/shared/constants/config';
 import type {
   AppConfigProps,
   Brand,
@@ -13,7 +13,7 @@ export const useConfigStore = defineStore('config', {
   state: () => ({
     brandsConfig: {} as BrandsConfig,
     selectedBrand: null as AppConfigProps | null,
-    isLoadingBrand: false,
+    isLoadingBrand: true,
     brandName: '',
     colors: { background: '#FAFAFA', text: '#000000' },
   }),

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { BRAND_LIST } from '~/constants/config';
+import { BRAND_LIST } from '~~/shared/constants/config';
 import type { Brand } from '~~/shared/interfaces/AppConfigProps';
 
 const configStore = useConfigStore();
