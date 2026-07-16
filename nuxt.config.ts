@@ -11,6 +11,13 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+  runtimeConfig: {
+    session: {
+      cookie: {
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
+  },
 
   build: {
     transpile: ['vuetify'],
