@@ -4,6 +4,15 @@
       :style="`background-color: ${configStore.colors.background} !important; color: ${configStore.colors.text} !important;`"
       elevation="1"
     >
+      <template #prepend>
+        <v-btn
+          v-if="!isHomePage"
+          icon="mdi-arrow-left"
+          :color="configStore.colors.text"
+          @click="$router.back"
+        />
+      </template>
+
       <v-app-bar-title v-if="pageTitle">
         {{ pageTitle }}
       </v-app-bar-title>
@@ -39,6 +48,8 @@ import { SITEMAP } from '~~/shared/constants/config';
 const { user, clear: clearSession } = useUserSession();
 const configStore = useConfigStore();
 const route = useRoute();
+
+const isHomePage = route.path.matchAll(/\//g).toArray().length <= 1;
 
 const routePath = route.path
   .replace(/(produto)\/(.+)/g, '$1/id')
