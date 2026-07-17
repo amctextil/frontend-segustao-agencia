@@ -10,12 +10,17 @@ type SCNCartVariant = Omit<
 >;
 
 export const useCartStore = defineStore('cart', () => {
+  const configStore = useConfigStore();
+
   // Syncs seamlessly between SSR (server) and CSR (client)
-  const cartCookie = useCookie<SCNCartItemProps[]>('shopping-cart', {
-    default: () => [],
-    watch: true,
-    maxAge: 60 * 60 * 24 * 7, // 1 week
-  });
+  const cartCookie = useCookie<SCNCartItemProps[]>(
+    'shopping-cart-' + configStore.selectedBrand?.appId,
+    {
+      default: () => [],
+      watch: true,
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+    },
+  );
 
   // Reactive state
   const items = ref<SCNCartItemProps[]>(cartCookie.value);

@@ -27,7 +27,7 @@
             configStore.brandName || ''
           }}</v-app-bar-title>
 
-          <v-btn>
+          <v-btn @click="$router.push('/carrinho')">
             <v-badge
               location="top right"
               color="primary"
@@ -67,13 +67,13 @@ const route = useRoute();
 const cartStore = useCartStore();
 
 const logoutDialog = ref(false);
-const isHomePage = route.path.matchAll(/\//g).toArray().length <= 1;
 
 const routePath = route.path
   .replace(/(produto)\/(.+)/g, '$1/id')
   .replace(/\d+/g, 'id');
 
 const pageTitle = SITEMAP[routePath];
+const isHomePage = !route.path || route.path === '/';
 
 if (pageTitle) {
   useHead({ title: pageTitle });

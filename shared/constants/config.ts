@@ -29,4 +29,5 @@ export const BRAND_LIST = [
 export const SITEMAP: { [key: string]: string } = {
   '/usuarios': 'Usuários',
   '/produto/id': 'Detalhes do produto',
+  '/carrinho': 'Carrinho',
 };
