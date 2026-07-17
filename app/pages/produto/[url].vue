@@ -3,7 +3,7 @@
   <NuxtLayout name="main">
     <div class="d-flex pa-4 ga-4 flex-column overflow-auto">
       <div class="d-flex ga-4">
-        <v-carousel>
+        <v-carousel v-model="selectedImageIdx">
           <v-carousel-item
             v-for="media in medias"
             :key="media.MediaPath"
@@ -82,6 +82,7 @@ import type {
 
 const route = useRoute();
 const { user } = useUserSession();
+const selectedImageIdx = ref(0);
 
 const productUrl = route.params.url as string;
 
@@ -134,6 +135,10 @@ const medias = computed(() => {
   return variantMedias?.length ? variantMedias : allMedias;
 });
 
+watch([medias], () => {
+  selectedImageIdx.value = 0;
+});
+
 const sizesVariations = computed(() =>
   inStockVariations.value?.filter((item) =>
     !options.value.Cor
@@ -171,10 +176,10 @@ const inStockCount = computed(() => {
 const descriptions = product.Descriptions.filter((item) => item.Value);
 
 const selectOption = (option: SCNProductOption, selected: SCNOptionValue) => {
-  if (option.Label.startsWith('Cor')) {
-    options.value = { [option.Label]: selected };
-    return;
-  }
+  // if (option.Label.startsWith('Cor')) {
+  //   options.value = { [option.Label]: selected };
+  //   return;
+  // }
 
   options.value[option.Label] = selected;
 };
