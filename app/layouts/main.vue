@@ -27,9 +27,16 @@
             configStore.brandName || ''
           }}</v-app-bar-title>
 
-          <v-btn icon="mdi-shopping" />
-
-          <v-btn icon="mdi-logout" @click="logout" />
+          <v-btn>
+            <v-badge
+              location="top right"
+              color="primary"
+              :content="cartStore.items.length"
+            >
+              <v-icon icon="mdi-cart"></v-icon>
+            </v-badge>
+          </v-btn>
+          <v-btn icon="mdi-logout" @click="logoutDialog = true" />
         </v-row>
       </template>
     </v-app-bar>
@@ -39,6 +46,15 @@
     >
       <slot />
     </v-main>
+
+    <v-dialog v-model="logoutDialog" max-width="500">
+      <v-card title="Deseja realmente sair?">
+        <v-card-actions>
+          <v-btn text="Ficar" @click="logoutDialog = false" />
+          <v-btn text="Sair" color="red" @click="logout" />
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
@@ -48,7 +64,9 @@ import { SITEMAP } from '~~/shared/constants/config';
 const { user, clear: clearSession } = useUserSession();
 const configStore = useConfigStore();
 const route = useRoute();
+const cartStore = useCartStore();
 
+const logoutDialog = ref(false);
 const isHomePage = route.path.matchAll(/\//g).toArray().length <= 1;
 
 const routePath = route.path
