@@ -72,12 +72,22 @@
             }}
           </span>
 
-          <v-btn color="primary" size="large">ADICIONAR</v-btn>
+          <v-btn color="primary" size="large" @click="addProductToCart">
+            ADICIONAR
+          </v-btn>
         </div>
       </div>
 
       <div v-for="desc in descriptions" :key="desc.Alias" v-html="desc.Value" />
     </div>
+
+    <v-dialog v-model="message.isActive" max-width="500">
+      <v-card :title="message.title" :text="message.text">
+        <v-card-actions>
+          <v-btn text="FECHAR" @click="message.isActive = false" />
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </NuxtLayout>
 </template>
 
@@ -91,7 +101,10 @@ import type {
 
 const route = useRoute();
 const { user } = useUserSession();
+const cartStore = useCartStore();
+
 const selectedImageIdx = ref(0);
+const message = reactive({ title: '', text: '', isActive: false });
 
 const productUrl = route.params.url as string;
 
@@ -185,12 +198,56 @@ const inStockCount = computed(() => {
 const descriptions = product.Descriptions.filter((item) => item.Value);
 
 const selectOption = (option: SCNProductOption, selected: SCNOptionValue) => {
-  // if (option.Label.startsWith('Cor')) {
-  //   options.value = { [option.Label]: selected };
-  //   return;
-  // }
-
   options.value[option.Label] = selected;
+};
+
+const addProductToCart = () => {
+  if (!product || !medias.value) {
+    return;
+  }
+
+  if (inStockCount.value !== null && inStockCount.value <= 0) {
+    message.title = 'Produto sem estoque';
+    message.text = 'Não há unidades disponíveis para adicionar ao carrinho.';
+    message.isActive = true;
+    return;
+  }
+
+  const optArr = Object.entries(options.value);
+  const optionsWithValue = optArr.filter((opt) => opt[1]?.PropertyPath.trim());
+
+  const notSelectedOptions = product?.Options.filter(
+    (opt) => !optionsWithValue.some((optVal) => optVal[0] === opt.Label),
+  );
+
+  if (notSelectedOptions?.length) {
+    const labels = notSelectedOptions.map((opt) => opt.Label);
+    message.title = 'Selecione as opções';
+    message.text = '• ' + labels.join('\n• ');
+    message.isActive = true;
+    return;
+  }
+
+  const optionsValues = optionsWithValue.map((opt) => opt[1]);
+
+  const selectedVariant = inStockVariations.value?.find((variant) =>
+    optionsValues.every((opt) =>
+      variant.VariationPath.includes(opt?.PropertyPath || ''),
+    ),
+  );
+
+  if (!selectedVariant) {
+    message.title = 'Variante do produto não encontrada';
+    message.text = 'Nenhum em estoque encontrado com essas opções';
+    message.isActive = true;
+    return;
+  }
+
+  const MediaPath = medias.value[0]?.MediaPath || '';
+  cartStore.addToCart(selectedVariant, product, MediaPath);
+
+  // Alert.alert('Produto adicionado ao carrinho');
+  // router.back();
 };
 </script>
 

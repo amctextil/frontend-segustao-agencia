@@ -120,12 +120,12 @@ interface SCNVariant {
   PromotionPrice: number;
   RetailPrice: number;
   SKU: string;
-  SKUOptions: SCNSkuoption[];
+  SKUOptions: SCNSkuOption[];
   VariationPath: string;
   StockBalance: number;
 }
 
-interface SCNSkuoption {
+export interface SCNSkuOption {
   Alias: string;
   Color?: string;
   GroupName?: string;
