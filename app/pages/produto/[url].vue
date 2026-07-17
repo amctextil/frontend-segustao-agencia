@@ -21,7 +21,12 @@
             :key="option.Label"
             class="d-flex flex-column ga-2"
           >
-            <span class="text-grey">{{ option.Label }}</span>
+            <span class="text-grey">
+              {{ option.Label }}:
+              <span class="text-grey-darken-1 font-weight-bold">
+                {{ options[option.Label]?.Text }}
+              </span>
+            </span>
             <span
               v-if="
                 index === product.Options.length - 1 && inStockCount !== null
@@ -35,7 +40,9 @@
                 v-for="item in option.Values"
                 :key="item.Text + item.PropertyPath"
                 :model-value="item"
-                :is-selected="options[option.Label] === item.PropertyPath"
+                :is-selected="
+                  options[option.Label]?.PropertyPath === item.PropertyPath
+                "
               />
             </div>
           </div>
@@ -67,6 +74,7 @@
 <script lang="ts" setup>
 import { WDFormatters } from 'widelab-utils';
 import { ProductService } from '~/services/product.service';
+import type { SCNOptionValue } from '~~/shared/interfaces/SCNProductProps';
 
 const route = useRoute();
 const { user } = useUserSession();
@@ -98,8 +106,8 @@ const initialColor = colorOption?.Values.find((opt) =>
   ),
 );
 
-const options = ref<{ [title: string]: string }>({
-  Cor: initialColor?.PropertyPath || '',
+const options = ref<{ [title: string]: SCNOptionValue | undefined }>({
+  Cor: initialColor,
 });
 
 const medias = computed(() => {
