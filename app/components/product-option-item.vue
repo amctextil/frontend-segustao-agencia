@@ -2,10 +2,10 @@
   <v-btn
     v-if="item.Color || item.ImagePath"
     variant="text"
-    class="rounded-circle border-current"
+    class="rounded-circle border-current color-button"
     :border="isSelected"
     stacked
-    size="small"
+    size="48"
     @click="emit('click')"
   >
     <div
@@ -17,7 +17,14 @@
       class="rounded-circle"
     />
   </v-btn>
-  <div v-else>tamanmho</div>
+  <v-btn
+    v-else
+    :active="isSelected"
+    active-color="black"
+    @click="emit('click')"
+  >
+    {{ item.Text }}
+  </v-btn>
 </template>
 
 <script lang="ts" setup>
@@ -28,4 +35,9 @@ const { isSelected } = defineProps<{ isSelected: boolean }>();
 const emit = defineEmits(['click']);
 </script>
 
-<style></style>
+<style>
+.color-button {
+  margin: 0;
+  padding: 0;
+}
+</style>
