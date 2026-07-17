@@ -13,7 +13,7 @@ export interface SCNProductProps {
   Medias: Media[];
   MediaSmall: string;
   Name: string;
-  Options: Option[];
+  Options: SCNProductOption[];
   Price: Price;
   ProductDefinitionID: number;
   ProductID: number;
@@ -46,7 +46,7 @@ export interface BrowsingImage {
   Width: number;
 }
 
-interface Option {
+export interface SCNProductOption {
   Label: string;
   PropertyMetadataID: number;
   PropertyName: string;
@@ -114,7 +114,7 @@ interface SCNVariant {
   AvailabilityText: string;
   IntegrationID: string;
   ListPrice: number;
-  Options: Option[];
+  Options: SCNProductOption[];
   ProductID: number;
   ProductPath: string;
   PromotionPrice: number;

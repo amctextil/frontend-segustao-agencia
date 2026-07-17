@@ -43,6 +43,7 @@
                 :is-selected="
                   options[option.Label]?.PropertyPath === item.PropertyPath
                 "
+                @click="selectOption(option, item)"
               />
             </div>
           </div>
@@ -74,7 +75,10 @@
 <script lang="ts" setup>
 import { WDFormatters } from 'widelab-utils';
 import { ProductService } from '~/services/product.service';
-import type { SCNOptionValue } from '~~/shared/interfaces/SCNProductProps';
+import type {
+  SCNOptionValue,
+  SCNProductOption,
+} from '~~/shared/interfaces/SCNProductProps';
 
 const route = useRoute();
 const { user } = useUserSession();
@@ -106,7 +110,7 @@ const initialColor = colorOption?.Values.find((opt) =>
   ),
 );
 
-const options = ref<{ [title: string]: SCNOptionValue | undefined }>({
+const options = ref<Record<string, SCNOptionValue | undefined>>({
   Cor: initialColor,
 });
 
@@ -121,7 +125,10 @@ const medias = computed(() => {
 
   const variantMedias = allMedias?.filter(
     (media) =>
-      !!(options.value.Cor && media.VariationPath.includes(options.value.Cor)),
+      !!(
+        options.value.Cor &&
+        media.VariationPath.includes(options.value.Cor.PropertyPath)
+      ),
   );
 
   return variantMedias?.length ? variantMedias : allMedias;
@@ -129,10 +136,11 @@ const medias = computed(() => {
 
 const sizesVariations = computed(() =>
   inStockVariations.value?.filter((item) =>
-    !options.value.Cor ? true : item.VariationPath.includes(options.value.Cor),
+    !options.value.Cor
+      ? true
+      : item.VariationPath.includes(options.value.Cor.PropertyPath),
   ),
 );
-
 const inStockCount = computed(() => {
   const isEveryOptionSelected = !!product?.Options.every(
     (opt) => options.value[opt.Label],
@@ -161,6 +169,15 @@ const inStockCount = computed(() => {
 });
 
 const descriptions = product.Descriptions.filter((item) => item.Value);
+
+const selectOption = (option: SCNProductOption, selected: SCNOptionValue) => {
+  if (option.Label.startsWith('Cor')) {
+    options.value = { [option.Label]: selected };
+    return;
+  }
+
+  options.value[option.Label] = selected;
+};
 </script>
 
 <style></style>
