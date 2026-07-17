@@ -72,7 +72,7 @@
             }}
           </span>
 
-          <v-btn> Adicionar </v-btn>
+          <v-btn color="primary" size="large">ADICIONAR</v-btn>
         </div>
       </div>
 
