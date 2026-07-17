@@ -6,6 +6,7 @@
     :border="isSelected"
     stacked
     size="48"
+    :disabled="disabled"
     @click="emit('click')"
   >
     <div
@@ -16,14 +17,27 @@
       }"
       class="rounded-circle"
     />
+    <v-icon
+      v-if="disabled"
+      icon="mdi-close"
+      color="red-darken-1"
+      class="position-absolute icon-pos"
+    />
   </v-btn>
   <v-btn
     v-else
     :active="isSelected"
     active-color="black"
+    :disabled="disabled"
     @click="emit('click')"
   >
     {{ item.Text }}
+    <v-icon
+      v-if="disabled"
+      icon="mdi-close"
+      color="red-darken-1"
+      class="position-absolute icon-pos"
+    />
   </v-btn>
 </template>
 
@@ -31,7 +45,10 @@
 import type { SCNOptionValue } from '~~/shared/interfaces/SCNProductProps';
 
 const item = defineModel<SCNOptionValue>({ required: true });
-const { isSelected } = defineProps<{ isSelected: boolean }>();
+const { isSelected, disabled } = defineProps<{
+  isSelected: boolean;
+  disabled: boolean;
+}>();
 const emit = defineEmits(['click']);
 </script>
 
@@ -39,5 +56,9 @@ const emit = defineEmits(['click']);
 .color-button {
   margin: 0;
   padding: 0;
+}
+.icon-pos {
+  right: -10px;
+  top: -10px;
 }
 </style>

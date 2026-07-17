@@ -43,6 +43,15 @@
                 :is-selected="
                   options[option.Label]?.PropertyPath === item.PropertyPath
                 "
+                :disabled="
+                  option.Label.startsWith('Cor')
+                    ? !inStockVariations?.some((variant) =>
+                        variant.VariationPath.includes(item.PropertyPath),
+                      )
+                    : !sizesVariations?.some((variant) =>
+                        variant.VariationPath.includes(item.PropertyPath),
+                      )
+                "
                 @click="selectOption(option, item)"
               />
             </div>
