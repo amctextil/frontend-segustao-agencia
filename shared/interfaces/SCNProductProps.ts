@@ -50,11 +50,11 @@ interface Option {
   Label: string;
   PropertyMetadataID: number;
   PropertyName: string;
-  Values: SCNValue[];
+  Values: SCNOptionValue[];
   VariationLayoutTemplate: string;
 }
 
-interface SCNValue {
+export interface SCNOptionValue {
   Color?: string;
   GroupName?: string;
   HasItems: boolean;

@@ -16,6 +16,30 @@
 
           <span>Ref: {{ product.IntegrationID }}</span>
 
+          <div
+            v-for="(option, index) in product.Options"
+            :key="option.Label"
+            class="d-flex flex-column ga-2"
+          >
+            <span class="text-grey">{{ option.Label }}</span>
+            <span
+              v-if="
+                index === product.Options.length - 1 && inStockCount !== null
+              "
+            >
+              {{ inStockCount }} em estoque
+            </span>
+
+            <div class="d-flex flex-row flex-wrap ga-4">
+              <ProductOptionItem
+                v-for="item in option.Values"
+                :key="item.Text + item.PropertyPath"
+                :model-value="item"
+                :is-selected="options[option.Label] === item.PropertyPath"
+              />
+            </div>
+          </div>
+
           <span
             v-if="product.PromotionPrice"
             class="text-grey text-decoration-line-through"
@@ -61,7 +85,22 @@ if (!product) {
   });
 }
 
-const options = ref<{ [title: string]: string }>({});
+const inStockVariations = computed(() =>
+  product?.Items.filter(
+    (item) => item.VariationPath.replace('//', '') && item.Availability === 'I',
+  ),
+);
+
+const colorOption = product?.Options.find((opt) => opt.Label.startsWith('Cor'));
+const initialColor = colorOption?.Values.find((opt) =>
+  inStockVariations.value?.some((stock) =>
+    stock.VariationPath.includes(opt.PropertyPath),
+  ),
+);
+
+const options = ref<{ [title: string]: string }>({
+  Cor: initialColor?.PropertyPath || '',
+});
 
 const medias = computed(() => {
   const allMedias = product.Medias.filter(
@@ -80,9 +119,40 @@ const medias = computed(() => {
   return variantMedias?.length ? variantMedias : allMedias;
 });
 
-const descriptions = product.Descriptions.filter((item) => item.Value);
+const sizesVariations = computed(() =>
+  inStockVariations.value?.filter((item) =>
+    !options.value.Cor ? true : item.VariationPath.includes(options.value.Cor),
+  ),
+);
 
-console.log('🚀 ~ product.Descriptions:', product.Descriptions);
+const inStockCount = computed(() => {
+  const isEveryOptionSelected = !!product?.Options.every(
+    (opt) => options.value[opt.Label],
+  );
+
+  if (!isEveryOptionSelected) {
+    return null;
+  }
+
+  const variantSelected = product?.Items.find((item) =>
+    Object.values(options).every((opt) => item.VariationPath.includes(opt)),
+  );
+
+  if (!variantSelected) {
+    return null;
+  }
+
+  const productCart = { Quantity: 0 };
+  const inCartCount = productCart?.Quantity || 0;
+  // TODO descomentar quando implementar sistema de carrinho
+  // items.find(
+  //   (item) => item.VariationPath === variantSelected.VariationPath,
+  // );
+
+  return variantSelected.StockBalance - inCartCount;
+});
+
+const descriptions = product.Descriptions.filter((item) => item.Value);
 </script>
 
 <style></style>
