@@ -12,7 +12,7 @@ const list = await ProductService.getByList(user.value!.appId, 1, 'roupas');
       <NuxtLink
         v-for="item in list.Products"
         :key="item.ProductID"
-        :to="`/product${item.Url}`"
+        :to="`/produto${item.Url}`"
         class="text-decoration-none text-black"
       >
         <ProductGridItem :model-value="item" class="flex-fill" />

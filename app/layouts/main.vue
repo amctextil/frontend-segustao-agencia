@@ -40,7 +40,15 @@ const { user, clear: clearSession } = useUserSession();
 const configStore = useConfigStore();
 const route = useRoute();
 
-const pageTitle = SITEMAP[route.path.replace(/\d+/g, 'id')];
+const routePath = route.path
+  .replace(/(produto)\/(.+)/g, '$1/id')
+  .replace(/\d+/g, 'id');
+
+const pageTitle = SITEMAP[routePath];
+
+if (pageTitle) {
+  useHead({ title: pageTitle });
+}
 
 async function logout() {
   await clearSession();

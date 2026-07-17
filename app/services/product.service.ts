@@ -15,6 +15,13 @@ const getByList = async (
     `/api/product/list?lista=${list}&appId=${appId}&pagina=${page}&ordenacao=${sort}`,
   );
 
+  if (!response.data.value) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Produtos não encontrados',
+    });
+  }
+
   return response.data.value;
 };
 
@@ -26,6 +33,14 @@ const getBySearch = async (
   const response = await useFetch<SearchProductResponse>(
     `/api/product/search?appId=${appId}&pagina=${pagina}&pesquisa=${pesquisa}`,
   );
+
+  if (!response.data.value) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Nenhum produto encontrado',
+    });
+  }
+
   return response.data.value;
 };
 
