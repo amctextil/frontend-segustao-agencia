@@ -88,10 +88,18 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-snackbar-queue
+      v-model="messages"
+      timeout="2000"
+      color="error"
+      location="bottom"
+    />
   </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
+import type { SnackbarMessage } from 'vuetify/lib/components/VSnackbarQueue/VSnackbarQueue.mjs';
 import { WDFormatters } from 'widelab-utils';
 import { ProductService } from '~/services/product.service';
 import type {
@@ -100,11 +108,13 @@ import type {
 } from '~~/shared/interfaces/SCNProductProps';
 
 const route = useRoute();
+const router = useRouter();
 const { user } = useUserSession();
 const cartStore = useCartStore();
 
 const selectedImageIdx = ref(0);
 const message = reactive({ title: '', text: '', isActive: false });
+const messages = ref<SnackbarMessage[]>([]);
 
 const productUrl = route.params.url as string;
 
@@ -246,8 +256,11 @@ const addProductToCart = () => {
   const MediaPath = medias.value[0]?.MediaPath || '';
   cartStore.addToCart(selectedVariant, product, MediaPath);
 
-  // Alert.alert('Produto adicionado ao carrinho');
-  // router.back();
+  messages.value.push({
+    text: 'Produto adicionado ao carrinho',
+    color: 'success',
+  });
+  router.back();
 };
 </script>
 
