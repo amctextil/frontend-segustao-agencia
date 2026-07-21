@@ -21,7 +21,16 @@
           :title="item.name"
           :to="item.path"
           link
-        />
+        >
+          <template #append>
+            <v-badge
+              v-if="item.badge"
+              color="info"
+              :content="item.badge"
+              inline
+            />
+          </template>
+        </v-list-item>
       </v-list>
 
       <template #append>
@@ -119,7 +128,12 @@ const isNavMenuExpanded = useState('isNavMenuExpanded', () => false);
 
 const NAV_ITEMS = [
   { path: '/', name: 'Início', icon: 'mdi-home' },
-  { path: '/carrinho', name: 'Carrinho atual', icon: 'mdi-cart' },
+  {
+    path: '/carrinho',
+    name: 'Carrinho atual',
+    icon: 'mdi-cart',
+    badge: cartStore.items.length,
+  },
   {
     path: '/carrinho/cadastrados',
     name: 'Meus carrinhos',
