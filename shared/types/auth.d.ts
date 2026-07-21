@@ -5,6 +5,7 @@ declare module '#auth-utils' {
     id: number;
     nome: string;
     appId: Brand['value'];
+    role: 'admin' | 'vendedor' | 'desenvolvimento';
   }
 
   interface UserSession {
