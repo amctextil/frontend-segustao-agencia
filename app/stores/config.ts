@@ -7,14 +7,15 @@ import type {
   Brand,
 } from '~~/shared/interfaces/AppConfigProps';
 
-type BrandsConfig = Record<Brand['value'], AppConfigProps>;
+type BrandData = AppConfigProps & { data?: (typeof BRAND_LIST)[number] };
+
+type BrandsConfig = Record<Brand['value'], BrandData>;
 
 export const useConfigStore = defineStore('config', {
   state: () => ({
     brandsConfig: {} as BrandsConfig,
-    selectedBrand: null as AppConfigProps | null,
+    brand: null as BrandData | null,
     isLoadingBrand: true,
-    brandName: '',
     colors: { background: '#FAFAFA', text: '#000000' },
   }),
   actions: {
@@ -26,7 +27,7 @@ export const useConfigStore = defineStore('config', {
 
       try {
         if (this.brandsConfig[appId]) {
-          this.selectedBrand = this.brandsConfig[appId];
+          this.brand = this.brandsConfig[appId];
           this.colors = {
             background: this.brandsConfig[appId].corApp,
             text: WDColors.getContrastingTextColor(
@@ -35,18 +36,16 @@ export const useConfigStore = defineStore('config', {
           };
         }
 
-        const data = await BrandService.get(appId);
-        this.brandsConfig[appId] = data;
-        this.selectedBrand = data;
+        const response = await BrandService.get(appId);
+        const data = BRAND_LIST.find((item) => item.value === appId);
+        const brandConfig = { data, ...response };
+        this.brandsConfig[appId] = brandConfig;
+        this.brand = brandConfig;
 
         this.colors = {
-          background: data.corApp,
-          text: WDColors.getContrastingTextColor(data.corApp),
+          background: brandConfig.corApp,
+          text: WDColors.getContrastingTextColor(brandConfig.corApp),
         };
-
-        this.brandName =
-          Object.values(BRAND_LIST).find((item) => item.value === appId)
-            ?.title || '';
       } finally {
         this.isLoadingBrand = false;
       }

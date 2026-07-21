@@ -65,7 +65,7 @@
       <template #append>
         <v-row class="align-center">
           <v-app-bar-title class="mx-4">{{
-            configStore.brandName || ''
+            configStore.brand?.data?.title || ''
           }}</v-app-bar-title>
 
           <v-btn @click="$router.push('/carrinho')">

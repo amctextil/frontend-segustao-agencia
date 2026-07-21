@@ -6,10 +6,10 @@ const configStore = useConfigStore();
 const { fetch: refreshSession } = useUserSession();
 
 const brand = ref(
-  configStore.selectedBrand
+  configStore.brand
     ? {
-        title: configStore.selectedBrand.name,
-        value: configStore.selectedBrand.appId,
+        title: configStore.brand.name,
+        value: configStore.brand.appId,
       }
     : {
         title: '',

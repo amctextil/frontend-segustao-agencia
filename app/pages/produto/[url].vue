@@ -3,11 +3,11 @@
   <NuxtLayout name="main">
     <div class="d-flex pa-4 ga-4 flex-column overflow-auto">
       <div class="d-flex ga-4">
-        <v-carousel v-model="selectedImageIdx">
+        <v-carousel v-if="brand?.data?.imageURL" v-model="selectedImageIdx">
           <v-carousel-item
             v-for="media in medias"
             :key="media.MediaPath"
-            :src="'https://d3vnyi5j6ba1mc.cloudfront.net' + media.MediaPath"
+            :src="brand.data.imageURL + media.MediaPath"
           />
         </v-carousel>
 
@@ -110,6 +110,7 @@ import type {
 const route = useRoute();
 const router = useRouter();
 const { user } = useUserSession();
+const { brand } = useConfigStore();
 const cartStore = useCartStore();
 
 const selectedImageIdx = ref(0);

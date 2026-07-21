@@ -12,8 +12,8 @@ const configStore = useConfigStore();
         :style="`background-color: ${configStore.colors.background} !important;`"
       >
         <NuxtImg
-          v-if="configStore.selectedBrand?.imagemAppLogin"
-          :src="configStore.selectedBrand?.imagemAppLogin"
+          v-if="configStore.brand?.imagemAppLogin"
+          :src="configStore.brand?.imagemAppLogin"
           width="300"
         />
         <AMCLogo v-else :fill="configStore.colors.text" width="300" />
