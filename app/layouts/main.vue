@@ -63,7 +63,7 @@
       </v-app-bar-title>
 
       <template #append>
-        <v-row class="align-center">
+        <v-row class="align-center pr-4">
           <v-app-bar-title class="mx-4">{{
             configStore.brand?.data?.title || ''
           }}</v-app-bar-title>

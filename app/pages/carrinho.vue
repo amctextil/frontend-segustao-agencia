@@ -1,61 +1,45 @@
 <template>
   <NuxtLayout name="main">
+    <h1 class="mx-16 align-self-center">Produtos no carrinho</h1>
+
     <div
-      class="pa-4 ga-16 justify-center align-center flex-fill d-flex flex-row"
+      class="px-16 ga-16 pt-8 flex-fill align-start d-flex flex-row align-self-center"
+      style="max-width: 1366px"
     >
-      <div class="ga-4 d-flex flex-column">
+      <div class="ga-4 d-flex flex-column flex-fill">
         <div v-if="!cartStore.items.length">
           <h1>Carrinho vazio!</h1>
         </div>
 
-        <div
+        <CartProductItem
           v-for="item in cartStore.items"
           v-else
           :key="item.ProductID"
-          class="d-flex flex-row ga-4 overflow-auto"
-        >
-          <NuxtImg
-            :src="brand?.data?.imageURL + item.MediaPath"
-            width="120"
-            style="aspect-ratio: 0.73; object-fit: cover"
-          />
-
-          <div class="d-flex flex-column ga-2">
-            <span>
-              {{ item.Name }}
-            </span>
-
-            <span
-              v-for="option in item.SKUOptions"
-              :key="option.Alias"
-              class="text-grey"
-            >
-              {{ option.Alias }}: {{ option.Title }}
-            </span>
-
-            <div class="text-grey d-flex ga-2">
-              <span
-                v-if="item.PromotionPrice"
-                class="text-decoration-line-through"
-              >
-                {{ WDFormatters.formatCurrency(item.ListPrice) }}
-              </span>
-
-              <span class="font-weight-bold text-grey-darken-1">
-                {{
-                  WDFormatters.formatCurrency(
-                    item.PromotionPrice || item.ListPrice,
-                  )
-                }}
-              </span>
-            </div>
-          </div>
-        </div>
+          :model-value="item"
+        />
       </div>
 
-      <div class="ga-4 d-flex flex-column">
-        <span>{{ WDFormatters.formatCurrency(cartStore.totalPrice) }}</span>
-        <v-btn>Finalizar carrinho</v-btn>
+      <div class="d-flex flex-column ga-8">
+        <v-card
+          style="min-width: 320px"
+          title="Subtotal"
+          append-icon="mdi-cash-multiple"
+          variant="tonal"
+        >
+          <div class="ga-8 pa-4 d-flex flex-column">
+            <span class="text-title-large">
+              {{ WDFormatters.formatCurrency(cartStore.totalPrice) }}
+            </span>
+          </div>
+        </v-card>
+
+        <v-btn prepend-icon="mdi-check" color="success">
+          Finalizar carrinho
+        </v-btn>
+
+        <v-btn prepend-icon="mdi-plus" variant="outlined" to="/">
+          Incluir mais produtos
+        </v-btn>
       </div>
     </div>
   </NuxtLayout>
@@ -66,7 +50,6 @@ import { WDFormatters } from 'widelab-utils';
 
 const cartStore = useCartStore();
 const { brand } = useConfigStore();
-console.log('🚀 ~ brand:', brand);
 </script>
 
 <style></style>
