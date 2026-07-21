@@ -3,10 +3,10 @@
     <h1 class="mx-16 align-self-center">Produtos no carrinho</h1>
 
     <div
-      class="px-16 ga-16 pt-8 flex-fill align-start d-flex flex-row align-self-center"
+      class="px-16 ga-16 flex-fill align-start d-flex flex-row align-self-center overflow-hidden"
       style="max-width: 1366px"
     >
-      <div class="ga-4 d-flex flex-column flex-fill">
+      <ul class="ga-4 d-flex flex-column overflow-auto h-100 pb-16">
         <div v-if="!cartStore.items.length">
           <h1>Carrinho vazio!</h1>
         </div>
@@ -17,7 +17,7 @@
           :key="item.ProductID"
           :model-value="item"
         />
-      </div>
+      </ul>
 
       <div class="d-flex flex-column ga-8">
         <v-card

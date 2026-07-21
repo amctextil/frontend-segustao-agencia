@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-row ga-8 overflow-auto align-center">
+  <li class="d-flex flex-row ga-8 align-center">
     <NuxtImg
       :src="brand?.data?.imageURL + model.MediaPath"
       width="120"
@@ -34,7 +34,7 @@
         }}
       </span>
     </div>
-  </div>
+  </li>
 </template>
 
 <script lang="ts" setup>
