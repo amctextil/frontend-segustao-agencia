@@ -49,7 +49,6 @@
 import { WDFormatters } from 'widelab-utils';
 
 const cartStore = useCartStore();
-const { brand } = useConfigStore();
 </script>
 
 <style></style>
