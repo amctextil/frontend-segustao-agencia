@@ -8,6 +8,7 @@ const list = async (appId: Brand['value'], userId: number) => {
       criadoEm: '2026-07-22 16:30:00',
       atualizadoEm: '2026-07-22 16:30:00',
       nome: 'Carrinho de teste',
+      link: 'www.colcci.com.br',
       produtos: [
         {
           ListPrice: 659,

@@ -52,3 +52,5 @@ export const useConfigStore = defineStore('config', {
     },
   },
 });
+
+export const SHARE_MESSAGE = 'Montei esse carrinho com novidades para você';
