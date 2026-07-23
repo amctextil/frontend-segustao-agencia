@@ -34,4 +34,9 @@ const list = async (appId: Brand['value'], userId: number) => {
   ];
 };
 
-export const CartService = { list };
+const get = async (appId: Brand['value'], userId: number, id: number) => {
+  const listCarts = await list(appId, userId);
+  return listCarts.find((item) => item.id === id);
+};
+
+export const CartService = { list, get };
