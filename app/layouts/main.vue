@@ -16,7 +16,7 @@
         <v-list-item
           v-for="item in NAV_ITEMS"
           :key="item.path"
-          :active="route.path === item.path"
+          :active="item.path === activePath"
           :prepend-icon="item.icon"
           :title="item.name"
           :to="item.path"
@@ -148,6 +148,20 @@ if (['desenvolvimento', 'admin'].includes(user.value?.role || '')) {
     icon: 'mdi-account-multiple',
   });
 }
+
+const activePath = computed(() =>
+  NAV_ITEMS.reduce((active, item) => {
+    if (
+      item.path.length < 2
+        ? routePath === item.path
+        : routePath.startsWith(item.path)
+    ) {
+      return item.path;
+    }
+
+    return active;
+  }, ''),
+);
 </script>
 
 <style></style>
