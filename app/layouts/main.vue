@@ -84,6 +84,8 @@
     <v-main
       class="d-flex flex-column overflow-hidden h-screen bg-grey-lighten-5"
     >
+      <v-breadcrumbs :items="uniqueRouteParts"></v-breadcrumbs>
+
       <slot />
     </v-main>
 
@@ -108,6 +110,11 @@ const route = useRoute();
 const cartStore = useCartStore();
 
 const logoutDialog = ref(false);
+const routeParts = route.path.split('/').map(parseRouteLinks);
+const uniqueRouteParts = routeParts.filter(
+  (item, index, arr) =>
+    arr.findIndex((fItem) => fItem.segment === item.segment) === index,
+);
 
 const routePath = route.path
   .replace(/(produto)\/(.+)/g, '$1/id')
