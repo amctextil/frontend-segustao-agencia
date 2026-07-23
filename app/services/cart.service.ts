@@ -7,6 +7,7 @@ const list = async (appId: Brand['value'], userId: number) => {
       total: 1189.5,
       criadoEm: '2026-07-22 16:30:00',
       atualizadoEm: '2026-07-22 16:30:00',
+      nome: 'Carrinho de teste',
       produtos: [
         {
           ListPrice: 659,
