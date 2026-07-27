@@ -1,5 +1,14 @@
 import type { Brand } from '~~/shared/interfaces/AppConfigProps';
 
+type SCNCreateLinkProductProps = {
+  ref: string;
+  name: string;
+  productid: string;
+  skuid: string;
+  quantity: number;
+  urlimagem: string;
+};
+
 const list = async (appId: Brand['value'], userId: number) => {
   return [
     {
@@ -40,4 +49,18 @@ const get = async (appId: Brand['value'], userId: number, id: number) => {
   return listCarts.find((item) => item.id === id);
 };
 
-export const CartService = { list, get };
+const createLink = (
+  appid: Brand['value'],
+  products: SCNCreateLinkProductProps[],
+  name?: string,
+) => {
+  const body = {
+    appid,
+    products,
+    name,
+  };
+
+  console.log(body);
+};
+
+export const CartService = { list, get, createLink };

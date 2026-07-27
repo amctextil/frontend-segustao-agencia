@@ -33,7 +33,7 @@
           </div>
         </v-card>
 
-        <v-btn prepend-icon="mdi-check" color="success">
+        <v-btn prepend-icon="mdi-check" color="success" @click="createCart">
           Finalizar carrinho
         </v-btn>
 
@@ -42,13 +42,46 @@
         </v-btn>
       </div>
     </div>
+
+    <v-snackbar-queue
+      v-model="messages"
+      timeout="2000"
+      color="error"
+      location="bottom"
+    />
   </NuxtLayout>
 </template>
 
 <script lang="ts" setup>
+import type { SnackbarMessage } from 'vuetify/lib/components/VSnackbarQueue/VSnackbarQueue.mjs';
 import { WDFormatters } from 'widelab-utils';
+import { CartService } from '~/services/cart.service';
 
 const cartStore = useCartStore();
+const config = useConfigStore();
+
+if (!config.brand?.data) {
+  throw createError({
+    statusCode: 500,
+    statusMessage: 'Marca não selecionada',
+  });
+}
+
+const messages = ref<SnackbarMessage[]>([]);
+const cartName = ref('');
+
+const createCart = () => {
+  const products = cartStore.items.map((item) => ({
+    ref: item.productParent.IntegrationID,
+    productid: item.productParent.ProductID.toString(),
+    name: item.Name,
+    skuid: item.ProductID.toString(),
+    quantity: 1, // item.Quantity,
+    urlimagem: config.brand!.data!.imageURL + item.MediaPath,
+  }));
+
+  CartService.createLink(config.brand!.appId, products, cartName.value);
+};
 </script>
 
 <style></style>
