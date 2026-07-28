@@ -5,7 +5,7 @@ import type { Brand } from '~~/shared/interfaces/AppConfigProps';
 const configStore = useConfigStore();
 const { fetch: refreshSession } = useUserSession();
 
-const brand = ref(
+const brand = useState('brand-input', () =>
   configStore.brand
     ? {
         title: configStore.brand.name,
@@ -126,9 +126,18 @@ const DropDownList = BRAND_LIST.map(({ title, value }) => ({
           Entrar
         </v-btn>
 
-        <strong class="text-center text-red-darken-1"
-          >{{ errorMessage }}&nbsp;</strong
+        <strong class="text-center text-red-darken-1">
+          {{ errorMessage }}
+        </strong>
+
+        <v-btn
+          :loading="isLoading"
+          :disabled="configStore.isLoadingBrand"
+          variant="text"
+          to="/login/recuperar-senha"
         >
+          Recuperar senha
+        </v-btn>
       </v-form>
     </div>
   </NuxtLayout>
