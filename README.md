@@ -1,8 +1,10 @@
-# AMC Têxtil — Carrinho da Agência WEB
+# AMC Têxtil — Front-end WEB Carrinho da Agência
 
-Aplicação web desenvolvida para permitir que usuários de agências montem carrinhos de produtos das marcas da AMC Têxtil e gerem links compartilháveis para clientes.
+Aplicação front-end web desenvolvida para o projeto **Carrinho da Agência AMC Têxtil**.
 
-O projeto é baseado no conceito do aplicativo **Sugestão do Vendedor**, com foco na criação de sacolas/carrinhos, seleção de produtos por marca e compartilhamento do link gerado para o cliente.
+O objetivo da aplicação é permitir que usuários de agências acessem o sistema, selecionem uma marca liberada, consultem produtos, montem carrinhos e gerem links compartilháveis para clientes.
+
+O projeto é baseado no conceito já existente do app **Sugestão do Vendedor**, porém adaptado para uso por agências.
 
 ## Tecnologias utilizadas
 
@@ -10,311 +12,537 @@ O projeto é baseado no conceito do aplicativo **Sugestão do Vendedor**, com fo
 - Vue.js
 - Vuetify
 - Zoe
-- Pinta
-- Nuxt Auth Utils
+- Pinia
+- nuxt-auth-utils
 - TypeScript
 
-## Objetivo da aplicação
+## Funcionalidades principais
 
-Permitir que usuários vinculados a uma agência possam:
-
-- Fazer login no sistema;
-- Selecionar a marca com a qual irão trabalhar;
-- Consultar produtos da marca selecionada;
-- Pesquisar e filtrar produtos;
-- Visualizar detalhes dos produtos;
-- Adicionar produtos ao carrinho;
-- Finalizar a sacola/carrinho;
-- Gerar link compartilhável;
-- Reenviar ou compartilhar novamente links de carrinhos criados;
-- Gerenciar usuários da agência, conforme permissões.
-
-## Funcionalidades previstas
-
-### Autenticação
-
-- Tela de login;
-- Tela de cadastro;
+- Login de usuários;
+- Cadastro de usuários;
 - Recuperação de senha;
-- Controle de sessão;
-- Integração com autenticação via backend;
-- Suporte às regras de autenticação definidas para o projeto.
+- Seleção de marca;
+- Listagem de produtos;
+- Filtros e pesquisa de produtos;
+- Detalhes do produto;
+- Montagem de carrinho/sacola;
+- Geração de link compartilhável;
+- Listagem de carrinhos criados;
+- Detalhes do carrinho;
+- Compartilhamento novamente do link gerado;
+- Gerenciamento de usuários da agência;
+- Controle de permissões por perfil.
 
-### Seleção de marca
-
-Após o login, o usuário deverá selecionar uma das marcas liberadas para sua agência.
-
-Todos os produtos, filtros e carrinhos serão tratados com base na marca selecionada.
-
-### Produtos
-
-A aplicação deverá permitir:
-
-- Listar produtos da marca;
-- Pesquisar produtos;
-- Aplicar filtros;
-- Visualizar imagem do produto;
-- Consultar informações principais do produto;
-- Acessar detalhes do produto;
-- Selecionar variações, quando disponíveis;
-- Adicionar produtos ao carrinho.
-
-### Carrinho
-
-A aplicação deverá permitir:
-
-- Visualizar produtos adicionados;
-- Alterar quantidades;
-- Remover produtos;
-- Revisar os itens selecionados;
-- Finalizar o carrinho;
-- Gerar link compartilhável;
-- Compartilhar o link com clientes.
-
-Cada usuário poderá possuir apenas um carrinho em montagem por vez, conforme regra de negócio definida no backend.
-
-### Carrinhos criados
-
-A aplicação deverá possuir uma tela para listagem dos carrinhos já criados, permitindo:
-
-- Consultar carrinhos gerados;
-- Visualizar detalhes do carrinho;
-- Consultar produtos do carrinho;
-- Visualizar o link gerado;
-- Compartilhar novamente o link, quando permitido.
-
-### Gerenciamento de usuários
-
-Usuários administradores poderão gerenciar usuários da agência.
-
-Funcionalidades previstas:
-
-- Listar usuários;
-- Cadastrar novos usuários;
-- Editar usuários existentes;
-- Desativar usuários;
-- Definir permissões;
-- Controlar usuários administradores e vendedores.
-
-Regras importantes:
-
-- Sempre deverá existir ao menos um usuário administrador ativo por agência;
-- Alguns usuários não poderão ser editados ou desativados, como usuários técnicos, desenvolvedores ou internos do sistema;
-- O front-end deverá respeitar as permissões retornadas pelo backend.
-
-## Estrutura inicial sugerida
+## Estrutura do projeto
 
 ```bash
 .
-├── assets/
-├── components/
-├── composables/
-├── layouts/
-├── middleware/
-├── pages/
-├── plugins/
+├── app/
+│   ├── assets/
+│   ├── componentes/
+│   ├── constants/
+│   ├── interfaces/
+│   ├── layouts/
+│   ├── middleware/
+│   ├── pages/
+│   ├── plugins/
+│   ├── services/
+│   ├── stores/
+│   └── utils/
 ├── public/
 ├── server/
-├── stores/
-├── types/
-├── utils/
-├── app.vue
+│   ├── api/
+│   └── services/
+├── shared/
+│   ├── constants/
+│   ├── interfaces/
+│   ├── types/
+│   └── utils/
 ├── nuxt.config.ts
 ├── package.json
 └── README.md
 ```
 
-## Instalação do projeto
+## Organização das pastas
 
-Instale as dependências:
+### `app/`
 
-```bash
-npm install
-```
+Contém a estrutura principal da aplicação Nuxt.
 
-ou, caso o projeto utilize Yarn:
+#### `app/assets/`
 
-```bash
-yarn install
-```
+Arquivos estáticos utilizados pela aplicação, como imagens, ícones, estilos e recursos visuais internos.
 
-ou, caso o projeto utilize PNPM:
+#### `app/componentes/`
 
-```bash
-pnpm install
-```
+Componentes reutilizáveis da interface.
 
-## Execução em ambiente local
+Exemplos:
 
-Para rodar o projeto em modo desenvolvimento:
+- Cards de produto;
+- Botões;
+- Campos de formulário;
+- Modais;
+- Componentes de carrinho;
+- Componentes de listagem.
 
-```bash
-npm run dev
-```
+#### `app/constants/`
 
-ou:
+Constantes utilizadas somente no front-end.
 
-```bash
-yarn dev
-```
+Exemplos:
 
-ou:
+- Rotas internas;
+- Labels;
+- Status exibidos em tela;
+- Configurações visuais;
+- Opções fixas de componentes.
 
-```bash
-pnpm dev
-```
+#### `app/interfaces/`
 
-A aplicação ficará disponível, por padrão, em:
+Interfaces TypeScript utilizadas somente na camada front-end.
 
-```bash
-http://localhost:3000
-```
+Exemplos:
 
-## Build da aplicação
+- Interfaces de formulários;
+- Interfaces de componentes;
+- Tipos de dados utilizados apenas nas telas.
 
-Para gerar o build de produção:
+#### `app/layouts/`
 
-```bash
-npm run build
-```
+Layouts da aplicação.
 
-ou:
+Exemplos:
 
-```bash
-yarn build
-```
+- Layout autenticado;
+- Layout público;
+- Layout administrativo.
 
-ou:
+#### `app/middleware/`
 
-```bash
-pnpm build
-```
+Middlewares de rota.
 
-## Preview do build
+Utilizado para controles como:
 
-Para executar uma prévia local do build:
+- Verificar usuário autenticado;
+- Proteger rotas privadas;
+- Validar permissões;
+- Redirecionar usuários não autorizados.
 
-```bash
-npm run preview
-```
+#### `app/pages/`
 
-ou:
+Páginas da aplicação.
 
-```bash
-yarn preview
-```
-
-ou:
-
-```bash
-pnpm preview
-```
-
-## Variáveis de ambiente
-
-As variáveis de ambiente deverão ser configuradas conforme definição do backend e infraestrutura do projeto.
-
-Exemplo de arquivo `.env`:
-
-```env
-NUXT_PUBLIC_API_BASE_URL=
-NUXT_PUBLIC_APP_NAME=AMC Têxtil - Carrinho da Agência
-NUXT_SESSION_PASSWORD=
-```
-
-Observação: valores sensíveis não devem ser expostos no front-end. Tokens, chaves privadas e segredos devem ser tratados pelo backend ou pelo mecanismo seguro de autenticação do Nuxt Auth Utils.
-
-## Integração com APIs
-
-O front-end deverá consumir as APIs responsáveis por:
-
-- Login;
-- Cadastro;
-- Recuperação de senha;
-- Consulta de marcas disponíveis;
-- Consulta de produtos;
-- Consulta de filtros;
-- Detalhes do produto;
-- Criação e atualização do carrinho;
-- Finalização do carrinho;
-- Geração do link compartilhável;
-- Listagem de carrinhos criados;
-- Detalhes do carrinho;
-- Gerenciamento de usuários;
-- Consulta e atualização de permissões.
-
-## Segurança
-
-Como a aplicação é web, alguns cuidados são obrigatórios:
-
-- Não expor tokens sensíveis no navegador;
-- Não exibir identificadores internos da agência ou do usuário;
-- Não incluir códigos internos no link compartilhado;
-- Validar permissões sempre com base no backend;
-- Não permitir ações administrativas sem permissão;
-- Não manter dados sensíveis em localStorage sem necessidade;
-- Tratar corretamente expiração de sessão;
-- Redirecionar usuários não autenticados para o login.
-
-## Padrões de desenvolvimento
-
-Recomendações gerais para o projeto:
-
-- Utilizar TypeScript;
-- Organizar componentes reutilizáveis em `components/`;
-- Centralizar chamadas de API em `composables/` ou camada própria de serviços;
-- Utilizar middleware para rotas autenticadas;
-- Manter regras críticas no backend;
-- Evitar duplicação de lógica entre telas;
-- Utilizar componentes do Vuetify, Zoe e Pinta conforme padrão visual definido;
-- Manter nomes de arquivos e componentes claros e objetivos.
-
-## Telas previstas
+Principais telas previstas:
 
 - Login;
 - Cadastro;
 - Recuperação de senha;
 - Seleção de marca;
 - Listagem de produtos;
-- Filtros de produtos;
 - Detalhes do produto;
 - Carrinho;
+- Listagem de carrinhos;
+- Detalhes do carrinho;
+- Gerenciamento de usuários;
+- Detalhes e permissões do usuário.
+
+#### `app/plugins/`
+
+Plugins utilizados pela aplicação Nuxt.
+
+Exemplos:
+
+- Configuração do Vuetify;
+- Configuração do Zoe;
+- Plugins globais;
+- Helpers registrados na aplicação.
+
+#### `app/services/`
+
+Serviços do front-end responsáveis por consumir as APIs internas do `server/api`.
+
+Cada arquivo deve agrupar funções relacionadas a um domínio da aplicação.
+
+Exemplos:
+
+- `authService`;
+- `productService`;
+- `cartService`;
+- `brandService`;
+- `userService`.
+
+Cada função deve representar uma request específica.
+
+Exemplo conceitual:
+
+```ts
+async function getProducts() {
+  return await $fetch('/api/products');
+}
+```
+
+A camada `app/services` não deve chamar diretamente APIs externas. Ela deve consumir as rotas internas criadas em `server/api`.
+
+#### `app/stores/`
+
+Stores do Pinia para gerenciamento de estado global da aplicação.
+
+Exemplos de stores:
+
+- Usuário autenticado;
+- Agência;
+- Marca selecionada;
+- Produtos;
+- Filtros;
+- Carrinho atual;
+- Carrinhos criados;
+- Permissões.
+
+#### `app/utils/`
+
+Funções utilitárias utilizadas somente pelo front-end.
+
+Exemplos:
+
+- Formatação de valores;
+- Formatação de datas;
+- Tratamento de textos;
+- Helpers de tela;
+- Funções auxiliares de componentes.
+
+### `public/`
+
+Arquivos públicos servidos diretamente pela aplicação.
+
+Exemplos:
+
+- Favicon;
+- Imagens públicas;
+- Arquivos estáticos acessíveis diretamente por URL.
+
+### `server/`
+
+Contém a camada server-side do Nuxt.
+
+Essa camada deve ser utilizada para criar APIs internas da aplicação e proteger integrações com serviços externos.
+
+#### `server/api/`
+
+Rotas internas da aplicação.
+
+Essas rotas serão consumidas pelo front-end através dos arquivos em `app/services`.
+
+Exemplos:
+
+- `/api/auth`;
+- `/api/products`;
+- `/api/brands`;
+- `/api/cart`;
+- `/api/users`.
+
+As rotas em `server/api` devem tratar a request do front-end, validar dados quando necessário e chamar as funções da camada `server/services`.
+
+#### `server/services/`
+
+Serviços server-side responsáveis por chamar APIs externas.
+
+Exemplos:
+
+- APIs da Linx;
+- APIs do backend da aplicação;
+- APIs de autenticação;
+- APIs de geração de carrinho;
+- APIs de geração de link.
+
+Essa camada deve concentrar chamadas externas e proteger informações sensíveis, como tokens, URLs privadas e credenciais.
+
+### `shared/`
+
+Contém estruturas compartilhadas entre front-end e server.
+
+Deve ser usado para manter consistência entre as camadas da aplicação.
+
+#### `shared/constants/`
+
+Constantes compartilhadas entre `app` e `server`.
+
+Exemplos:
+
+- Status de carrinho;
+- Tipos de usuário;
+- Perfis de permissão;
+- Códigos internos utilizados em ambas as camadas.
+
+#### `shared/interfaces/`
+
+Interfaces TypeScript compartilhadas entre front-end e server.
+
+Exemplos:
+
+- Produto;
+- Carrinho;
+- Item do carrinho;
+- Usuário;
+- Agência;
+- Marca.
+
+#### `shared/types/`
+
+Types compartilhados entre as camadas.
+
+Exemplos:
+
+- Tipos de status;
+- Tipos de perfil;
+- Tipos de retorno de API;
+- Tipos auxiliares de domínio.
+
+#### `shared/utils/`
+
+Funções utilitárias que podem ser utilizadas tanto pelo front-end quanto pelo server.
+
+Exemplos:
+
+- Normalização de dados;
+- Validações simples;
+- Funções puras de formatação ou conversão;
+- Helpers sem dependência de browser ou server.
+
+## Fluxo recomendado de comunicação
+
+O front-end deve seguir o seguinte fluxo para consumir dados:
+
+```bash
+Tela ou componente
+        ↓
+app/services
+        ↓
+server/api
+        ↓
+server/services
+        ↓
+API externa ou backend
+```
+
+Exemplo:
+
+```bash
+Listagem de produtos
+        ↓
+app/services/productService.ts
+        ↓
+server/api/products.get.ts
+        ↓
+server/services/linxProductService.ts
+        ↓
+API Linx / Backend
+```
+
+Esse padrão evita que a interface acesse diretamente serviços externos e ajuda a proteger tokens, URLs privadas e regras sensíveis.
+
+## Instalação
+
+Instale as dependências do projeto:
+
+```bash
+npm install
+```
+
+Ou, caso o projeto utilize outro gerenciador:
+
+```bash
+yarn install
+```
+
+```bash
+pnpm install
+```
+
+## Executando o projeto localmente
+
+Para iniciar o ambiente de desenvolvimento:
+
+```bash
+npm run dev
+```
+
+A aplicação ficará disponível em:
+
+```bash
+http://localhost:3000
+```
+
+## Build de produção
+
+Para gerar o build da aplicação:
+
+```bash
+npm run build
+```
+
+Para executar a versão gerada:
+
+```bash
+npm run preview
+```
+
+## Variáveis de ambiente
+
+O projeto deve utilizar variáveis de ambiente para configurar URLs, autenticação e integrações.
+
+Exemplo de arquivo `.env`:
+
+```env
+NUXT_PUBLIC_APP_NAME=AMC Têxtil
+NUXT_PUBLIC_API_BASE_URL=
+
+NUXT_AUTH_PASSWORD=
+
+LINX_API_BASE_URL=
+LINX_API_TOKEN=
+
+BACKEND_API_BASE_URL=
+BACKEND_API_TOKEN=
+```
+
+As variáveis reais devem ser configuradas conforme o ambiente de execução.
+
+Não versionar arquivos contendo tokens, senhas, chaves privadas ou informações sensíveis.
+
+## Autenticação
+
+A autenticação da aplicação utiliza `nuxt-auth-utils`.
+
+O front-end deve consumir os serviços de autenticação disponibilizados pela aplicação, mantendo dados sensíveis protegidos e evitando exposição de tokens em locais inseguros.
+
+O sistema deve considerar:
+
+- Login de usuário;
+- Sessão autenticada;
+- Cadastro de usuário;
+- Recuperação de senha;
+- Controle de permissões;
+- Usuários administradores;
+- Usuários vendedores;
+- Proteção de rotas privadas.
+
+## Gerenciamento de estado
+
+O gerenciamento de estado da aplicação é feito com **Pinia**.
+
+As stores devem ser utilizadas para controlar informações como:
+
+- Usuário autenticado;
+- Agência vinculada;
+- Marca selecionada;
+- Produtos;
+- Filtros;
+- Carrinho atual;
+- Carrinhos criados;
+- Permissões do usuário.
+
+## Padrão de telas
+
+A aplicação deve contemplar as seguintes telas principais:
+
+### Autenticação
+
+- Login;
+- Cadastro;
+- Recuperação de senha.
+
+### Produtos
+
+- Listagem de produtos;
+- Filtros e pesquisa;
+- Detalhes do produto.
+
+### Carrinho
+
+- Carrinho atual;
+- Revisão dos itens;
+- Finalização do carrinho;
+- Geração do link compartilhável.
+
+### Histórico de carrinhos
+
 - Listagem de carrinhos criados;
 - Detalhes do carrinho;
-- Compartilhamento de link;
+- Reenvio ou novo compartilhamento do link.
+
+### Usuários
+
 - Listagem de usuários;
-- Cadastro de usuário;
-- Detalhes do usuário;
-- Edição de usuário;
-- Permissões de usuário.
+- Cadastro de usuários;
+- Edição de usuários;
+- Desativação de usuários;
+- Controle de permissões.
 
-## Fluxo principal
+## Regras importantes do front-end
 
-1. Usuário acessa a aplicação;
-2. Realiza login;
-3. Seleciona uma marca liberada para sua agência;
-4. Consulta os produtos da marca;
-5. Adiciona produtos ao carrinho;
-6. Revisa o carrinho;
-7. Finaliza a seleção;
-8. O sistema gera o link compartilhável;
-9. O usuário compartilha o link com o cliente;
-10. O usuário pode consultar posteriormente os carrinhos criados e compartilhar novamente o link, quando permitido.
+- Cada usuário pode possuir apenas um carrinho em montagem por vez;
+- O usuário deve selecionar uma marca antes de consultar os produtos;
+- O usuário só pode visualizar marcas liberadas para sua agência;
+- O carrinho não deve aplicar descontos;
+- O código da agência e do usuário não deve ser exibido na interface;
+- O link gerado deve ser compartilhável com clientes;
+- Links expirados devem respeitar a regra definida pelo backend;
+- Usuários sem permissão não devem visualizar ações administrativas;
+- Alguns usuários protegidos não poderão ser editados ou desativados pela agência;
+- Sempre deve existir ao menos um administrador ativo por agência.
+
+## Integração com APIs
+
+O front-end deverá consumir APIs internas do Nuxt, localizadas em `server/api`.
+
+Essas APIs internas serão responsáveis por intermediar a comunicação com APIs externas, evitando que o front-end exponha integrações sensíveis diretamente no navegador.
+
+O projeto deverá possuir integrações para:
+
+- Autenticação;
+- Cadastro de usuários;
+- Consulta de marcas liberadas;
+- Consulta de produtos;
+- Consulta de filtros;
+- Criação e atualização do carrinho;
+- Geração do link compartilhável;
+- Consulta de carrinhos criados;
+- Gerenciamento de usuários e permissões.
+
+As regras de validação críticas devem ser garantidas pelo backend/server-side.
+
+## Segurança
+
+Como a aplicação é web, deve-se tomar cuidado com exposição de dados sensíveis.
+
+Evitar armazenar em `localStorage`, `sessionStorage` ou URL:
+
+- Tokens sensíveis;
+- Código interno da agência;
+- Código interno do usuário;
+- Dados sigilosos de autenticação;
+- Informações que possam ser manipuladas pelo cliente.
+
+Sempre que possível, informações sensíveis devem ser tratadas em `server/api` e `server/services`.
+
+Toda validação de permissão, vínculo de agência, marca liberada e carrinho ativo deve ser confirmada pelo backend.
+
+## Scripts
+
+Scripts principais esperados no projeto:
+
+```bash
+npm run dev
+npm run build
+npm run preview
+npm run lint
+```
+
+Os scripts podem variar conforme a configuração final do projeto.
 
 ## Observações
 
-Esta aplicação não contempla, no escopo inicial:
+Este projeto contempla somente o front-end web da aplicação Carrinho da Agência AMC Têxtil.
 
-- Aplicação de descontos;
-- Cupons;
-- Ranking de clientes;
-- Dashboards gerenciais;
-- Histórico completo de compras;
-- Acompanhamento da conversão em venda;
-- Funcionalidades adicionais do SuperApp.
-
-O foco inicial do projeto é permitir a montagem do carrinho e geração do link compartilhável para o cliente.
-
-## Licença
-
-Projeto privado da AMC Têxtil.
+Funcionalidades como descontos, cupons, ranking de clientes, dashboards gerenciais e acompanhamento de conversão em venda não fazem parte do escopo inicial.
