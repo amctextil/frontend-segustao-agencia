@@ -42,7 +42,8 @@
         class="w-100 d-flex flex-column ga-4 text-grey-darken-4"
         @submit.prevent="validateCode"
       >
-        <v-otp-input></v-otp-input>
+        <span class="text-center"> Insira o código recebido no e-mail </span>
+        <v-otp-input v-model="code" />
 
         <v-btn
           :loading="isLoading"
@@ -56,18 +57,18 @@
         v-else
         ref="form"
         class="w-100 d-flex flex-column ga-4 text-grey-darken-4"
-        @submit.prevent="newPass"
+        @submit.prevent="setNewPass"
       >
         <ClientOnly>
           <v-text-field
-            v-model="credentials.password"
+            v-model="newPass"
             label="Nova senha"
             counter
             prepend-inner-icon="mdi-key-outline"
-            :append-inner-icon="passShow ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="passShow ? 'text' : 'password'"
+            :append-inner-icon="newPassShow ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="newPassShow ? 'text' : 'password'"
             :disabled="configStore.isLoadingBrand"
-            @click:append-inner="passShow = !passShow"
+            @click:append-inner="newPassShow = !newPassShow"
           />
 
           <template #fallback>
@@ -84,14 +85,14 @@
 
         <ClientOnly>
           <v-text-field
-            v-model="credentials.password"
+            v-model="newPassConfirm"
             label="Confirmar senha"
             counter
             prepend-inner-icon="mdi-key-outline"
-            :append-inner-icon="passShow ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="passShow ? 'text' : 'password'"
+            :append-inner-icon="newPassConfirmShow ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="newPassConfirmShow ? 'text' : 'password'"
             :disabled="configStore.isLoadingBrand"
-            @click:append-inner="passShow = !passShow"
+            @click:append-inner="newPassConfirmShow = !newPassConfirmShow"
           />
 
           <template #fallback>
@@ -123,6 +124,7 @@ import { BRAND_LIST } from '~~/shared/constants/config';
 import type { Brand } from '~~/shared/interfaces/AppConfigProps';
 
 const configStore = useConfigStore();
+const router = useRouter();
 
 const brand = useState('brand-input', () =>
   configStore.brand
@@ -144,6 +146,11 @@ const DropDownList = BRAND_LIST.map(({ title, value }) => ({
 const email = ref('');
 const isLoading = ref(false);
 const step = ref(1);
+const newPass = ref('');
+const newPassConfirm = ref('');
+const newPassShow = ref(false);
+const newPassConfirmShow = ref(false);
+const code = ref('');
 
 const sendCode = (emailSend: string, brandSelected: Brand['value']) => {
   isLoading.value = true;
@@ -165,7 +172,9 @@ const validateCode = (code: string) => {
   }
 };
 
-const newPass = (newPass: string) => {};
+const setNewPass = (newPass: string) => {
+  router.replace('/login');
+};
 </script>
 
 <style></style>
