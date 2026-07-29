@@ -62,11 +62,27 @@
         {{ (user?.nome || '').split(' ')[0] }}
       </v-app-bar-title>
 
+      <v-text-field
+        v-model.trim="searchText"
+        density="compact"
+        placeholder="O que está procurando?"
+        prepend-inner-icon="mdi-magnify"
+        variant="solo"
+        :max-width="searchBoxClosed ? 50 : '50%'"
+        flat
+        clearable
+        hide-details
+        single-line
+        class="shrink expanding-search"
+        @focus="searchBoxClosed = false"
+        @blur="searchBoxClosed = true"
+      />
+
       <template #append>
         <v-row class="align-center pr-4">
-          <v-app-bar-title class="mx-4">{{
-            configStore.brand?.data?.title || ''
-          }}</v-app-bar-title>
+          <v-app-bar-title class="mx-4">
+            {{ configStore.brand?.data?.title || '' }}
+          </v-app-bar-title>
 
           <v-btn @click="$router.push('/carrinho')">
             <v-badge
@@ -108,6 +124,9 @@ const { user, clear: clearSession } = useUserSession();
 const configStore = useConfigStore();
 const route = useRoute();
 const cartStore = useCartStore();
+
+const searchBoxClosed = ref(true);
+const searchText = ref('');
 
 const logoutDialog = ref(false);
 const routeParts = route.path.split('/').map(parseRouteLinks);
@@ -171,4 +190,8 @@ const activePath = computed(() =>
 );
 </script>
 
-<style></style>
+<style>
+.v-input.expanding-search {
+  transition: max-width 0.5s;
+}
+</style>
