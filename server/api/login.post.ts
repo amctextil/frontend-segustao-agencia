@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
         id: Math.random() * 99999,
         nome: 'John Doe',
         appId,
+        role: 'admin',
       },
       loggedInAt: new Date().toISOString(),
     });
