@@ -62,21 +62,9 @@
         {{ (user?.nome || '').split(' ')[0] }}
       </v-app-bar-title>
 
-      <v-text-field
-        v-model.trim="searchText"
-        density="compact"
-        placeholder="O que está procurando?"
-        prepend-inner-icon="mdi-magnify"
-        variant="solo"
-        :max-width="searchBoxClosed ? 50 : '50%'"
-        flat
-        clearable
-        hide-details
-        single-line
-        class="shrink expanding-search"
-        @focus="searchBoxClosed = false"
-        @blur="searchBoxClosed = true"
-      />
+      <v-btn icon="mdi-magnify" @click="searchModalActive = true" />
+
+      <modal-search-products v-model="searchModalActive" />
 
       <template #append>
         <v-row class="align-center pr-4">
@@ -125,8 +113,7 @@ const configStore = useConfigStore();
 const route = useRoute();
 const cartStore = useCartStore();
 
-const searchBoxClosed = ref(true);
-const searchText = ref('');
+const searchModalActive = ref(false);
 
 const logoutDialog = ref(false);
 const routeParts = route.path.split('/').map(parseRouteLinks);
