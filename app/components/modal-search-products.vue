@@ -10,6 +10,7 @@
           v-model="search"
           prepend-inner-icon="mdi-magnify"
           :loading="status === 'pending'"
+          autofocus
         />
 
         <ul class="d-flex flex-row pa-4 pt-0 ga-4 flex-wrap ma-0 overflow-auto">
@@ -43,6 +44,12 @@ watch([search], () => {
   timeoutId = setTimeout(() => {
     debouncedQuery.value = search.value;
   }, 300); // 300ms delay
+});
+
+watch([isActive], () => {
+  if (!isActive.value) {
+    search.value = '';
+  }
 });
 
 const { data, status } = await useAsyncData(
