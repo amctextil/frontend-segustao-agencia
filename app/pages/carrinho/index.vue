@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="main">
-    <h1 class="mx-16 align-self-center">Produtos no carrinho</h1>
+    <h1 class="mx-16 mt-0 align-self-center">Produtos no carrinho</h1>
 
     <div
       class="px-16 ga-16 flex-fill align-start d-flex flex-row align-self-center overflow-hidden"

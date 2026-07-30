@@ -88,7 +88,7 @@
     <v-main
       class="d-flex flex-column overflow-hidden h-screen bg-grey-lighten-5"
     >
-      <v-breadcrumbs :items="uniqueRouteParts"></v-breadcrumbs>
+      <v-breadcrumbs :items="uniqueRouteParts" class="ma-0" />
 
       <slot />
     </v-main>
