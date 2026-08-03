@@ -19,6 +19,11 @@ const ROUTE_MAP = [
     segment: 'cadastrados',
     href: '/carrinho/cadastrados',
   },
+  {
+    title: 'Usuários',
+    segment: 'usuarios',
+    href: '/usuarios',
+  },
 ];
 
 export default (segment: string) => {
