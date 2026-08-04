@@ -33,7 +33,12 @@
           </div>
         </v-card>
 
-        <v-btn prepend-icon="mdi-check" color="success" @click="createCart">
+        <v-btn
+          v-if="cartStore.items.length"
+          prepend-icon="mdi-check"
+          color="success"
+          @click="createCart"
+        >
           Finalizar carrinho
         </v-btn>
 
