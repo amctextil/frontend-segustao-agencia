@@ -13,18 +13,25 @@
           <v-card-title class="text-wrap">{{ cart.nome }}</v-card-title>
         </template>
 
-        <div class="d-flex flex-column align-center pa-2">
-          <NuxtImg
-            :src="(brand?.data?.imageURL || '') + cart.produtos[0]?.MediaPath"
-            style="aspect-ratio: 0.73; object-fit: cover"
-            class="w-100 rounded-lg"
-          />
-        </div>
-
         <v-list-item
-          append-icon="mdi-share"
-          title="Compartilhar"
-          :to="`/carrinho/cadastrados/${cart.id}?compartilhar=1`"
+          density="comfortable"
+          prepend-icon="mdi-cash"
+          :title="WDFormatters.formatCurrency(cart.total)"
+        />
+        <v-list-item
+          density="comfortable"
+          prepend-icon="mdi-package-variant-closed"
+          :title="`${cart.produtos.length} ${WDStrings.pluralizeWord('produto', 'produtos', cart.produtos.length)}`"
+        />
+        <v-list-item
+          density="comfortable"
+          prepend-icon="mdi-store-outline"
+          :title="`Colcci`"
+        />
+        <v-list-item
+          density="comfortable"
+          prepend-icon="mdi-identifier"
+          :title="'#' + cart.id"
         />
       </v-card>
     </div>
@@ -32,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { WDDates } from 'widelab-utils';
+import { WDDates, WDFormatters, WDStrings } from 'widelab-utils';
 import { CartService } from '~/services/cart.service';
 
 const { user } = useUserSession();

@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="main">
-    <h1>lista de usu´rios aqui</h1>
+    <h1>lista de usuários aqui</h1>
   </NuxtLayout>
 </template>
 
