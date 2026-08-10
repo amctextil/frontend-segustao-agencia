@@ -8,7 +8,7 @@ const list = await ProductService.getByList(user.value!.appId, 1, 'roupas');
 
 <template>
   <NuxtLayout name="main">
-    <div class="d-flex flex-column px-4 ga-4 ma-0 align-start">
+    <div class="d-flex flex-column px-4 ga-4 ma-0 align-start overflow-hidden">
       <v-btn>Filtros</v-btn>
 
       <ul class="d-flex flex-row pa-0 ga-4 flex-wrap ma-0 overflow-auto">
