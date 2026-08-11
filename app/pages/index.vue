@@ -20,10 +20,12 @@ const clear = () => {
 const filter = async () => {
   isLoading.value = true;
   try {
+    const category = selectedCategory.value.replace(/\/?roupas\/?/g, '');
+
     list.value = await ProductService.getByList(
       user.value!.appId,
       1,
-      'roupas/' + selectedCategory.value,
+      'roupas/' + category,
     );
     filterModal.value = false;
   } finally {
