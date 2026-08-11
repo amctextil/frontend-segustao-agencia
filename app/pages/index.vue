@@ -37,7 +37,16 @@ const filter = async () => {
 <template>
   <NuxtLayout name="main">
     <div class="d-flex flex-column px-4 ga-4 ma-0 align-start overflow-hidden">
-      <v-btn @click="filterModal = !filterModal">Filtros</v-btn>
+      <v-row>
+        <v-btn @click="filterModal = !filterModal">Filtros</v-btn>
+
+        <v-chip v-if="!!selectedCategory" closable @click:close="clear">
+          {{
+            categories?.find((item) => item.url === selectedCategory)
+              ?.categoria || selectedCategory
+          }}
+        </v-chip>
+      </v-row>
 
       <v-navigation-drawer
         v-model="filterModal"
