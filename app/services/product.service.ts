@@ -3,6 +3,7 @@ import type {
   ProductGrid,
   SearchProductResponse,
 } from '~~/shared/interfaces/ProductResponseProps';
+import type { SCNCategory } from '~~/shared/interfaces/SCNCategory';
 import type { SCNProductProps } from '~~/shared/interfaces/SCNProductProps';
 
 const getByList = async (
@@ -60,4 +61,17 @@ const getProductByUrl = async (productUrl: string, appId: Brand['value']) => {
   return response.data.value;
 };
 
-export const ProductService = { getByList, getBySearch, getProductByUrl };
+const getCategories = async (appId: Brand['value']) => {
+  const response = await useFetch<SCNCategory[]>(
+    `/api/categories?appId=${appId}`,
+  );
+
+  return response.data.value;
+};
+
+export const ProductService = {
+  getByList,
+  getBySearch,
+  getProductByUrl,
+  getCategories,
+};
