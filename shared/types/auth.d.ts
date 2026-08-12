@@ -1,15 +1,19 @@
-import type { Brand } from '../interfaces/AppConfigProps';
-
 declare module '#auth-utils' {
   interface User {
     id: number;
+    idAgencia: number;
     nome: string;
-    appId: Brand['value'];
-    role: 'admin' | 'vendedor' | 'desenvolvimento';
+    email: string;
+    status: boolean;
+    tipoUsuario: number;
   }
 
   interface UserSession {
     loggedInAt: string;
+  }
+
+  interface SecureSessionData {
+    token: string;
   }
 }
 

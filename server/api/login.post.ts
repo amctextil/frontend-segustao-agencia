@@ -1,35 +1,46 @@
+import type { User } from '#auth-utils';
 import { z } from 'zod';
-import { BRAND_LIST } from '~~/shared/constants/config';
 
 const bodySchema = z.object({
   email: z.email(),
   password: z.string().min(8),
-  appId: z.enum(BRAND_LIST.map((b) => b.value)),
 });
 
+type LoginResponse = {
+  message: string;
+  auth?: { type: 'bearer'; token: string };
+  user: User;
+};
+
 export default defineEventHandler(async (event) => {
-  const { email, password, appId } = await readValidatedBody(
-    event,
-    bodySchema.parse,
+  const { email, password } = await readValidatedBody(event, bodySchema.parse);
+
+  const response = await $fetch<LoginResponse>(
+    `${process.env.API_URL}/auth/login`,
+    {
+      method: 'POST',
+      body: {
+        email,
+        password,
+      },
+    },
   );
 
-  if (email === 'admin@admin.com' && password === 'abc123456') {
-    // set the user session in the cookie
-    // this server util is auto-imported by the auth-utils module
-    await setUserSession(event, {
-      user: {
-        id: Math.random() * 99999,
-        nome: 'John Doe',
-        appId,
-        role: 'admin',
-      },
-      loggedInAt: new Date().toISOString(),
+  if (!response.auth?.token) {
+    throw createError({
+      status: 401,
+      statusCode: 401,
+      message: 'Usuário ou senha inválidos',
     });
-    return {};
   }
 
-  throw createError({
-    status: 401,
-    message: 'Usuário ou senha inválidos',
+  await setUserSession(event, {
+    user: response.user,
+    loggedInAt: new Date().toISOString(),
+    secure: {
+      token: response.auth.token,
+    },
   });
+
+  return {};
 });
