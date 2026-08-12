@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { BRAND_LIST } from '~~/shared/constants/config';
-import type { Brand } from '~~/shared/interfaces/AppConfigProps';
-
 const configStore = useConfigStore();
 const { fetch: refreshSession } = useUserSession();
 
@@ -59,10 +56,10 @@ async function login() {
   }
 }
 
-const DropDownList = BRAND_LIST.map(({ title, value }) => ({
-  title: title as string,
-  value: value as '' | Brand['value'],
-}));
+// const DropDownList = BRAND_LIST.map(({ title, value }) => ({
+//   title: title as string,
+//   value: value as '' | Brand['value'],
+// }));
 </script>
 
 <template>
@@ -77,14 +74,14 @@ const DropDownList = BRAND_LIST.map(({ title, value }) => ({
         class="w-100 d-flex flex-column ga-4 text-grey-darken-4"
         @submit.prevent="login"
       >
-        <v-select
+        <!-- <v-select
           v-model="brand"
           label="Selecione uma marca"
           return-object
           prepend-inner-icon="mdi-flag-outline"
           :items="DropDownList"
           :disabled="configStore.isLoadingBrand"
-        />
+        /> -->
 
         <v-text-field
           v-model="credentials.email"
