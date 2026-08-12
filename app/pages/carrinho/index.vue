@@ -85,7 +85,7 @@ const createCart = () => {
     urlimagem: config.brand!.data!.imageURL + item.MediaPath,
   }));
 
-  CartService.createLink(config.brand!.appId, products, cartName.value);
+  CartService.createLink(config.brand.appId, products, cartName.value);
 };
 </script>
 

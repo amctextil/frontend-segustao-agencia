@@ -14,7 +14,7 @@ export const useCartStore = defineStore('cart', () => {
 
   // Syncs seamlessly between SSR (server) and CSR (client)
   const cartCookie = useCookie<SCNCartItemProps[]>(
-    'shopping-cart-' + configStore.brand?.appId,
+    'shopping-cart-' + configStore.brand.appId,
     {
       default: () => [],
       watch: true,

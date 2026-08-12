@@ -2,18 +2,6 @@
 const configStore = useConfigStore();
 const { fetch: refreshSession } = useUserSession();
 
-const brand = useState('brand-input', () =>
-  configStore.brand
-    ? {
-        title: configStore.brand.name,
-        value: configStore.brand.appId,
-      }
-    : {
-        title: '',
-        value: '' as const,
-      },
-);
-
 const credentials = reactive({
   email: '',
   password: '',
@@ -23,15 +11,6 @@ const errorMessage = ref('');
 const isLoading = ref(false);
 const passShow = ref(false);
 
-watch(
-  () => brand.value,
-  async (newBrand) => {
-    if (newBrand.value) {
-      await configStore.selectbrand(newBrand.value);
-    }
-  },
-);
-
 async function login() {
   try {
     errorMessage.value = '';
@@ -39,7 +18,7 @@ async function login() {
 
     await $fetch('/api/login', {
       method: 'POST',
-      body: { ...credentials, appId: brand.value.value },
+      body: credentials,
     });
 
     // Refresh the session on client-side and redirect to the home page
@@ -55,11 +34,6 @@ async function login() {
     isLoading.value = false;
   }
 }
-
-// const DropDownList = BRAND_LIST.map(({ title, value }) => ({
-//   title: title as string,
-//   value: value as '' | Brand['value'],
-// }));
 </script>
 
 <template>
@@ -74,15 +48,6 @@ async function login() {
         class="w-100 d-flex flex-column ga-4 text-grey-darken-4"
         @submit.prevent="login"
       >
-        <!-- <v-select
-          v-model="brand"
-          label="Selecione uma marca"
-          return-object
-          prepend-inner-icon="mdi-flag-outline"
-          :items="DropDownList"
-          :disabled="configStore.isLoadingBrand"
-        /> -->
-
         <v-text-field
           v-model="credentials.email"
           label="E-mail"

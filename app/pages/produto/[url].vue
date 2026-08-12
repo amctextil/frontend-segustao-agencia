@@ -109,7 +109,6 @@ import type {
 
 const route = useRoute();
 const router = useRouter();
-const { user } = useUserSession();
 const { brand } = useConfigStore();
 const cartStore = useCartStore();
 
@@ -119,10 +118,7 @@ const messages = ref<SnackbarMessage[]>([]);
 
 const productUrl = route.params.url as string;
 
-const product = await ProductService.getProductByUrl(
-  productUrl,
-  user.value!.appId,
-);
+const product = await ProductService.getProductByUrl(productUrl, brand.appId);
 
 if (!product) {
   throw createError({

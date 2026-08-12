@@ -14,7 +14,7 @@ type BrandsConfig = Record<Brand['value'], BrandData>;
 export const useConfigStore = defineStore('config', {
   state: () => ({
     brandsConfig: {} as BrandsConfig,
-    brand: null as BrandData | null,
+    brand: { appId: 'colcci' } as BrandData,
     isLoadingBrand: true,
     colors: { background: '#FAFAFA', text: '#000000' },
   }),

@@ -60,11 +60,12 @@ const route = useRoute();
 const cartId = route.params.id as string;
 
 const { user } = useUserSession();
+const { brand } = useConfigStore();
 
 const messages = ref<SnackbarMessage[]>([]);
 
 const cartData = await CartService.get(
-  user.value!.appId,
+  brand.appId,
   user.value!.id,
   Number(cartId),
 );

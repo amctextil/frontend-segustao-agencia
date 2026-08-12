@@ -45,7 +45,7 @@ import { CartService } from '~/services/cart.service';
 const { user } = useUserSession();
 const { brand } = useConfigStore();
 
-const cartList = await CartService.list(user.value!.appId, user.value!.id);
+const cartList = await CartService.list(brand.appId, user.value!.id);
 
 cartList.sort((a, b) => b.criadoEm.localeCompare(a.criadoEm));
 </script>

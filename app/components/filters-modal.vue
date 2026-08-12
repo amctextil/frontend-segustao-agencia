@@ -42,9 +42,9 @@
 <script lang="ts" setup>
 import { ProductService } from '~/services/product.service';
 
-const { user } = useUserSession();
+const { brand } = useConfigStore();
 
-const categories = await ProductService.getCategories(user.value!.appId);
+const categories = await ProductService.getCategories(brand.appId);
 
 const emit = defineEmits<{
   (

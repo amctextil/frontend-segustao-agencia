@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ProductService } from '~/services/product.service';
 
-const { user } = useUserSession();
+const { brand } = useConfigStore();
 
-const list = ref(
-  await ProductService.getByList(user.value!.appId, 1, 'roupas/'),
-);
+const list = ref(await ProductService.getByList(brand.appId, 1, 'roupas/'));
 
 const searchProducts = async ({
   category,
@@ -15,7 +13,7 @@ const searchProducts = async ({
   resolve: (value?: undefined) => void;
 }) => {
   list.value = await ProductService.getByList(
-    user.value!.appId,
+    brand.appId,
     1,
     'roupas/' + category,
   );

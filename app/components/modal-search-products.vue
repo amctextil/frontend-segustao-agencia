@@ -36,7 +36,7 @@ const search = ref('');
 const debouncedQuery = ref('');
 let timeoutId: NodeJS.Timeout;
 
-const { user } = useUserSession();
+const { brand } = useConfigStore();
 
 watch([search], () => {
   clearTimeout(timeoutId);
@@ -56,12 +56,12 @@ const { data, status } = await useAsyncData(
   'search-results',
   async () => {
     if (!debouncedQuery.value) {
-      return await ProductService.getByList(user.value!.appId, 1, 'roupas');
+      return await ProductService.getByList(brand.appId, 1, 'roupas');
     }
 
     const { data } = await ProductService.getBySearch(
       debouncedQuery.value,
-      user.value!.appId,
+      brand.appId,
       1,
     );
 
