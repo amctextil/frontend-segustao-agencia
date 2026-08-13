@@ -68,9 +68,7 @@
 
       <template #append>
         <v-row class="align-center pr-4">
-          <v-app-bar-title class="mx-4">
-            {{ configStore.brand?.data?.title || '' }}
-          </v-app-bar-title>
+          <select-brand />
 
           <v-btn @click="$router.push('/carrinho')">
             <v-badge
@@ -154,7 +152,7 @@ const NAV_ITEMS = [
   },
 ];
 
-if (['desenvolvimento', 'admin'].includes(user.value?.role || '')) {
+if (user.value?.tipoUsuario === 1) {
   NAV_ITEMS.push({
     path: '/usuarios',
     name: 'Módulos',
