@@ -64,6 +64,7 @@ import { CartService } from '~/services/cart.service';
 
 const cartStore = useCartStore();
 const config = useConfigStore();
+const router = useRouter();
 
 if (!config.brand?.data) {
   throw createError({
@@ -75,8 +76,15 @@ if (!config.brand?.data) {
 const messages = ref<SnackbarMessage[]>([]);
 const cartName = ref('');
 
-const createCart = () => {
-  CartService.createLink(config.brand.appId, cartStore.items, cartName.value);
+const createCart = async () => {
+  const cartCreated = await CartService.createLink(
+    config.brand.appId,
+    cartStore.items,
+    cartName.value,
+  );
+
+  router.push(`/carrinho/cadastrados/${cartCreated.id}`);
+  cartStore.clearCart();
 };
 </script>
 
