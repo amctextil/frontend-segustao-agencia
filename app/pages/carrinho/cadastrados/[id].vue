@@ -9,7 +9,7 @@
       <ul class="ga-4 d-flex flex-column overflow-auto h-100 pb-16">
         <CartProductItem
           v-for="item in cartData.produtos"
-          :key="item.ProductID"
+          :key="item.produtoId"
           :model-value="item"
         />
       </ul>
@@ -22,9 +22,9 @@
           variant="tonal"
         >
           <div class="ga-8 pa-4 d-flex flex-column">
-            <span class="text-title-large">
+            <!-- <span class="text-title-large">
               {{ WDFormatters.formatCurrency(cartData.total) }}
-            </span>
+            </span> -->
           </div>
         </v-card>
 
@@ -53,22 +53,16 @@
 
 <script lang="ts" setup>
 import type { SnackbarMessage } from 'vuetify/lib/components/VSnackbarQueue/VSnackbarQueue.mjs';
-import { WDFormatters } from 'widelab-utils';
 import { CartService } from '~/services/cart.service';
 
 const route = useRoute();
 const cartId = route.params.id as string;
 
-const { user } = useUserSession();
 const { brand } = useConfigStore();
 
 const messages = ref<SnackbarMessage[]>([]);
 
-const cartData = await CartService.get(
-  brand.appId,
-  user.value!.id,
-  Number(cartId),
-);
+const cartData = await CartService.get(brand.appId, Number(cartId));
 
 if (!cartData) {
   throw createError({

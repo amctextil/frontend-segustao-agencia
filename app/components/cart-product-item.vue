@@ -1,37 +1,30 @@
 <template>
   <li class="d-flex flex-row ga-8 align-center">
     <NuxtImg
-      :src="brand?.data?.imageURL + model.MediaPath"
+      :src="brand?.data?.imageURL + model.urlImagem"
       width="120"
       style="aspect-ratio: 0.73; object-fit: cover"
     />
 
     <div class="d-flex flex-column ga-2 flex-fill">
       <span>
-        {{ model.Name }}
+        {{ model.nome }}
       </span>
 
-      <span
-        v-for="option in model.SKUOptions"
-        :key="option.Alias"
-        class="text-grey"
-      >
-        {{ option.Alias }}: {{ option.Title }}
-      </span>
+      <span class="text-grey"> Tamanho: {{ model.tamanho }} </span>
+      <span class="text-grey"> Cor: {{ model.cor }} </span>
     </div>
 
     <div
       class="text-grey d-flex flex-column ga-2 text-title-medium"
       style="min-width: 80px"
     >
-      <span v-if="model.PromotionPrice" class="text-decoration-line-through">
-        {{ WDFormatters.formatCurrency(model.ListPrice) }}
+      <span v-if="model.precoPromocional" class="text-decoration-line-through">
+        {{ WDFormatters.formatCurrency(model.preco) }}
       </span>
 
       <span class="font-weight-bold text-grey-darken-2">
-        {{
-          WDFormatters.formatCurrency(model.PromotionPrice || model.ListPrice)
-        }}
+        {{ WDFormatters.formatCurrency(model.precoPromocional || model.preco) }}
       </span>
     </div>
   </li>
@@ -39,11 +32,11 @@
 
 <script lang="ts" setup>
 import { WDFormatters } from 'widelab-utils';
-import type { SCNCartItemProps } from '~~/shared/interfaces/SCNCartItemProps';
+import type { CartItemProps } from '~~/shared/interfaces/CartProps';
 
 const { brand } = useConfigStore();
 
-const model = defineModel<SCNCartItemProps>({ required: true });
+const model = defineModel<CartItemProps>({ required: true });
 </script>
 
 <style></style>

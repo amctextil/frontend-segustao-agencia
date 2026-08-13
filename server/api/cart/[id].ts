@@ -1,4 +1,4 @@
-import type { CartProps } from '#shared/interfaces/CartProps';
+import type { CartProps } from '~~/shared/interfaces/CartProps';
 
 interface QueryParams {
   appId: string;
@@ -7,6 +7,7 @@ interface QueryParams {
 export default defineEventHandler(async (event) => {
   const query = getQuery<QueryParams>(event);
   const session = await requireUserSession(event);
+  const id = getRouterParam(event, 'id');
 
   if (!session.secure?.token) {
     throw createError({
@@ -19,8 +20,8 @@ export default defineEventHandler(async (event) => {
   const paramList = [`appId=${query.appId}`];
   const params = paramList.join('&');
 
-  const response = await $fetch<CartProps[]>(
-    `${process.env.API_URL}/carrinhos?${params}`,
+  const response = await $fetch<CartProps>(
+    `${process.env.API_URL}/carrinhos/${id}?${params}`,
     {
       headers: {
         Authorization: `Bearer ${session.secure.token}`,
