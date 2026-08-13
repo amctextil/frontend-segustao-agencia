@@ -4,7 +4,7 @@
       <v-list v-if="!!user">
         <v-list-item
           :prepend-avatar="'/img/user.png'"
-          :subtitle="user.id || 'Mais informações do usuário aqui'"
+          :subtitle="user.email"
           :title="WDStrings.extractFormattedName(user.nome || '')"
           :active="false"
         />

@@ -15,13 +15,19 @@ const searchProducts = async ({
   category: string;
   resolve: (value?: undefined) => void;
 }) => {
-  list.value = await ProductService.getByList(
-    configStore.brand.appId,
-    1,
-    'roupas/' + category,
-  );
+  isLoading.value = true;
 
-  resolve();
+  try {
+    list.value = await ProductService.getByList(
+      configStore.brand.appId,
+      1,
+      'roupas/' + category,
+    );
+
+    resolve();
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 watch(

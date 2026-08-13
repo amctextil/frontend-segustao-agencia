@@ -42,9 +42,21 @@
 <script lang="ts" setup>
 import { ProductService } from '~/services/product.service';
 
-const { brand } = useConfigStore();
+const configStore = useConfigStore();
 
-const categories = await ProductService.getCategories(brand.appId);
+const categories = ref(
+  await ProductService.getCategories(configStore.brand.appId),
+);
+
+watch(
+  () => configStore.brand.appId,
+  async () => {
+    categories.value = await ProductService.getCategories(
+      configStore.brand.appId,
+    );
+    clear();
+  },
+);
 
 const emit = defineEmits<{
   (
