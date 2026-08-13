@@ -16,6 +16,8 @@
         @submit="validateCode"
       />
       <RecoverPassNewpass v-else :is-loading="isLoading" @submit="setNewPass" />
+
+      <v-btn variant="text" to="/login" replace>Voltar para o Login</v-btn>
     </div>
   </NuxtLayout>
 </template>
@@ -24,14 +26,13 @@
 import RecoverPassEmail from '~/components/login/recover-pass-email.vue';
 import RecoverPassNewpass from '~/components/login/recover-pass-newpass.vue';
 import RecoverPassOtp from '~/components/login/recover-pass-otp.vue';
-import type { Brand } from '~~/shared/interfaces/AppConfigProps';
 
 const router = useRouter();
 
 const isLoading = ref(false);
 const step = ref(1);
 
-const sendCode = (emailSend: string, brandSelected: Brand['value']) => {
+const sendCode = (emailSend: string) => {
   isLoading.value = true;
   try {
     step.value = 2;
