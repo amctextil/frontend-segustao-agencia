@@ -13,11 +13,11 @@
           <v-card-title class="text-wrap">{{ cart.nome }}</v-card-title>
         </template>
 
-        <v-list-item
+        <!-- <v-list-item
           density="comfortable"
           prepend-icon="mdi-cash"
           :title="WDFormatters.formatCurrency(cart.total)"
-        />
+        /> -->
         <v-list-item
           density="comfortable"
           prepend-icon="mdi-package-variant-closed"
@@ -39,13 +39,12 @@
 </template>
 
 <script lang="ts" setup>
-import { WDDates, WDFormatters, WDStrings } from 'widelab-utils';
+import { WDDates, WDStrings } from 'widelab-utils';
 import { CartService } from '~/services/cart.service';
 
-const { user } = useUserSession();
 const { brand } = useConfigStore();
 
-const cartList = await CartService.list(brand.appId, user.value!.id);
+const cartList = await CartService.list(brand.appId);
 
 cartList.sort((a, b) => b.criadoEm.localeCompare(a.criadoEm));
 </script>
