@@ -13,11 +13,11 @@
           <v-card-title class="text-wrap">{{ cart.nome }}</v-card-title>
         </template>
 
-        <!-- <v-list-item
+        <v-list-item
           density="comfortable"
           prepend-icon="mdi-cash"
           :title="WDFormatters.formatCurrency(cart.total)"
-        /> -->
+        />
         <v-list-item
           density="comfortable"
           prepend-icon="mdi-package-variant-closed"
@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import { WDDates, WDStrings } from 'widelab-utils';
+import { WDDates, WDFormatters, WDStrings } from 'widelab-utils';
 import { CartService } from '~/services/cart.service';
 
 const { brand } = useConfigStore();

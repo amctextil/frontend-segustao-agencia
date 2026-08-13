@@ -9,6 +9,7 @@ export interface CartProps {
   appId: Brand['value'];
   link: string;
   codigo: string;
+  total: number;
   criadoEm: string;
   produtos: CartItemProps[];
 }

@@ -22,9 +22,9 @@
           variant="tonal"
         >
           <div class="ga-8 pa-4 d-flex flex-column">
-            <!-- <span class="text-title-large">
+            <span class="text-title-large">
               {{ WDFormatters.formatCurrency(cartData.total) }}
-            </span> -->
+            </span>
           </div>
         </v-card>
 
@@ -53,6 +53,7 @@
 
 <script lang="ts" setup>
 import type { SnackbarMessage } from 'vuetify/lib/components/VSnackbarQueue/VSnackbarQueue.mjs';
+import { WDFormatters } from 'widelab-utils';
 import { CartService } from '~/services/cart.service';
 
 const route = useRoute();
