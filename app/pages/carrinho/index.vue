@@ -14,7 +14,7 @@
         <CartProductItem
           v-for="item in cartStore.items"
           v-else
-          :key="item.ProductID"
+          :key="item.produtoId"
           :model-value="item"
         />
       </ul>
@@ -76,16 +76,7 @@ const messages = ref<SnackbarMessage[]>([]);
 const cartName = ref('');
 
 const createCart = () => {
-  const products = cartStore.items.map((item) => ({
-    ref: item.productParent.IntegrationID,
-    productid: item.productParent.ProductID.toString(),
-    name: item.Name,
-    skuid: item.ProductID.toString(),
-    quantity: 1, // item.Quantity,
-    urlimagem: config.brand!.data!.imageURL + item.MediaPath,
-  }));
-
-  CartService.createLink(config.brand.appId, products, cartName.value);
+  CartService.createLink(config.brand.appId, cartStore.items, cartName.value);
 };
 </script>
 

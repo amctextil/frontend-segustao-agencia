@@ -21,8 +21,8 @@ export interface CartItemProps {
   nome: string;
   produtoId: number;
   quantidade: number;
-  ref: number;
-  skuId: number;
+  ref: string;
+  skuId: string;
   urlImagem: string;
   preco: number;
   precoPromocional: number;
@@ -35,3 +35,8 @@ export interface CartItemProps {
   paiProdutoId: string;
   url: string;
 }
+
+export type NewCartItem = Omit<
+  CartItemProps,
+  'id' | 'idUsuario' | 'idAgencia' | 'idCarrinho'
+>;

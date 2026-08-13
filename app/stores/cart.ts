@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia';
+import { WDStrings } from 'widelab-utils';
+import type { NewCartItem } from '~~/shared/interfaces/CartProps';
 import type {
   SCNCartItemProps,
   SCNProductPrarent,
@@ -13,7 +15,7 @@ export const useCartStore = defineStore('cart', () => {
   const configStore = useConfigStore();
 
   // Syncs seamlessly between SSR (server) and CSR (client)
-  const cartCookie = useCookie<SCNCartItemProps[]>(
+  const cartCookie = useCookie<NewCartItem[]>(
     'shopping-cart-' + configStore.brand.appId,
     {
       default: () => [],
@@ -23,7 +25,7 @@ export const useCartStore = defineStore('cart', () => {
   );
 
   // Reactive state
-  const items = ref<SCNCartItemProps[]>(cartCookie.value);
+  const items = ref<NewCartItem[]>(cartCookie.value);
 
   // Sync state changes back to the cookie automatically
   watch(
@@ -36,12 +38,12 @@ export const useCartStore = defineStore('cart', () => {
 
   // Getters
   const totalItems = computed(() =>
-    items.value.reduce((acc, item) => acc + item.Quantity, 0),
+    items.value.reduce((acc, item) => acc + item.quantidade, 0),
   );
   const totalPrice = computed(() =>
     items.value.reduce(
       (acc, item) =>
-        acc + (item.PromotionPrice || item.ListPrice) * item.Quantity,
+        acc + (item.precoPromocional || item.preco) * item.quantidade,
       0,
     ),
   );
@@ -54,52 +56,60 @@ export const useCartStore = defineStore('cart', () => {
       PromotionPrice,
       SKUOptions,
       VariationPath,
+      IntegrationID,
+      SKU,
     }: SCNCartVariant,
     productParent: SCNProductPrarent,
     MediaPath: string,
   ) {
     const existingItem = items.value.find(
       (item) =>
-        item.ProductID === ProductID && item.VariationPath === VariationPath,
+        item.produtoId === ProductID && item.varianteId === VariationPath,
     );
 
     if (existingItem) {
       return;
     }
 
-    const parsedSKUOptions = SKUOptions.map((option) => ({
-      Alias: option.Alias,
-      Title: option.Title,
-    }));
+    const cor = SKUOptions.find((option) =>
+      WDStrings.isContentMatchingSearch(option.Alias, 'cor'),
+    );
+    const tamanho = SKUOptions.find((option) =>
+      WDStrings.isContentMatchingSearch(option.Alias, 'cor'),
+    );
 
-    const newCartItem: SCNCartItemProps = {
-      ListPrice,
-      ProductID,
-      PromotionPrice,
-      SKUOptions: parsedSKUOptions,
-      VariationPath,
-      Quantity: 1,
-      MediaPath,
-      Name: productParent.Name,
-      productParent: {
-        IntegrationID: productParent.IntegrationID,
-        ProductID: productParent.ProductID,
-        Name: productParent.Name,
-        Url: productParent.Url,
-      },
+    const newCartItem: NewCartItem = {
+      preco: ListPrice,
+      produtoId: ProductID,
+      precoPromocional: PromotionPrice,
+      varianteId: VariationPath,
+      quantidade: 1,
+      urlImagem: MediaPath,
+      nome: productParent.Name,
+      paiProdutoId: String(productParent.ProductID),
+      paiIntegracaoId: productParent.IntegrationID,
+      url: productParent.Url,
+
+      cor: cor?.Title || '',
+      corId: cor?.PropertyPath || '',
+
+      tamanho: tamanho?.Title || '',
+      tamanhoId: tamanho?.PropertyPath || '',
+      ref: IntegrationID,
+      skuId: SKU,
     };
 
-    items.value.push({ ...newCartItem, Quantity: 1 });
+    items.value.push(newCartItem);
   }
 
   function removeFromCart(productId: string | number) {
-    items.value = items.value.filter((item) => item.ProductID !== productId);
+    items.value = items.value.filter((item) => item.produtoId !== productId);
   }
 
   function updateQuantity(productId: string | number, quantity: number) {
-    const item = items.value.find((item) => item.ProductID === productId);
+    const item = items.value.find((item) => item.produtoId === productId);
     if (item && quantity > 0) {
-      item.Quantity = quantity;
+      item.quantidade = quantity;
     }
   }
 

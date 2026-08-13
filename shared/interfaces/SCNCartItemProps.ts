@@ -5,20 +5,18 @@ export type SCNProductPrarent = Pick<
   'IntegrationID' | 'ProductID' | 'Name' | 'Url'
 >;
 
-export type SCNCartSKUoption = Pick<SCNSkuOption, 'Alias' | 'Title'>;
-
 export interface SCNCartItemProps {
   Quantity: number;
   MediaPath: string;
   Name: string;
-  // IntegrationID: string;
+  IntegrationID: string;
   ListPrice: number;
   ProductID: number;
   // ProductPath: string;
   PromotionPrice: number;
   // RetailPrice: number;
-  // SKU: string;
-  SKUOptions: SCNCartSKUoption[];
+  SKU: string;
+  SKUOptions: SCNSkuOption[];
   VariationPath: string;
   productParent: SCNProductPrarent;
   // StockBalance: number;

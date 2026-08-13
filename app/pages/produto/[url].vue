@@ -192,12 +192,10 @@ const inStockCount = computed(() => {
     return null;
   }
 
-  const productCart = { Quantity: 0 };
-  const inCartCount = productCart?.Quantity || 0;
-  // TODO descomentar quando implementar sistema de carrinho
-  // items.find(
-  //   (item) => item.VariationPath === variantSelected.VariationPath,
-  // );
+  const productCart = cartStore.items.find(
+    (item) => item.varianteId === variantSelected.VariationPath,
+  );
+  const inCartCount = productCart?.quantidade || 0;
 
   return variantSelected.StockBalance - inCartCount;
 });

@@ -32,11 +32,11 @@
 
 <script lang="ts" setup>
 import { WDFormatters } from 'widelab-utils';
-import type { CartItemProps } from '~~/shared/interfaces/CartProps';
+import type { NewCartItem } from '~~/shared/interfaces/CartProps';
 
 const { brand } = useConfigStore();
 
-const model = defineModel<CartItemProps>({ required: true });
+const model = defineModel<NewCartItem>({ required: true });
 </script>
 
 <style></style>
