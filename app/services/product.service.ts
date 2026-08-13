@@ -11,7 +11,7 @@ const getByList = async (
   page = 1,
   list = 'roupas',
   sort = 'nome-produto',
-) => {
+): Promise<ProductGrid | undefined> => {
   const response = await useFetch<ProductGrid>(
     `/api/product/list?lista=${list}&appId=${appId}&pagina=${page}&ordenacao=${sort}`,
   );
