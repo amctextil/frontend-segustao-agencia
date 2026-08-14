@@ -1,44 +1,53 @@
 <template>
   <NuxtLayout name="main">
-    <h1 class="mx-16 align-self-center">Produtos no carrinho</h1>
+    <div v-if="isLoading" class="align-center justify-center d-flex flex-fill">
+      <v-progress-circular indeterminate size="100" />
+    </div>
+    <div v-else class="d-flex flex-column px-16 pt-4">
+      <h2 v-if="cartData.nome" class="align-self-center">
+        {{ cartData.nome }}
+      </h2>
 
-    <div
-      class="px-16 ga-16 flex-fill align-start d-flex flex-row align-self-center overflow-hidden"
-      style="max-width: 1366px"
-    >
-      <ul class="ga-4 d-flex flex-column overflow-auto h-100 pb-16">
-        <CartProductItem
-          v-for="item in cartData.produtos"
-          :key="item.produtoId"
-          :model-value="item"
-        />
-      </ul>
+      <h2 class="mx-16">Produtos no carrinho</h2>
 
-      <div class="d-flex flex-column ga-8">
-        <v-card
-          style="min-width: 320px"
-          title="Subtotal"
-          append-icon="mdi-cash-multiple"
-          variant="tonal"
-        >
-          <div class="ga-8 pa-4 d-flex flex-column">
-            <span class="text-title-large">
-              {{ WDFormatters.formatCurrency(cartData.total || 0) }}
-            </span>
-          </div>
-        </v-card>
+      <div
+        class="px-16 ga-16 flex-fill align-start d-flex flex-row align-self-center overflow-hidden"
+        style="max-width: 1366px"
+      >
+        <ul class="ga-4 d-flex flex-column overflow-auto h-100 pb-16">
+          <CartProductItem
+            v-for="item in cartData.produtos"
+            :key="item.produtoId"
+            :model-value="item"
+          />
+        </ul>
 
-        <v-btn prepend-icon="mdi-check" color="info" @click="shareCart">
-          Compartilhar carrinho
-        </v-btn>
+        <div class="d-flex flex-column ga-8">
+          <v-card
+            style="min-width: 320px"
+            title="Subtotal"
+            append-icon="mdi-cash-multiple"
+            variant="tonal"
+          >
+            <div class="ga-8 pa-4 d-flex flex-column">
+              <span class="text-title-large">
+                {{ WDFormatters.formatCurrency(cartData.total || 0) }}
+              </span>
+            </div>
+          </v-card>
 
-        <v-input
-          messages="Link do carrinho"
-          prepend-icon="mdi-content-paste"
-          @click:prepend="copyText"
-        >
-          {{ cartData.link }}
-        </v-input>
+          <v-btn prepend-icon="mdi-check" color="info" @click="shareCart">
+            Compartilhar carrinho
+          </v-btn>
+
+          <v-input
+            messages="Link do carrinho"
+            prepend-icon="mdi-content-paste"
+            @click:prepend="copyText"
+          >
+            {{ cartData.link }}
+          </v-input>
+        </div>
       </div>
     </div>
 
@@ -56,14 +65,16 @@ import type { SnackbarMessage } from 'vuetify/lib/components/VSnackbarQueue/VSna
 import { WDFormatters } from 'widelab-utils';
 import { CartService } from '~/services/cart.service';
 
+const router = useRouter();
 const route = useRoute();
 const cartId = route.params.id as string;
 
-const { brand } = useConfigStore();
+const configStore = useConfigStore();
 
 const messages = ref<SnackbarMessage[]>([]);
+const isLoading = ref(false);
 
-const cartData = await CartService.get(brand.appId, Number(cartId));
+const cartData = await CartService.get(configStore.brand.appId, Number(cartId));
 
 if (!cartData) {
   throw createError({
@@ -105,6 +116,14 @@ const copyText = async () => {
     messages.value.push('Não foi possível copiar o link do carrinho');
   }
 };
+
+watch(
+  () => configStore.brand.appId,
+  async () => {
+    isLoading.value = true;
+    router.replace('/carrinho/cadastrados');
+  },
+);
 </script>
 
 <style></style>
