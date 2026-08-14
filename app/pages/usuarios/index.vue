@@ -56,6 +56,8 @@ import { WDStrings } from 'widelab-utils';
 import { UserService } from '~/services/user.service';
 import { getUserProfileName } from '~~/shared/enums/UserProfile';
 
+definePageMeta({ middleware: ['admin'] });
+
 const list = ref(await UserService.list());
 const isLoading = ref(false);
 const searchQuery = ref('');
