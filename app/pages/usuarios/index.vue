@@ -29,6 +29,10 @@
               :text="WDStrings.getInitials(item.nome)"
             />
           </template>
+
+          <v-list-item-subtitle>
+            {{ getUserProfileName(item.tipoUsuario) }}
+          </v-list-item-subtitle>
         </v-list-item>
       </div>
 
@@ -50,6 +54,7 @@
 <script lang="ts" setup>
 import { WDStrings } from 'widelab-utils';
 import { UserService } from '~/services/user.service';
+import { getUserProfileName } from '~~/shared/enums/UserProfile';
 
 const list = ref(await UserService.list());
 const isLoading = ref(false);
