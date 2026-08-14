@@ -105,6 +105,7 @@
 <script lang="ts" setup>
 import { WDStrings } from 'widelab-utils';
 import { SITEMAP } from '~~/shared/constants/config';
+import { UserProfile } from '~~/shared/enums/UserProfile';
 
 const { user, clear: clearSession } = useUserSession();
 const configStore = useConfigStore();
@@ -152,10 +153,10 @@ const NAV_ITEMS = [
   },
 ];
 
-if (user.value?.tipoUsuario === 1) {
+if (user.value?.tipoUsuario === UserProfile.ADMIN) {
   NAV_ITEMS.push({
     path: '/usuarios',
-    name: 'Módulos',
+    name: 'Usuários',
     icon: 'mdi-account-multiple',
   });
 }
