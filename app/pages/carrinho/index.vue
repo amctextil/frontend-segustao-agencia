@@ -28,7 +28,7 @@
         >
           <div class="ga-8 pa-4 d-flex flex-column">
             <span class="text-title-large">
-              {{ WDFormatters.formatCurrency(cartStore.totalPrice) }}
+              {{ WDFormatters.formatCurrency(cartStore.totalPrice || 0) }}
             </span>
           </div>
         </v-card>

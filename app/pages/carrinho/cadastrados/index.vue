@@ -16,7 +16,7 @@
         <v-list-item
           density="comfortable"
           prepend-icon="mdi-cash"
-          :title="WDFormatters.formatCurrency(cart.total)"
+          :title="WDFormatters.formatCurrency(cart.total || 0)"
         />
         <v-list-item
           density="comfortable"
