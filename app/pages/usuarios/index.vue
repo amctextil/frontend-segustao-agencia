@@ -58,16 +58,15 @@ import { getUserProfileName } from '~~/shared/enums/UserProfile';
 
 definePageMeta({ middleware: ['admin'] });
 
-const list = ref(await UserService.list());
-const isLoading = ref(false);
+const list = await UserService.list();
 const searchQuery = ref('');
 
 const filteredUsers = computed(() => {
   if (!searchQuery.value) {
-    return list.value;
+    return list;
   }
 
-  return list.value.filter(
+  return list.filter(
     (u) =>
       WDStrings.isContentMatchingSearch(u.nome, searchQuery.value) ||
       WDStrings.isContentMatchingSearch(u.email, searchQuery.value),

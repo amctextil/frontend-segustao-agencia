@@ -4,6 +4,8 @@ const list = async () => {
   return await $fetch<UserProps[]>('/api/user/list');
 };
 
-export const UserService = {
-  list,
+const get = async (userId: number) => {
+  return await $fetch<UserProps>(`/api/user/${userId}`);
 };
+
+export const UserService = { list, get };
