@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     throw createError({
       status: 401,
       statusCode: 401,
-      message: 'Usuário ou senha inválidos',
+      message: 'Usuário não autenticado',
     });
   }
 
