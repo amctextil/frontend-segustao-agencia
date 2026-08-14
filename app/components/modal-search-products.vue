@@ -36,7 +36,8 @@ const search = ref('');
 const debouncedQuery = ref('');
 let timeoutId: NodeJS.Timeout;
 
-const { brand } = useConfigStore();
+const configStore = useConfigStore();
+const brandAppId = computed(() => configStore.brand.appId);
 
 watch([search], () => {
   clearTimeout(timeoutId);
@@ -56,19 +57,23 @@ const { data, status } = await useAsyncData(
   'search-results',
   async () => {
     if (!debouncedQuery.value) {
-      return await ProductService.getByList(brand.appId, 1, 'roupas');
+      return await ProductService.getByList(
+        brandAppId.value,
+        1,
+        'roupas',
+      );
     }
 
     const { data } = await ProductService.getBySearch(
       debouncedQuery.value,
-      brand.appId,
+      brandAppId.value,
       1,
     );
 
     return data;
   },
   {
-    watch: [debouncedQuery],
+    watch: [debouncedQuery, brandAppId],
     immediate: true,
   },
 );
