@@ -16,7 +16,7 @@ async function login() {
     errorMessage.value = '';
     isLoading.value = true;
 
-    await $fetch('/api/login', {
+    await $fetch('/api/auth/login', {
       method: 'POST',
       body: credentials,
     });
@@ -38,53 +38,25 @@ async function login() {
 
 <template>
   <NuxtLayout name="login">
-    <div
-      class="ma-8 w-md-66 d-flex flex-column align-center justify-center ga-8 text-grey-darken-3"
-    >
+    <div class="ma-8 w-md-66 d-flex flex-column align-center justify-center ga-8 text-grey-darken-3">
       <h1 class="align-self-start text-h4">Login</h1>
 
-      <v-form
-        ref="form"
-        class="w-100 d-flex flex-column ga-4 text-grey-darken-4"
-        @submit.prevent="login"
-      >
-        <v-text-field
-          v-model="credentials.email"
-          label="E-mail"
-          prepend-inner-icon="mdi-email-outline"
-          type="email"
-          :disabled="configStore.isLoadingBrand"
-        />
+      <v-form ref="form" class="w-100 d-flex flex-column ga-4 text-grey-darken-4" @submit.prevent="login">
+        <v-text-field v-model="credentials.email" label="E-mail" prepend-inner-icon="mdi-email-outline" type="email"
+          :disabled="configStore.isLoadingBrand" />
 
         <ClientOnly>
-          <v-text-field
-            v-model="credentials.password"
-            label="Senha"
-            counter
-            prepend-inner-icon="mdi-key-outline"
-            :append-inner-icon="passShow ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="passShow ? 'text' : 'password'"
-            :disabled="configStore.isLoadingBrand"
-            @click:append-inner="passShow = !passShow"
-          />
+          <v-text-field v-model="credentials.password" label="Senha" counter prepend-inner-icon="mdi-key-outline"
+            :append-inner-icon="passShow ? 'mdi-eye' : 'mdi-eye-off'" :type="passShow ? 'text' : 'password'"
+            :disabled="configStore.isLoadingBrand" @click:append-inner="passShow = !passShow" />
 
           <template #fallback>
-            <v-text-field
-              label="Senha"
-              prepend-inner-icon="mdi-key-outline"
-              append-inner-icon="mdi-eye-off"
-              type="password"
-              :disabled="configStore.isLoadingBrand"
-              :loading="true"
-            />
+            <v-text-field label="Senha" prepend-inner-icon="mdi-key-outline" append-inner-icon="mdi-eye-off"
+              type="password" :disabled="configStore.isLoadingBrand" :loading="true" />
           </template>
         </ClientOnly>
 
-        <v-btn
-          :loading="isLoading"
-          :disabled="configStore.isLoadingBrand"
-          type="submit"
-        >
+        <v-btn :loading="isLoading" :disabled="configStore.isLoadingBrand" type="submit">
           Entrar
         </v-btn>
 
@@ -92,12 +64,7 @@ async function login() {
           {{ errorMessage }}
         </strong>
 
-        <v-btn
-          :loading="isLoading"
-          :disabled="configStore.isLoadingBrand"
-          variant="text"
-          to="/login/recuperar-senha"
-        >
+        <v-btn :loading="isLoading" :disabled="configStore.isLoadingBrand" variant="text" to="/login/recuperar-senha">
           Recuperar senha
         </v-btn>
       </v-form>
