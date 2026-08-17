@@ -98,7 +98,13 @@ const saveUser = async () => {
     if (isNewUser) {
       await UserService.add(nome.value, email.value, ativo.value, perfil.value);
     } else {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await UserService.edit(
+        id,
+        nome.value,
+        email.value,
+        ativo.value,
+        perfil.value,
+      );
     }
 
     messages.value.push({

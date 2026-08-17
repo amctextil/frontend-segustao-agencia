@@ -30,4 +30,25 @@ const add = async (
   });
 };
 
-export const UserService = { list, get, add };
+const edit = async (
+  id: string,
+  name: string,
+  email: string,
+  active: boolean,
+  type: UserProfile,
+) => {
+  const body = {
+    nome: name,
+    email,
+    ativo: active,
+    tipo: type,
+    id,
+  };
+
+  return await $fetch<UserProps>(`/webapi/user`, {
+    method: 'PUT',
+    body,
+  });
+};
+
+export const UserService = { list, get, add, edit };
