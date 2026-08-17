@@ -4,13 +4,9 @@ import type { AppConfigProps } from '~~/shared/interfaces/AppConfigProps';
 
 export const useConfigStore = defineStore('config', () => {
   const brandList = ref<AppConfigProps[]>([]);
-  const brand = ref<AppConfigProps>();
-  const colors = ref({ background: '#FAFAFA', text: '#000000' });
+  const brand = ref<AppConfigProps>({} as AppConfigProps);
 
-  const loadBrands = async () => {
-    brandList.value = await BrandService.list();
-  };
-  const selectbrand = async (appId: string) => {
+  const selectbrand = (appId: string) => {
     const selectedBrand = brandList.value.find(
       (brand) => brand.appId === appId,
     );
@@ -23,17 +19,24 @@ export const useConfigStore = defineStore('config', () => {
       });
     }
     brand.value = selectedBrand;
-
-    // this.colors = {
-    //   background: brandConfig.corApp,
-    //   text: WDColors.getContrastingTextColor(brandConfig.corApp),
-    // };
   };
+
+  const loadBrands = async () => {
+    brandList.value = await BrandService.activeList();
+    return brandList.value;
+  };
+
+  loadBrands().then((list) => {
+    const [newBrand] = list;
+
+    if (newBrand) {
+      brand.value = newBrand;
+    }
+  });
 
   return {
     brandList,
     brand,
-    colors,
 
     loadBrands,
     selectbrand,

@@ -10,4 +10,8 @@ const list = async () => {
   return await $fetch<AppConfigProps[]>(`/webapi/brands`);
 };
 
-export const BrandService = { get, list };
+const activeList = async () => {
+  return await $fetch<AppConfigProps[]>(`/webapi/brands/active`);
+};
+
+export const BrandService = { get, list, activeList };

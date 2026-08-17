@@ -46,7 +46,7 @@
     </v-navigation-drawer>
 
     <v-app-bar
-      :style="`background-color: ${configStore.colors.background} !important; color: ${configStore.colors.text} !important;`"
+      :style="`background-color: #FFFFFF !important; color: #000000 !important;`"
       elevation="1"
     >
       <v-app-bar-nav-icon
@@ -108,7 +108,6 @@ import { SITEMAP } from '~~/shared/constants/config';
 import { UserProfile } from '~~/shared/enums/UserProfile';
 
 const { user, logout } = useAuth();
-const configStore = useConfigStore();
 const route = useRoute();
 const cartStore = useCartStore();
 

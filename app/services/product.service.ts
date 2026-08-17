@@ -11,8 +11,10 @@ const getByList = async (
   list = 'roupas',
   sort = 'nome-produto',
 ): Promise<ProductGrid | undefined> => {
+  const fixedList = list.replace(/\/$/, '');
+
   const response = await useFetch<ProductGrid>(
-    `/webapi/product/list?lista=${list}&appId=${appId}&pagina=${page}&ordenacao=${sort}`,
+    `/webapi/product/list?lista=${fixedList}&appId=${appId}&pagina=${page}&ordenacao=${sort}`,
   );
 
   if (!response.data.value) {
