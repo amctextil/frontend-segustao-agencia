@@ -15,8 +15,10 @@ export default defineEventHandler(async (event) => {
   const paramList = [`idAgencia=${session.user.idAgencia}`];
   const params = paramList.join('&');
 
+  const APIURL = process.env.API_URL || 'http://127.0.0.1:3333/api';
+
   const response = await $fetch<UserProps>(
-    `${process.env.API_URL}/usuarios/${id}?${params}`,
+    `${APIURL}/usuarios/${id}?${params}`,
     {
       headers: {
         Authorization: `Bearer ${session.secure.token}`,

@@ -15,16 +15,15 @@ type LoginResponse = {
 export default defineEventHandler(async (event) => {
   const { email, password } = await readValidatedBody(event, bodySchema.parse);
 
-  const response = await $fetch<LoginResponse>(
-    `${process.env.API_URL}/auth/login`,
-    {
-      method: 'POST',
-      body: {
-        email,
-        password,
-      },
+  const APIURL = process.env.API_URL || 'http://127.0.0.1:3333/api';
+
+  const response = await $fetch<LoginResponse>(`${APIURL}/auth/login`, {
+    method: 'POST',
+    body: {
+      email,
+      password,
     },
-  );
+  });
 
   if (!response.auth?.token) {
     throw createError({

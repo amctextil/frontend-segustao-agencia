@@ -20,8 +20,10 @@ export default defineEventHandler(async (event) => {
   const paramList = [`appId=${query.appId}`];
   const params = paramList.join('&');
 
+  const APIURL = process.env.API_URL || 'http://127.0.0.1:3333/api';
+
   const response = await $fetch<CartProps>(
-    `${process.env.API_URL}/carrinhos/${id}?${params}`,
+    `${APIURL}/carrinhos/${id}?${params}`,
     {
       headers: {
         Authorization: `Bearer ${session.secure.token}`,
