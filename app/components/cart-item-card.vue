@@ -24,7 +24,7 @@
     <v-list-item
       density="comfortable"
       prepend-icon="mdi-store-outline"
-      :title="brand?.title || cart.appId"
+      :title="brand?.nome || cart.appId"
     />
     <v-list-item
       density="comfortable"
@@ -36,11 +36,14 @@
 
 <script lang="ts" setup>
 import { WDDates, WDFormatters, WDStrings } from 'widelab-utils';
-import { BRAND_LIST } from '~~/shared/constants/config';
 import type { CartProps } from '~~/shared/interfaces/CartProps';
 
+const configStore = useConfigStore();
+
 const cart = defineModel<CartProps>({ required: true });
-const brand = BRAND_LIST.find((item) => item.value === cart.value.appId);
+const brand = configStore.brandList.find(
+  (item) => item.appId === cart.value.appId,
+);
 </script>
 
 <style></style>

@@ -57,11 +57,7 @@ const { data, status } = await useAsyncData(
   'search-results',
   async () => {
     if (!debouncedQuery.value) {
-      return await ProductService.getByList(
-        brandAppId.value,
-        1,
-        'roupas',
-      );
+      return await ProductService.getByList(brandAppId.value, 1, 'roupas');
     }
 
     const { data } = await ProductService.getBySearch(

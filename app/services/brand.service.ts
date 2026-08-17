@@ -1,10 +1,13 @@
-import type {
-  AppConfigProps,
-  Brand,
-} from '~~/shared/interfaces/AppConfigProps';
+import type { AppConfigProps } from '~~/shared/interfaces/AppConfigProps';
 
-const get = async (appId: Brand['value']) => {
-  return await $fetch<AppConfigProps>(`/webapi/brand?appId=${appId}`);
+const get = async (appId: string) => {
+  return await $fetch<AppConfigProps | undefined>(
+    `/webapi/brand?appId=${appId}`,
+  );
 };
 
-export const BrandService = { get };
+const list = async () => {
+  return await $fetch<AppConfigProps[]>(`/webapi/brands`);
+};
+
+export const BrandService = { get, list };

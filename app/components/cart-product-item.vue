@@ -1,7 +1,7 @@
 <template>
   <li class="d-flex flex-row ga-8 align-center">
     <NuxtImg
-      :src="brand?.data?.imageURL + model.urlImagem"
+      :src="brand.urlImagens + model.urlImagem"
       width="120"
       style="aspect-ratio: 0.73; object-fit: cover"
     />

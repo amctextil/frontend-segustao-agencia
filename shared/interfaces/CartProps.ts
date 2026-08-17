@@ -1,12 +1,10 @@
-import type { Brand } from './AppConfigProps';
-
 export interface CartProps {
   id: number;
   idUsuario: number;
   idAgencia: number;
   nome: string;
   descricao: string;
-  appId: Brand['value'];
+  appId: string;
   link: string;
   codigo: string;
   total: number;

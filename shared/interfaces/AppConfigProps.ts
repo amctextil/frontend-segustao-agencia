@@ -1,25 +1,9 @@
-import type { BRAND_LIST } from '~~/shared/constants/config';
-
-interface BrandProps {
-  id: number;
-  name: string;
-}
-
 export interface AppConfigProps {
-  brands: BrandProps[];
-  appStoreLink: string;
-  corApp: string;
-  corAppLogin: string;
-  corIconeMenu: string;
-  corMenu: string;
-  facebookId: number;
-  formatoIcones: string;
-  imagemApp: string;
-  imagemAppLogin: string;
-  name: string;
-  playStoreLink: string;
-  urlLogo: string;
-  appId: Brand['value'];
+  id: number;
+  nome: string;
+  appId: string;
+  urlSite: string;
+  urlImagens: string;
+  criadoEm: string;
+  atualizadoEm: string;
 }
-
-export type Brand = (typeof BRAND_LIST)[number];

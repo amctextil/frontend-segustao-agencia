@@ -1,56 +1,66 @@
 import { defineStore } from 'pinia';
-import { WDColors } from 'widelab-utils';
 import { BrandService } from '~/services/brand.service';
-import { BRAND_LIST } from '~~/shared/constants/config';
-import type {
-  AppConfigProps,
-  Brand,
-} from '~~/shared/interfaces/AppConfigProps';
+import type { AppConfigProps } from '~~/shared/interfaces/AppConfigProps';
 
-type BrandData = AppConfigProps & { data?: (typeof BRAND_LIST)[number] };
+export const useConfigStore = defineStore('config', () => {
+  const brandList = ref<AppConfigProps[]>([]);
+  const brand = ref<AppConfigProps>({
+    nome: 'Open',
+    appId: 'open',
+    urlSite: 'lojaopen.com',
+    urlImagens: 'https://d3vnyi5j6ba1mc.cloudfront.net',
+  } as AppConfigProps);
+  const isLoadingBrand = ref(true);
+  const colors = ref({ background: '#FAFAFA', text: '#000000' });
 
-type BrandsConfig = Record<Brand['value'], BrandData>;
+  const finishLoading = () => {
+    isLoadingBrand.value = false;
+  };
+  const loadBrands = async () => {
+    brandList.value = await BrandService.list();
+  };
+  const selectbrand = async (appId: string) => {
+    isLoadingBrand.value = true;
 
-export const useConfigStore = defineStore('config', {
-  state: () => ({
-    brandsConfig: {} as BrandsConfig,
-    brand: { appId: 'open' } as BrandData,
-    isLoadingBrand: true,
-    colors: { background: '#FAFAFA', text: '#000000' },
-  }),
-  actions: {
-    finishLoading() {
-      this.isLoadingBrand = false;
-    },
-    async selectbrand(appId: Brand['value']) {
-      this.isLoadingBrand = true;
+    try {
+      const selectedBrand = brandList.value.find(
+        (brand) => brand.appId === appId,
+      );
 
-      try {
-        if (this.brandsConfig[appId]) {
-          this.brand = this.brandsConfig[appId];
-          this.colors = {
-            background: this.brandsConfig[appId].corApp,
-            text: WDColors.getContrastingTextColor(
-              this.brandsConfig[appId].corApp,
-            ),
-          };
-        }
-
-        const response = await BrandService.get(appId);
-        const data = BRAND_LIST.find((item) => item.value === appId);
-        const brandConfig = { data, ...response };
-        this.brandsConfig[appId] = brandConfig;
-        this.brand = brandConfig;
-
-        this.colors = {
-          background: brandConfig.corApp,
-          text: WDColors.getContrastingTextColor(brandConfig.corApp),
-        };
-      } finally {
-        this.isLoadingBrand = false;
+      if (!selectedBrand) {
+        throw createError({
+          statusCode: 400,
+          status: 400,
+          statusMessage: 'Marca não encontrada',
+        });
       }
-    },
-  },
+      brand.value = selectedBrand;
+
+      // this.colors = {
+      //   background: brandConfig.corApp,
+      //   text: WDColors.getContrastingTextColor(brandConfig.corApp),
+      // };
+    } finally {
+      isLoadingBrand.value = false;
+    }
+  };
+
+  loadBrands().then(() => {
+    if (brandList.value[0]?.appId) {
+      selectbrand(brandList.value[0].appId);
+    }
+  });
+
+  return {
+    brandList,
+    brand,
+    isLoadingBrand,
+    colors,
+
+    finishLoading,
+    loadBrands,
+    selectbrand,
+  };
 });
 
 export const SHARE_MESSAGE = 'Montei esse carrinho com novidades para você';

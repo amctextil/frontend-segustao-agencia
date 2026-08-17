@@ -71,7 +71,7 @@ const cartStore = useCartStore();
 const config = useConfigStore();
 const router = useRouter();
 
-if (!config.brand?.data) {
+if (!config.brand) {
   throw createError({
     statusCode: 500,
     statusMessage: 'Marca não selecionada',

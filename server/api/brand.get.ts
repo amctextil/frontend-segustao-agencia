@@ -1,5 +1,4 @@
 import type { AppConfigProps } from '#shared/interfaces/AppConfigProps';
-import { apiHub } from '../services/apiHub.service';
 
 interface QueryParams {
   appId: string;
@@ -8,9 +7,18 @@ interface QueryParams {
 export default defineEventHandler(async (event) => {
   const query = getQuery<QueryParams>(event);
 
-  const response = await apiHub.get<AppConfigProps>(
-    `/api/v1/public/application/${query.appId}`,
+  const token = requireAuthToken(event);
+
+  const APIURL = process.env.API_URL || 'http://127.0.0.1:3333/api';
+
+  const response = await $fetch<AppConfigProps[]>(
+    `${APIURL}/marcas?appid=${query.appId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
   );
 
-  return response;
+  return response[0];
 });

@@ -13,15 +13,12 @@
 </template>
 
 <script lang="ts" setup>
-import { BRAND_LIST } from '~~/shared/constants/config';
-import type { Brand } from '~~/shared/interfaces/AppConfigProps';
-
 const configStore = useConfigStore();
 
 const brand = useState('brand-input', () =>
   configStore.brand
     ? {
-        title: configStore.brand.name,
+        title: configStore.brand.nome,
         value: configStore.brand.appId,
       }
     : {
@@ -39,9 +36,9 @@ watch(
   },
 );
 
-const DropDownList = BRAND_LIST.map(({ title, value }) => ({
-  title: title as string,
-  value: value as '' | Brand['value'],
+const DropDownList = configStore.brandList.map(({ appId, nome }) => ({
+  title: nome,
+  value: appId,
 }));
 </script>
 

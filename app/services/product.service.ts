@@ -1,4 +1,3 @@
-import type { Brand } from '~~/shared/interfaces/AppConfigProps';
 import type {
   ProductGrid,
   SearchProductResponse,
@@ -7,7 +6,7 @@ import type { SCNCategory } from '~~/shared/interfaces/SCNCategory';
 import type { SCNProductProps } from '~~/shared/interfaces/SCNProductProps';
 
 const getByList = async (
-  appId: Brand['value'],
+  appId: string,
   page = 1,
   list = 'roupas',
   sort = 'nome-produto',
@@ -26,11 +25,7 @@ const getByList = async (
   return response.data.value;
 };
 
-const getBySearch = async (
-  pesquisa: string,
-  appId: Brand['value'],
-  pagina = 1,
-) => {
+const getBySearch = async (pesquisa: string, appId: string, pagina = 1) => {
   const response = await useFetch<SearchProductResponse>(
     `/webapi/product/search?appId=${appId}&pagina=${pagina}&pesquisa=${pesquisa}`,
   );
@@ -45,7 +40,7 @@ const getBySearch = async (
   return response.data.value;
 };
 
-const getProductByUrl = async (productUrl: string, appId: Brand['value']) => {
+const getProductByUrl = async (productUrl: string, appId: string) => {
   const response = await useFetch<SCNProductProps>(
     `/webapi/product?appId=${appId}&productUrl=${productUrl}`,
   );
@@ -53,7 +48,7 @@ const getProductByUrl = async (productUrl: string, appId: Brand['value']) => {
   return response.data.value;
 };
 
-const getCategories = async (appId: Brand['value']) => {
+const getCategories = async (appId: string) => {
   const response = await useFetch<SCNCategory[]>(
     `/webapi/categories?appId=${appId}`,
   );
