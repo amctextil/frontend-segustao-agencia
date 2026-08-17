@@ -20,17 +20,33 @@ import { CartService } from '~/services/cart.service';
 
 const configStore = useConfigStore();
 
+if (!configStore.brand) {
+  throw createError({
+    statusCode: 400,
+    status: 400,
+    statusMessage: 'Marca não selecionada',
+  });
+}
+
 const list = ref(await CartService.list(configStore.brand.appId));
 const isLoading = ref(false);
 
 list.value.sort((a, b) => b.criadoEm.localeCompare(a.criadoEm));
 
 watch(
-  () => configStore.brand.appId,
+  () => configStore.brand?.appId,
   async (appId) => {
     isLoading.value = true;
 
     try {
+      if (!appId) {
+        throw createError({
+          statusCode: 400,
+          status: 400,
+          statusMessage: 'Marca não selecionada',
+        });
+      }
+
       list.value = await CartService.list(appId);
     } catch {
       list.value = [];

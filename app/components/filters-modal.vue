@@ -44,13 +44,29 @@ import { ProductService } from '~/services/product.service';
 
 const configStore = useConfigStore();
 
+if (!configStore.brand) {
+  throw createError({
+    statusCode: 400,
+    status: 400,
+    statusMessage: 'Marca não selecionada',
+  });
+}
+
 const categories = ref(
   await ProductService.getCategories(configStore.brand.appId),
 );
 
 watch(
-  () => configStore.brand.appId,
+  () => configStore.brand?.appId,
   async () => {
+    if (!configStore.brand) {
+      throw createError({
+        statusCode: 400,
+        status: 400,
+        statusMessage: 'Marca não selecionada',
+      });
+    }
+
     categories.value = await ProductService.getCategories(
       configStore.brand.appId,
     );

@@ -3,11 +3,14 @@
   <NuxtLayout name="main">
     <div class="d-flex pa-4 ga-4 flex-column overflow-auto">
       <div class="d-flex ga-4">
-        <v-carousel v-if="brand.urlImagens" v-model="selectedImageIdx">
+        <v-carousel
+          v-if="configStore.brand?.urlImagens"
+          v-model="selectedImageIdx"
+        >
           <v-carousel-item
             v-for="media in medias"
             :key="media.MediaPath"
-            :src="brand.urlImagens + media.MediaPath"
+            :src="configStore.brand?.urlImagens + media.MediaPath"
           />
         </v-carousel>
 
@@ -109,7 +112,7 @@ import type {
 
 const route = useRoute();
 const router = useRouter();
-const { brand } = useConfigStore();
+const configStore = useConfigStore();
 const cartStore = useCartStore();
 
 const selectedImageIdx = ref(0);
@@ -118,7 +121,18 @@ const messages = ref<SnackbarMessage[]>([]);
 
 const productUrl = route.params.url as string;
 
-const product = await ProductService.getProductByUrl(productUrl, brand.appId);
+if (!configStore.brand) {
+  throw createError({
+    statusCode: 400,
+    status: 400,
+    statusMessage: 'Marca não selecionada',
+  });
+}
+
+const product = await ProductService.getProductByUrl(
+  productUrl,
+  configStore.brand.appId,
+);
 
 if (!product) {
   throw createError({

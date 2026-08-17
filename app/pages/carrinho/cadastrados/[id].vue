@@ -74,6 +74,14 @@ const configStore = useConfigStore();
 const messages = ref<SnackbarMessage[]>([]);
 const isLoading = ref(false);
 
+if (!configStore.brand) {
+  throw createError({
+    statusCode: 400,
+    status: 400,
+    statusMessage: 'Marca não selecionada',
+  });
+}
+
 const cartData = await CartService.get(configStore.brand.appId, Number(cartId));
 
 if (!cartData) {
@@ -118,7 +126,7 @@ const copyText = async () => {
 };
 
 watch(
-  () => configStore.brand.appId,
+  () => configStore.brand?.appId,
   async () => {
     isLoading.value = true;
     router.replace('/carrinho/cadastrados');

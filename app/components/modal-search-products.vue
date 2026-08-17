@@ -37,7 +37,8 @@ const debouncedQuery = ref('');
 let timeoutId: NodeJS.Timeout;
 
 const configStore = useConfigStore();
-const brandAppId = computed(() => configStore.brand.appId);
+
+const brandAppId = computed(() => configStore.brand?.appId);
 
 watch([search], () => {
   clearTimeout(timeoutId);
@@ -56,6 +57,14 @@ watch([isActive], () => {
 const { data, status } = await useAsyncData(
   'search-results',
   async () => {
+    if (!brandAppId.value) {
+      throw createError({
+        statusCode: 400,
+        status: 400,
+        statusMessage: 'Marca não selecionada',
+      });
+    }
+
     if (!debouncedQuery.value) {
       return await ProductService.getByList(brandAppId.value, 1, 'roupas');
     }

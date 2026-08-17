@@ -83,6 +83,13 @@ const cartName = ref('');
 const isLoading = ref(false);
 
 const createCart = async () => {
+  if (!config.brand) {
+    throw createError({
+      statusCode: 400,
+      status: 400,
+      statusMessage: 'Marca não selecionada',
+    });
+  }
   const cartCreated = await CartService.createLink(
     config.brand.appId,
     cartStore.items,

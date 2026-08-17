@@ -3,6 +3,14 @@ import { ProductService } from '~/services/product.service';
 
 const configStore = useConfigStore();
 
+if (!configStore.brand) {
+  throw createError({
+    statusCode: 400,
+    status: 400,
+    statusMessage: 'Marca não selecionada',
+  });
+}
+
 const list = ref(
   await ProductService.getByList(configStore.brand.appId, 1, 'roupas/'),
 );
@@ -18,6 +26,14 @@ const searchProducts = async ({
   isLoading.value = true;
 
   try {
+    if (!configStore.brand) {
+      throw createError({
+        statusCode: 400,
+        status: 400,
+        statusMessage: 'Marca não selecionada',
+      });
+    }
+
     list.value = await ProductService.getByList(
       configStore.brand.appId,
       1,
@@ -31,11 +47,19 @@ const searchProducts = async ({
 };
 
 watch(
-  () => configStore.brand.appId,
+  () => configStore.brand?.appId,
   async (appId) => {
     isLoading.value = true;
 
     try {
+      if (!appId) {
+        throw createError({
+          statusCode: 400,
+          status: 400,
+          statusMessage: 'Marca não selecionada',
+        });
+      }
+
       list.value = await ProductService.getByList(appId, 1, 'roupas/');
     } catch {
       list.value = undefined;
