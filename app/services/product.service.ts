@@ -13,7 +13,7 @@ const getByList = async (
   sort = 'nome-produto',
 ): Promise<ProductGrid | undefined> => {
   const response = await useFetch<ProductGrid>(
-    `/api/product/list?lista=${list}&appId=${appId}&pagina=${page}&ordenacao=${sort}`,
+    `/webapi/product/list?lista=${list}&appId=${appId}&pagina=${page}&ordenacao=${sort}`,
   );
 
   if (!response.data.value) {
@@ -32,7 +32,7 @@ const getBySearch = async (
   pagina = 1,
 ) => {
   const response = await useFetch<SearchProductResponse>(
-    `/api/product/search?appId=${appId}&pagina=${pagina}&pesquisa=${pesquisa}`,
+    `/webapi/product/search?appId=${appId}&pagina=${pagina}&pesquisa=${pesquisa}`,
   );
 
   if (!response.data.value) {
@@ -47,7 +47,7 @@ const getBySearch = async (
 
 const getProductByUrl = async (productUrl: string, appId: Brand['value']) => {
   const response = await useFetch<SCNProductProps>(
-    `/api/product?appId=${appId}&productUrl=${productUrl}`,
+    `/webapi/product?appId=${appId}&productUrl=${productUrl}`,
   );
 
   return response.data.value;
@@ -55,7 +55,7 @@ const getProductByUrl = async (productUrl: string, appId: Brand['value']) => {
 
 const getCategories = async (appId: Brand['value']) => {
   const response = await useFetch<SCNCategory[]>(
-    `/api/categories?appId=${appId}`,
+    `/webapi/categories?appId=${appId}`,
   );
 
   return response.data.value;
