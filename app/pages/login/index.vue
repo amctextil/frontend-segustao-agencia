@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { useAuth } from '~/composables/useAuth';
 
-const configStore = useConfigStore();
-
 const { login } = useAuth();
 
 const credentials = reactive({
@@ -51,7 +49,6 @@ async function handleLogin() {
           label="E-mail"
           prepend-inner-icon="mdi-email-outline"
           type="email"
-          :disabled="configStore.isLoadingBrand"
         />
 
         <ClientOnly>
@@ -62,7 +59,6 @@ async function handleLogin() {
             prepend-inner-icon="mdi-key-outline"
             :append-inner-icon="passShow ? 'mdi-eye' : 'mdi-eye-off'"
             :type="passShow ? 'text' : 'password'"
-            :disabled="configStore.isLoadingBrand"
             @click:append-inner="passShow = !passShow"
           />
 
@@ -72,30 +68,18 @@ async function handleLogin() {
               prepend-inner-icon="mdi-key-outline"
               append-inner-icon="mdi-eye-off"
               type="password"
-              :disabled="configStore.isLoadingBrand"
               :loading="true"
             />
           </template>
         </ClientOnly>
 
-        <v-btn
-          :loading="isLoading"
-          :disabled="configStore.isLoadingBrand"
-          type="submit"
-        >
-          Entrar
-        </v-btn>
+        <v-btn :loading="isLoading" type="submit"> Entrar </v-btn>
 
         <strong class="text-center text-red-darken-1">
           {{ errorMessage }}
         </strong>
 
-        <v-btn
-          :loading="isLoading"
-          :disabled="configStore.isLoadingBrand"
-          variant="text"
-          to="/login/recuperar-senha"
-        >
+        <v-btn :loading="isLoading" variant="text" to="/login/recuperar-senha">
           Recuperar senha
         </v-btn>
       </v-form>

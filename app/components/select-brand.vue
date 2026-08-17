@@ -4,7 +4,6 @@
     return-object
     prepend-inner-icon="mdi-store-outline"
     :items="DropDownList"
-    :disabled="configStore.isLoadingBrand"
     class="mx-4"
     density="compact"
     hide-details

@@ -9,22 +9,13 @@
       label="E-mail"
       prepend-inner-icon="mdi-email-outline"
       type="email"
-      :disabled="configStore.isLoadingBrand"
     />
 
-    <v-btn
-      :loading="isLoading"
-      :disabled="configStore.isLoadingBrand"
-      type="submit"
-    >
-      Receber código
-    </v-btn>
+    <v-btn :loading="isLoading" type="submit"> Receber código </v-btn>
   </v-form>
 </template>
 
 <script lang="ts" setup>
-const configStore = useConfigStore();
-
 const email = ref('');
 
 const { isLoading } = defineProps<{ isLoading: boolean }>();

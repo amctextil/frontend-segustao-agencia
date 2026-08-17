@@ -22,9 +22,10 @@
       :title="`${cart.produtos.length} ${WDStrings.pluralizeWord('produto', 'produtos', cart.produtos.length)}`"
     />
     <v-list-item
+      v-if="cart.appId"
       density="comfortable"
       prepend-icon="mdi-store-outline"
-      :title="brand?.nome || cart.appId"
+      :title="cart.appId"
     />
     <v-list-item
       density="comfortable"
@@ -38,12 +39,7 @@
 import { WDDates, WDFormatters, WDStrings } from 'widelab-utils';
 import type { CartProps } from '~~/shared/interfaces/CartProps';
 
-const configStore = useConfigStore();
-
 const cart = defineModel<CartProps>({ required: true });
-const brand = configStore.brandList.find(
-  (item) => item.appId === cart.value.appId,
-);
 </script>
 
 <style></style>

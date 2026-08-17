@@ -12,7 +12,6 @@
         prepend-inner-icon="mdi-key-outline"
         :append-inner-icon="newPassShow ? 'mdi-eye' : 'mdi-eye-off'"
         :type="newPassShow ? 'text' : 'password'"
-        :disabled="configStore.isLoadingBrand"
         @click:append-inner="newPassShow = !newPassShow"
       />
 
@@ -22,7 +21,6 @@
           prepend-inner-icon="mdi-key-outline"
           append-inner-icon="mdi-eye-off"
           type="password"
-          :disabled="configStore.isLoadingBrand"
           :loading="true"
         />
       </template>
@@ -36,7 +34,6 @@
         prepend-inner-icon="mdi-key-outline"
         :append-inner-icon="newPassConfirmShow ? 'mdi-eye' : 'mdi-eye-off'"
         :type="newPassConfirmShow ? 'text' : 'password'"
-        :disabled="configStore.isLoadingBrand"
         @click:append-inner="newPassConfirmShow = !newPassConfirmShow"
       />
 
@@ -46,25 +43,16 @@
           prepend-inner-icon="mdi-key-outline"
           append-inner-icon="mdi-eye-off"
           type="password"
-          :disabled="configStore.isLoadingBrand"
           :loading="true"
         />
       </template>
     </ClientOnly>
 
-    <v-btn
-      :loading="isLoading"
-      :disabled="configStore.isLoadingBrand"
-      type="submit"
-    >
-      Finalizar
-    </v-btn>
+    <v-btn :loading="isLoading" type="submit"> Finalizar </v-btn>
   </v-form>
 </template>
 
 <script lang="ts" setup>
-const configStore = useConfigStore();
-
 const newPass = ref('');
 const newPassConfirm = ref('');
 const newPassShow = ref(false);
