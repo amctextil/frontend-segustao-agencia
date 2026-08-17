@@ -1,18 +1,16 @@
+import { requireAuthToken } from '~~/server/utils/auth';
 import type { UserProps } from '~~/shared/interfaces/UserProps';
 
+interface QueryParams {
+  idAgencia: string;
+}
+
 export default defineEventHandler(async (event) => {
-  const session = await requireUserSession(event);
   const id = getRouterParam(event, 'id');
+  const query = getQuery<QueryParams>(event);
+  const token = requireAuthToken(event);
 
-  if (!session.secure?.token) {
-    throw createError({
-      status: 401,
-      statusCode: 401,
-      message: 'Usuário não autenticado',
-    });
-  }
-
-  const paramList = [`idAgencia=${session.user.idAgencia}`];
+  const paramList = [`idAgencia=${query.idAgencia}`];
   const params = paramList.join('&');
 
   const APIURL = process.env.API_URL || 'http://127.0.0.1:3333/api';
@@ -21,7 +19,7 @@ export default defineEventHandler(async (event) => {
     `${APIURL}/usuarios/${id}?${params}`,
     {
       headers: {
-        Authorization: `Bearer ${session.secure.token}`,
+        Authorization: `Bearer ${token}`,
       },
     },
   );

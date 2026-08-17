@@ -1,5 +1,5 @@
-import type { User } from '#auth-utils';
 import { z } from 'zod';
+import type { UserProps } from '~~/shared/interfaces/UserProps';
 
 const bodySchema = z.object({
   email: z.email(),
@@ -9,7 +9,7 @@ const bodySchema = z.object({
 type LoginResponse = {
   message: string;
   auth?: { type: 'bearer'; token: string };
-  user: User;
+  user: UserProps;
 };
 
 export default defineEventHandler(async (event) => {
@@ -33,13 +33,13 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  await setUserSession(event, {
-    user: response.user,
-    loggedInAt: new Date().toISOString(),
-    secure: {
-      token: response.auth.token,
-    },
+  setCookie(event, 'auth_token', response.auth.token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 60 * 60 * 24,
   });
 
-  return {};
+  return { authenticated: true };
 });

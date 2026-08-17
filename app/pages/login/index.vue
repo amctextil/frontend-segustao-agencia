@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useAuth } from '~/composables/useAuth';
+
 const configStore = useConfigStore();
-const { fetch: refreshSession } = useUserSession();
+
+const { login } = useAuth();
 
 const credentials = reactive({
   email: '',
@@ -11,18 +14,13 @@ const errorMessage = ref('');
 const isLoading = ref(false);
 const passShow = ref(false);
 
-async function login() {
+async function handleLogin() {
   try {
     errorMessage.value = '';
     isLoading.value = true;
 
-    await $fetch('/webapi/login', {
-      method: 'POST',
-      body: credentials,
-    });
+    await login(credentials.email, credentials.password);
 
-    // Refresh the session on client-side and redirect to the home page
-    await refreshSession();
     await navigateTo('/');
   } catch (error) {
     if (import.meta.dev) {
@@ -46,7 +44,7 @@ async function login() {
       <v-form
         ref="form"
         class="w-100 d-flex flex-column ga-4 text-grey-darken-4"
-        @submit.prevent="login"
+        @submit.prevent="handleLogin"
       >
         <v-text-field
           v-model="credentials.email"

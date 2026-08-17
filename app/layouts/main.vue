@@ -95,7 +95,7 @@
       <v-card title="Deseja realmente sair?">
         <v-card-actions>
           <v-btn text="Ficar" @click="logoutDialog = false" />
-          <v-btn text="Sair" color="red" @click="logout" />
+          <v-btn text="Sair" color="red" @click="handleLogout" />
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -107,7 +107,7 @@ import { WDStrings } from 'widelab-utils';
 import { SITEMAP } from '~~/shared/constants/config';
 import { UserProfile } from '~~/shared/enums/UserProfile';
 
-const { user, clear: clearSession } = useUserSession();
+const { user, logout } = useAuth();
 const configStore = useConfigStore();
 const route = useRoute();
 const cartStore = useCartStore();
@@ -131,8 +131,8 @@ if (pageTitle) {
   useHead({ title: pageTitle });
 }
 
-async function logout() {
-  await clearSession();
+async function handleLogout() {
+  await logout();
   await navigateTo('/login');
 }
 

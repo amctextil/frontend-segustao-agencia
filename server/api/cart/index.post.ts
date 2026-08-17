@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { requireAuthToken } from '~~/server/utils/auth';
 import { BRAND_LIST } from '~~/shared/constants/config';
 import type { CartProps } from '~~/shared/interfaces/CartProps';
 
@@ -30,21 +31,13 @@ const bodySchema = z.object({
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, bodySchema.parse);
-  const session = await requireUserSession(event);
-
-  if (!session.secure?.token) {
-    throw createError({
-      status: 401,
-      statusCode: 401,
-      message: 'Usuário não autenticado',
-    });
-  }
+  const token = requireAuthToken(event);
 
   const response = await $fetch<CartProps>(`${process.env.API_URL}/carrinhos`, {
     method: 'POST',
     body,
     headers: {
-      Authorization: `Bearer ${session.secure.token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 

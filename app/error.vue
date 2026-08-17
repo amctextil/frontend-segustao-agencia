@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { NuxtError } from '#app';
 
+const { logout } = useAuth();
+
 defineProps({
   error: {
     type: Object as () => NuxtError,
@@ -11,7 +13,10 @@ defineProps({
   },
 });
 
-const handleError = () => clearError({ redirect: '/login' });
+const handleError = () => {
+  logout();
+  clearError({ redirect: '/login' });
+};
 </script>
 
 <template>

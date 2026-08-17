@@ -47,7 +47,16 @@ const route = useRoute();
 const router = useRouter();
 const id = route.params.id as string;
 
-const userData = await UserService.get(Number(id));
+const { user } = useAuth();
+
+if (!user.value?.idAgencia) {
+  throw createError({
+    statusCode: 401,
+    statusMessage: 'Usuário não autenticado',
+  });
+}
+
+const userData = await UserService.get(Number(id), user.value.idAgencia);
 
 if (!userData) {
   throw createError({

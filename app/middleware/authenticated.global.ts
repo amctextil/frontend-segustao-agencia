@@ -1,13 +1,17 @@
 export default defineNuxtRouteMiddleware(async (to) => {
+  const { fetchUser, initialized, loggedIn } = useAuth();
+
   // Skip middleware if already on login page
   if (to.path.startsWith('/login')) {
     return;
   }
 
-  const { loggedIn } = useUserSession();
+  if (!initialized.value) {
+    await fetchUser();
+  }
 
   // redirect the user to the login screen if they're not authenticated
-  if (!loggedIn.value) {
+  if (!loggedIn) {
     return navigateTo('/login');
   }
 });

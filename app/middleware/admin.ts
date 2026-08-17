@@ -1,17 +1,17 @@
+import { useAuthStore } from '~/stores/auth';
 import { UserProfile } from '~~/shared/enums/UserProfile';
 
 export default defineNuxtRouteMiddleware((to, from) => {
-  const { loggedIn, user } = useUserSession();
+  const authStore = useAuthStore();
 
   // redirect the user to the login screen if they're not authenticated
-  if (!loggedIn.value) {
+  if (!authStore.isAuthenticated) {
     return navigateTo('/login');
   }
 
-  if (
-    !user.value?.tipoUsuario ||
-    ![UserProfile.ADMIN].includes(user.value.tipoUsuario)
-  ) {
+  const { user } = authStore;
+
+  if (!user?.tipoUsuario || ![UserProfile.ADMIN].includes(user.tipoUsuario)) {
     return navigateTo('/');
   }
 });

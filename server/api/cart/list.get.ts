@@ -1,4 +1,5 @@
 import type { CartProps } from '#shared/interfaces/CartProps';
+import { requireAuthToken } from '~~/server/utils/auth';
 
 interface QueryParams {
   appId: string;
@@ -6,15 +7,7 @@ interface QueryParams {
 
 export default defineEventHandler(async (event) => {
   const query = getQuery<QueryParams>(event);
-  const session = await requireUserSession(event);
-
-  if (!session.secure?.token) {
-    throw createError({
-      status: 401,
-      statusCode: 401,
-      message: 'Usuário não autenticado',
-    });
-  }
+  const token = requireAuthToken(event);
 
   const paramList = [`appId=${query.appId}`];
   const params = paramList.join('&');
@@ -23,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
   const response = await $fetch<CartProps[]>(`${APIURL}/carrinhos?${params}`, {
     headers: {
-      Authorization: `Bearer ${session.secure.token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
 
