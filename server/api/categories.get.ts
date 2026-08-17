@@ -1,5 +1,5 @@
-import { BRAND_LIST } from '#shared/constants/config';
 import type { SCNCategory } from '#shared/interfaces/SCNCategory';
+import { requireBrand } from '../utils/auth';
 
 interface RequestQuery {
   appId: string;
@@ -14,9 +14,9 @@ type DataResponse<T> =
 export default defineEventHandler(async (event) => {
   const { appId } = getQuery<RequestQuery>(event);
 
-  const brandItem = BRAND_LIST.find((item) => item.value === appId);
-  const baseURL = brandItem?.shopURL || '';
-  const usedBaseURL = baseURL.replace(/https?:\/\/(www.)?/g, '');
+  const brand = await requireBrand(event, appId);
+
+  const usedBaseURL = brand.urlSite.replace(/https?:\/\/(www.)?/g, '');
   const url = `https://carrinho.${usedBaseURL}/api/categorias?marca=${appId}`;
 
   const response = await $fetch<DataResponse<SCNCategory>>(url, {

@@ -1,10 +1,9 @@
 import { z } from 'zod';
 import { requireAuthToken } from '~~/server/utils/auth';
-import { BRAND_LIST } from '~~/shared/constants/config';
 import type { CartProps } from '~~/shared/interfaces/CartProps';
 
 const bodySchema = z.object({
-  appId: z.enum(BRAND_LIST.map((b) => b.value)),
+  appId: z.string(),
   nome: z.string().optional(),
   descricao: z.string().optional(),
   produtos: z.array(

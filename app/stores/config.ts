@@ -4,18 +4,10 @@ import type { AppConfigProps } from '~~/shared/interfaces/AppConfigProps';
 
 export const useConfigStore = defineStore('config', () => {
   const brandList = ref<AppConfigProps[]>([]);
-  const brand = ref<AppConfigProps>({
-    nome: 'Open',
-    appId: 'open',
-    urlSite: 'lojaopen.com',
-    urlImagens: 'https://d3vnyi5j6ba1mc.cloudfront.net',
-  } as AppConfigProps);
+  const brand = ref<AppConfigProps>();
   const isLoadingBrand = ref(true);
   const colors = ref({ background: '#FAFAFA', text: '#000000' });
 
-  const finishLoading = () => {
-    isLoadingBrand.value = false;
-  };
   const loadBrands = async () => {
     brandList.value = await BrandService.list();
   };
@@ -45,19 +37,12 @@ export const useConfigStore = defineStore('config', () => {
     }
   };
 
-  loadBrands().then(() => {
-    if (brandList.value[0]?.appId) {
-      selectbrand(brandList.value[0].appId);
-    }
-  });
-
   return {
     brandList,
     brand,
     isLoadingBrand,
     colors,
 
-    finishLoading,
     loadBrands,
     selectbrand,
   };

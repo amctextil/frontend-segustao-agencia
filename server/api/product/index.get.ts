@@ -1,20 +1,17 @@
 import type { SCNProductProps } from '#shared/interfaces/SCNProductProps';
-import { BRAND_LIST } from '~~/shared/constants/config';
-import type { Brand } from '~~/shared/interfaces/AppConfigProps';
+import { requireBrand } from '~~/server/utils/auth';
 
 interface RequestQuery {
-  appId: Brand['value'];
+  appId: string;
   productUrl: string;
 }
 
 export default defineEventHandler(async (event) => {
   const { appId, productUrl } = getQuery<RequestQuery>(event);
-
-  const brandItem = BRAND_LIST.find((item) => item.value === appId);
-  const baseURL = brandItem?.shopURL;
+  const brand = await requireBrand(event, appId);
 
   const response = await $fetch<{ Model: SCNProductProps }>(
-    `${baseURL}/${productUrl}.json`,
+    `${brand.urlSite}/${productUrl}.json`,
     {
       mode: 'no-cors',
       headers: {

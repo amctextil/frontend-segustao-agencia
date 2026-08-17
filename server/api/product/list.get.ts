@@ -1,9 +1,8 @@
-import { BRAND_LIST } from '#shared/constants/config';
-import type { Brand } from '#shared/interfaces/AppConfigProps';
 import type { ProductResponseProps } from '#shared/interfaces/ProductResponseProps';
+import { requireBrand } from '~~/server/utils/auth';
 
 interface RequestQuery {
-  appId: Brand['value'];
+  appId: string;
   lista: string;
   pagina: string;
   ordenacao: string;
@@ -12,9 +11,8 @@ interface RequestQuery {
 export default defineEventHandler(async (event) => {
   const { appId, lista, pagina, ordenacao } = getQuery<RequestQuery>(event);
 
-  const brandItem = BRAND_LIST.find((item) => item.value === appId);
-  const baseURL = brandItem?.shopURL;
-  const url = `${baseURL}/${lista}.json?pg=${pagina}&o=${ordenacao}`;
+  const brand = await requireBrand(event, appId);
+  const url = `${brand.urlSite}/${lista}.json?pg=${pagina}&o=${ordenacao}`;
 
   const response = await $fetch<ProductResponseProps>(url, {
     mode: 'no-cors',
