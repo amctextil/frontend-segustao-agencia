@@ -43,18 +43,15 @@ async function login() {
     >
       <h1 class="align-self-start text-h4">Login</h1>
 
-
       <v-form
         ref="form"
         class="w-100 d-flex flex-column ga-4 text-grey-darken-4"
-        @submit.prevent
-"login"
+        @submit.prevent="login"
       >
         <v-text-field
           v-model="credentials.email"
           label="E-mail"
-          prepend-inner-i
-on="mdi-email-outline"
+          prepend-inner-icon="mdi-email-outline"
           type="email"
           :disabled="configStore.isLoadingBrand"
         />
