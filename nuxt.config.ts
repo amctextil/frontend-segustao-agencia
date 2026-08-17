@@ -23,7 +23,8 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/': { prerender: true },
+    '/login': { prerender: true },
+    '/login/recuperar-senha': { prerender: true },
   },
 
   devServer: {
