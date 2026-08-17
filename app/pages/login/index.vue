@@ -21,13 +21,13 @@ async function handleLogin() {
 
     await navigateTo('/');
   } catch (error) {
+    isLoading.value = false;
+
     if (import.meta.dev) {
       console.log('🚀 ~ login ~ error:', error);
     }
 
     errorMessage.value = 'Erro ao fazer login';
-  } finally {
-    isLoading.value = false;
   }
 }
 </script>
