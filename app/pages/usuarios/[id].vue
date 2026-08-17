@@ -59,16 +59,8 @@ const id = route.params.id as string;
 
 const { user } = useAuth();
 
-if (!user.value?.idAgencia) {
-  throw createError({
-    status: 401,
-    message: 'Usuário não autenticado',
-  });
-}
 const isNewUser = id === 'novo';
-const userData = !isNewUser
-  ? await UserService.get(id, user.value.idAgencia)
-  : null;
+const userData = !isNewUser ? await UserService.get(id) : null;
 
 if (!isNewUser && !userData) {
   throw createError({
@@ -112,7 +104,7 @@ const saveUser = async () => {
       color: 'success',
     });
     router.back();
-  } finally {
+  } catch {
     isLoading.value = false;
   }
 };

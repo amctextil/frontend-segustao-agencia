@@ -1,14 +1,12 @@
 import type { UserProfile } from '~~/shared/enums/UserProfile';
 import type { UserProps } from '~~/shared/interfaces/UserProps';
 
-const list = async (idAgencia: number) => {
-  return await $fetch<UserProps[]>(`/webapi/user/list?idAgencia=${idAgencia}`);
+const list = async () => {
+  return await $fetch<UserProps[]>('/webapi/user/list');
 };
 
-const get = async (userId: string, idAgencia: number) => {
-  return await $fetch<UserProps>(
-    `/webapi/user/${userId}?idAgencia=${idAgencia}`,
-  );
+const get = async (userId: string) => {
+  return await $fetch<UserProps>(`/webapi/user/${userId}`);
 };
 
 const add = async (

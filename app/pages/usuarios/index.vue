@@ -59,16 +59,7 @@ import { getUserProfileName } from '~~/shared/enums/UserProfile';
 
 definePageMeta({ middleware: ['admin'] });
 
-const { user } = useAuth();
-
-if (!user.value?.idAgencia) {
-  throw createError({
-    statusCode: 401,
-    statusMessage: 'Usuário não autenticado',
-  });
-}
-
-const list = await UserService.list(user.value.idAgencia);
+const list = await UserService.list();
 const searchQuery = ref('');
 
 const filteredUsers = computed(() => {
