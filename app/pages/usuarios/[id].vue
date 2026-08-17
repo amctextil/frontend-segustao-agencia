@@ -16,7 +16,17 @@
         :loading="isLoading"
       />
 
-      <v-select v-model="perfil" :items="profileMap" :loading="isLoading" />
+      <v-select
+        v-model="perfil"
+        :items="profileMap"
+        :loading="isLoading"
+        :disabled="user?.id === userData?.id"
+        :error-messages="
+          user?.id === userData?.id
+            ? 'Você não pode editar seu próprio perfil'
+            : ''
+        "
+      />
 
       <div class="d-flex flex-column ga-8 py-4">
         <v-btn text="Salvar" :loading="isLoading" @click="saveUser" />
@@ -51,27 +61,29 @@ const { user } = useAuth();
 
 if (!user.value?.idAgencia) {
   throw createError({
-    statusCode: 401,
-    statusMessage: 'Usuário não autenticado',
+    status: 401,
+    message: 'Usuário não autenticado',
   });
 }
+const isNewUser = id === 'novo';
+const userData = !isNewUser
+  ? await UserService.get(id, user.value.idAgencia)
+  : null;
 
-const userData = await UserService.get(Number(id), user.value.idAgencia);
-
-if (!userData) {
+if (!isNewUser && !userData) {
   throw createError({
-    statusCode: 401,
-    statusMessage: 'Usuário não encontrado',
+    status: 401,
+    message: 'Usuário não encontrado',
   });
 }
 
 const messages = ref<SnackbarMessage[]>([]);
 const isLoading = ref(false);
 
-const nome = ref(userData.nome);
-const email = ref(userData.email);
-const ativo = ref(userData.status);
-const perfil = ref(userData.tipoUsuario);
+const nome = ref(userData?.nome || '');
+const email = ref(userData?.email || '');
+const ativo = ref(userData?.status ?? true);
+const perfil = ref(userData?.tipoUsuario || UserProfile.SELLER);
 
 const profiles = Object.values(UserProfile).filter(Number).map(Number);
 const profileMap = profiles.map((item) => ({
@@ -83,9 +95,14 @@ const saveUser = async () => {
   isLoading.value = true;
 
   try {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    if (isNewUser) {
+      await UserService.add(nome.value, email.value, ativo.value, perfil.value);
+    } else {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+    }
+
     messages.value.push({
-      text: 'Usuário editado!',
+      text: 'Usuário ' + (isNewUser ? 'cadastrado' : 'editado'),
       color: 'success',
     });
     router.back();

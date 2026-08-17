@@ -32,7 +32,8 @@ export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, bodySchema.parse);
   const token = requireAuthToken(event);
 
-  const response = await $fetch<CartProps>(`${process.env.API_URL}/carrinhos`, {
+  const APIURL = process.env.API_URL || 'http://127.0.0.1:3333/api';
+  const response = await $fetch<CartProps>(`${APIURL}/carrinhos`, {
     method: 'POST',
     body,
     headers: {

@@ -43,6 +43,7 @@
           variant="tonal"
           color="primary"
           size="large"
+          to="/usuarios/novo"
         >
           Adicionar
         </v-btn>

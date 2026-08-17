@@ -1,13 +1,33 @@
+import type { UserProfile } from '~~/shared/enums/UserProfile';
 import type { UserProps } from '~~/shared/interfaces/UserProps';
 
 const list = async (idAgencia: number) => {
   return await $fetch<UserProps[]>(`/webapi/user/list?idAgencia=${idAgencia}`);
 };
 
-const get = async (userId: number, idAgencia: number) => {
+const get = async (userId: string, idAgencia: number) => {
   return await $fetch<UserProps>(
     `/webapi/user/${userId}?idAgencia=${idAgencia}`,
   );
 };
 
-export const UserService = { list, get };
+const add = async (
+  name: string,
+  email: string,
+  active: boolean,
+  type: UserProfile,
+) => {
+  const body = {
+    nome: name,
+    email,
+    ativo: active,
+    tipo: type,
+  };
+
+  return await $fetch<UserProps>(`/webapi/user`, {
+    method: 'POST',
+    body,
+  });
+};
+
+export const UserService = { list, get, add };
