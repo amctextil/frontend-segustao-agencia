@@ -13,6 +13,8 @@ type LoginResponse = {
 };
 
 export default defineEventHandler(async (event) => {
+  const body = await readBody(event);
+  console.log('🚀 ~ body:', body);
   const { email, password } = await readValidatedBody(event, bodySchema.parse);
 
   const APIURL = process.env.API_URL || 'http://127.0.0.1:3333/api';
