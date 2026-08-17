@@ -16,7 +16,7 @@ async function login() {
     errorMessage.value = '';
     isLoading.value = true;
 
-    await $fetch('/api/login', {
+    await $fetch('/webapi/login', {
       method: 'POST',
       body: credentials,
     });
