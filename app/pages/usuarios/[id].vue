@@ -20,16 +20,14 @@
         v-model="perfil"
         :items="profileMap"
         :loading="isLoading"
-        :disabled="user?.id === userData?.id"
+        :disabled="user?.id === data?.id"
         :error-messages="
-          user?.id === userData?.id
-            ? 'Você não pode editar seu próprio perfil'
-            : ''
+          user?.id === data?.id ? 'Você não pode editar seu próprio perfil' : ''
         "
       />
 
       <div class="d-flex flex-column ga-8 py-4">
-        <v-btn text="Salvar" :loading="isLoading" @click="saveUser" />
+        <v-btn text="Salvar" :loading="isLoading" @click="save" />
         <v-btn
           text="Cancelar"
           :loading="isLoading"
@@ -60,9 +58,9 @@ const id = route.params.id as string;
 const { user } = useAuth();
 
 const isNewUser = id === 'novo';
-const userData = !isNewUser ? await UserService.get(id) : null;
+const data = !isNewUser ? await UserService.get(id) : null;
 
-if (!isNewUser && !userData) {
+if (!isNewUser && !data) {
   throw createError({
     status: 401,
     message: 'Usuário não encontrado',
@@ -72,10 +70,10 @@ if (!isNewUser && !userData) {
 const messages = ref<SnackbarMessage[]>([]);
 const isLoading = ref(false);
 
-const nome = ref(userData?.nome || '');
-const email = ref(userData?.email || '');
-const ativo = ref(userData?.status ?? true);
-const perfil = ref(userData?.tipoUsuario || UserProfile.SELLER);
+const nome = ref(data?.nome || '');
+const email = ref(data?.email || '');
+const ativo = ref(data?.status ?? true);
+const perfil = ref(data?.tipoUsuario || UserProfile.SELLER);
 
 const profiles = Object.values(UserProfile).filter(Number).map(Number);
 const profileMap = profiles.map((item) => ({
@@ -83,7 +81,7 @@ const profileMap = profiles.map((item) => ({
   value: item,
 }));
 
-const saveUser = async () => {
+const save = async () => {
   isLoading.value = true;
 
   try {
