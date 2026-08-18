@@ -19,11 +19,7 @@ export const useAuth = () => {
 
       return response.user;
     } catch {
-      authStore.clear();
-
-      return null;
-    } finally {
-      authStore.setInitialized(true);
+      await logout();
     }
   }
 
@@ -53,8 +49,6 @@ export const useAuth = () => {
 
   return {
     user: computed(() => authStore.user),
-    loggedIn: computed(() => authStore.isAuthenticated),
-    initialized: computed(() => authStore.initialized),
 
     login,
     logout,
