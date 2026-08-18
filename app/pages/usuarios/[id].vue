@@ -14,6 +14,12 @@
         false-icon="mdi-close"
         color="success"
         :loading="isLoading"
+        :disabled="user?.id === data?.id"
+        :error-messages="
+          user?.id === data?.id
+            ? 'Você não pode desativar seu próprio usuário'
+            : ''
+        "
       />
 
       <v-select
