@@ -1,5 +1,5 @@
 <template>
-  <NuxtLayout name="main">
+  <NuxtLayout name="main" :admin="true">
     <v-card
       class="pa-8 d-flex flex-column ma-8 overflow-hidden align-self-center"
       width="760"

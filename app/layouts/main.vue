@@ -62,11 +62,15 @@
         {{ (user?.nome || '').split(' ')[0] }}
       </v-app-bar-title>
 
-      <v-btn icon="mdi-magnify" @click="searchModalActive = true" />
+      <v-btn
+        v-if="!attrs.admin"
+        icon="mdi-magnify"
+        @click="searchModalActive = true"
+      />
 
-      <modal-search-products v-model="searchModalActive" />
+      <modal-search-products v-if="!attrs.admin" v-model="searchModalActive" />
 
-      <template #append>
+      <template v-if="!attrs.admin" #append>
         <v-row class="align-center pr-4">
           <select-brand />
 
@@ -112,13 +116,15 @@ const route = useRoute();
 const cartStore = useCartStore();
 
 const searchModalActive = ref(false);
-
 const logoutDialog = ref(false);
-const routeParts = route.path.split('/').map(parseRouteLinks);
-const uniqueRouteParts = routeParts.filter(
-  (item, index, arr) =>
-    arr.findIndex((fItem) => fItem.segment === item.segment) === index,
-);
+
+const uniqueRouteParts = route.path
+  .split('/')
+  .map(parseRouteLinks)
+  .filter(
+    (item, index, arr) =>
+      arr.findIndex((fItem) => fItem.segment === item.segment) === index,
+  );
 
 const routePath = route.path
   .replace(/(produto)\/(.+)/g, '$1/id')
@@ -153,11 +159,18 @@ const NAV_ITEMS = [
 ];
 
 if (user.value?.tipoUsuario === UserProfile.ADMIN) {
-  NAV_ITEMS.push({
-    path: '/usuarios',
-    name: 'Usuários',
-    icon: 'mdi-account-multiple',
-  });
+  NAV_ITEMS.push(
+    {
+      path: '/usuarios',
+      name: 'Usuários',
+      icon: 'mdi-account-multiple',
+    },
+    {
+      path: '/marcas',
+      name: 'Marcas',
+      icon: 'mdi-store-settings',
+    },
+  );
 }
 
 const activePath = computed(() =>
@@ -173,6 +186,8 @@ const activePath = computed(() =>
     return active;
   }, ''),
 );
+
+const attrs = useAttrs();
 </script>
 
 <style>
