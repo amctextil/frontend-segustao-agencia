@@ -5,8 +5,8 @@ export function requireAuthToken(event: H3Event<EventHandlerRequest>) {
 
   if (!token) {
     throw createError({
-      statusCode: 401,
-      statusMessage: 'Unauthenticated',
+      status: 401,
+      message: 'Unauthenticated',
     });
   }
 
@@ -32,9 +32,8 @@ export async function requireBrand(
 
   if (!brand) {
     throw createError({
-      statusCode: 404,
       status: 404,
-      statusMessage: 'Marca não encontrada',
+      message: 'Marca não encontrada',
     });
   }
 

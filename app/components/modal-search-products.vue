@@ -59,9 +59,8 @@ const { data, status } = await useAsyncData(
   async () => {
     if (!brandAppId.value) {
       throw createError({
-        statusCode: 400,
         status: 400,
-        statusMessage: 'Marca não selecionada',
+        message: 'Marca não selecionada',
       });
     }
 

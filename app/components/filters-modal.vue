@@ -46,9 +46,8 @@ const configStore = useConfigStore();
 
 if (!configStore.brand) {
   throw createError({
-    statusCode: 400,
     status: 400,
-    statusMessage: 'Marca não selecionada',
+    message: 'Marca não selecionada',
   });
 }
 
@@ -61,9 +60,8 @@ watch(
   async () => {
     if (!configStore.brand) {
       throw createError({
-        statusCode: 400,
         status: 400,
-        statusMessage: 'Marca não selecionada',
+        message: 'Marca não selecionada',
       });
     }
 

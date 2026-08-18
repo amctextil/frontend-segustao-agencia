@@ -7,7 +7,7 @@ defineProps({
   error: {
     type: Object as () => NuxtError,
     default: () => ({
-      statusCode: 404,
+      status: 404,
       message: 'Página não encontrada',
     }),
   },

@@ -28,7 +28,6 @@ export default defineEventHandler(async (event) => {
   if (!response.auth?.token) {
     throw createError({
       status: 401,
-      statusCode: 401,
       message: 'Usuário ou senha inválidos',
     });
   }

@@ -73,8 +73,8 @@ const router = useRouter();
 
 if (!config.brand) {
   throw createError({
-    statusCode: 500,
-    statusMessage: 'Marca não selecionada',
+    status: 500,
+    message: 'Marca não selecionada',
   });
 }
 
@@ -85,9 +85,8 @@ const isLoading = ref(false);
 const createCart = async () => {
   if (!config.brand) {
     throw createError({
-      statusCode: 400,
       status: 400,
-      statusMessage: 'Marca não selecionada',
+      message: 'Marca não selecionada',
     });
   }
   const cartCreated = await CartService.createLink(

@@ -76,9 +76,8 @@ const isLoading = ref(false);
 
 if (!configStore.brand) {
   throw createError({
-    statusCode: 400,
     status: 400,
-    statusMessage: 'Marca não selecionada',
+    message: 'Marca não selecionada',
   });
 }
 
@@ -86,8 +85,8 @@ const cartData = await CartService.get(configStore.brand.appId, Number(cartId));
 
 if (!cartData) {
   throw createError({
-    statusCode: 401,
-    statusMessage: 'Carrinho não encontrado',
+    status: 401,
+    message: 'Carrinho não encontrado',
   });
 }
 

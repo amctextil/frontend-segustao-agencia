@@ -13,9 +13,8 @@ export const useConfigStore = defineStore('config', () => {
 
     if (!selectedBrand) {
       throw createError({
-        statusCode: 400,
         status: 400,
-        statusMessage: 'Marca não encontrada',
+        message: 'Marca não encontrada',
       });
     }
     brand.value = selectedBrand;

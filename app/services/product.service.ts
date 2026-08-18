@@ -19,8 +19,8 @@ const getByList = async (
 
   if (!response.data.value) {
     throw createError({
-      statusCode: 500,
-      statusMessage: 'Produtos não encontrados',
+      status: 500,
+      message: 'Produtos não encontrados',
     });
   }
 
@@ -34,8 +34,8 @@ const getBySearch = async (pesquisa: string, appId: string, pagina = 1) => {
 
   if (!response.data.value) {
     throw createError({
-      statusCode: 500,
-      statusMessage: 'Nenhum produto encontrado',
+      status: 500,
+      message: 'Nenhum produto encontrado',
     });
   }
 

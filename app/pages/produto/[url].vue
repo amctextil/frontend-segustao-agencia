@@ -123,9 +123,8 @@ const productUrl = route.params.url as string;
 
 if (!configStore.brand) {
   throw createError({
-    statusCode: 400,
     status: 400,
-    statusMessage: 'Marca não selecionada',
+    message: 'Marca não selecionada',
   });
 }
 
@@ -136,8 +135,8 @@ const product = await ProductService.getProductByUrl(
 
 if (!product) {
   throw createError({
-    statusCode: 500,
-    statusMessage: 'Produto não encontrado',
+    status: 500,
+    message: 'Produto não encontrado',
   });
 }
 
