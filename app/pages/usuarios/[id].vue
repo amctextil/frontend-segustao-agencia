@@ -4,8 +4,19 @@
       class="pa-8 d-flex flex-column ma-8 overflow-hidden align-self-center"
       width="760"
     >
-      <v-text-field v-model="nome" label="Nome" :loading="isLoading" />
-      <v-text-field v-model="email" label="E-mail" :loading="isLoading" />
+      <v-text-field
+        v-model="nome"
+        label="Nome"
+        :loading="isLoading"
+        :rules="[rules.required]"
+      />
+      <v-text-field
+        v-model="email"
+        label="E-mail"
+        :loading="isLoading"
+        ]
+        :rules="[rules.email, rules.required]"
+      />
 
       <v-switch
         v-model="ativo"
@@ -30,6 +41,7 @@
         :error-messages="
           user?.id === data?.id ? 'Você não pode editar seu próprio perfil' : ''
         "
+        :rules="[rules.requiredSelect]"
       />
 
       <div class="d-flex flex-column ga-8 py-4">

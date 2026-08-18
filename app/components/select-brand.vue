@@ -8,6 +8,7 @@
     density="compact"
     hide-details
     min-width="200"
+    :rules="[rules.requiredSelect]"
   />
 </template>
 
