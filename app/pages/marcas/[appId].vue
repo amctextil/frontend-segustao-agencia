@@ -12,6 +12,13 @@
       />
 
       <v-text-field
+        v-model="newAppId"
+        label="ID da Marca"
+        :loading="isLoading"
+        :rules="[rules.required]"
+      />
+
+      <v-text-field
         v-model="site"
         label="Website URL"
         type="url"
@@ -77,12 +84,15 @@ if (!isNewUser && !data) {
 const messages = ref<SnackbarMessage[]>([]);
 const isLoading = ref(false);
 
+const newAppId = ref(data?.appId || '');
 const nome = ref(data?.nome || '');
 const site = ref(data?.urlSite || '');
 const urlImagens = ref(data?.urlImagens || '');
 const ativo = ref(data?.ativo ?? true);
 
-const save = () => {};
+const save = () => {
+  messages.value.push('EM DESENVOLVIMENTO !!!');
+};
 </script>
 
 <style></style>
