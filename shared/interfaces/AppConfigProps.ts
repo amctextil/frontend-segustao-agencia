@@ -6,4 +6,5 @@ export interface AppConfigProps {
   urlImagens: string;
   criadoEm: string;
   atualizadoEm: string;
+  ativo: boolean;
 }
