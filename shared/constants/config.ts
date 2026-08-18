@@ -4,4 +4,5 @@ export const SITEMAP: { [key: string]: string } = {
   '/carrinho': 'Carrinho',
   '/carrinho/cadastrados': 'Carrinhos compartilhados',
   '/carrinho/cadastrados/id': 'Detalhes do carrinho compartilhado',
+  '/marcas': 'Marcas',
 };

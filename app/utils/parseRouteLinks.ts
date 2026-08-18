@@ -24,6 +24,11 @@ const ROUTE_MAP = [
     segment: 'usuarios',
     href: '/usuarios',
   },
+  {
+    title: 'Marcas',
+    segment: 'marcas',
+    href: '/marcas',
+  },
 ];
 
 export default (segment: string) => {
