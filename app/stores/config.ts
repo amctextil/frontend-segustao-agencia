@@ -25,7 +25,7 @@ export const useConfigStore = defineStore('config', () => {
 
     const [newBrand] = brandList.value;
 
-    if (newBrand && !brand.value) {
+    if (newBrand && !brand.value.appId) {
       brand.value = newBrand;
     }
 
