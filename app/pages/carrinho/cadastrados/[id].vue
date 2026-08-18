@@ -74,7 +74,7 @@ const configStore = useConfigStore();
 const messages = ref<SnackbarMessage[]>([]);
 const isLoading = ref(false);
 
-if (!configStore.brand) {
+if (!configStore.brand.appId) {
   throw createError({
     status: 400,
     message: 'Marca não selecionada',

@@ -2,11 +2,11 @@ import type { UserProfile } from '~~/shared/enums/UserProfile';
 import type { UserProps } from '~~/shared/interfaces/UserProps';
 
 const list = async () => {
-  return await $fetch<UserProps[]>('/webapi/user/list');
+  return await $fetch<UserProps[]>(`${apiPrefix}/user/list`);
 };
 
 const get = async (userId: string) => {
-  return await $fetch<UserProps>(`/webapi/user/${userId}`);
+  return await $fetch<UserProps>(`${apiPrefix}/user/${userId}`);
 };
 
 const add = async (
@@ -22,7 +22,7 @@ const add = async (
     tipo: type,
   };
 
-  return await $fetch<UserProps>(`/webapi/user`, {
+  return await $fetch<UserProps>(`${apiPrefix}/user`, {
     method: 'POST',
     body,
   });
@@ -43,7 +43,7 @@ const edit = async (
     id,
   };
 
-  return await $fetch<UserProps>(`/webapi/user`, {
+  return await $fetch<UserProps>(`${apiPrefix}/user`, {
     method: 'PUT',
     body,
   });

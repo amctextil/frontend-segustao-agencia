@@ -11,10 +11,9 @@ export const useAuth = () => {
 
   async function fetchUser() {
     try {
-      // const response = await $fetch<AuthResponse>('/webapi/auth/me');
       const requestFetch = useRequestFetch();
 
-      const response = await requestFetch<AuthResponse>('/webapi/auth/me');
+      const response = await requestFetch<AuthResponse>(`${apiPrefix}/auth/me`);
 
       authStore.setUser(response.user);
 
@@ -29,7 +28,7 @@ export const useAuth = () => {
   }
 
   async function login(email: string, password: string) {
-    await $fetch('/webapi/auth/login', {
+    await $fetch(`${apiPrefix}/auth/login`, {
       method: 'POST',
 
       body: {
@@ -43,7 +42,7 @@ export const useAuth = () => {
 
   async function logout() {
     try {
-      await $fetch('/webapi/auth/logout', {
+      await $fetch(`${apiPrefix}/auth/logout`, {
         method: 'POST',
       });
     } finally {

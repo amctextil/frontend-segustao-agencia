@@ -22,16 +22,15 @@ export const useConfigStore = defineStore('config', () => {
 
   const loadBrands = async () => {
     brandList.value = await BrandService.activeList();
-    return brandList.value;
-  };
 
-  loadBrands().then((list) => {
-    const [newBrand] = list;
+    const [newBrand] = brandList.value;
 
-    if (newBrand) {
+    if (newBrand && !brand.value) {
       brand.value = newBrand;
     }
-  });
+
+    return brandList.value;
+  };
 
   return {
     brandList,

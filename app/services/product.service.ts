@@ -14,7 +14,7 @@ const getByList = async (
   const fixedList = list.replace(/\/$/, '');
 
   const response = await useFetch<ProductGrid>(
-    `/webapi/product/list?lista=${fixedList}&appId=${appId}&pagina=${page}&ordenacao=${sort}`,
+    `${apiPrefix}/product/list?lista=${fixedList}&appId=${appId}&pagina=${page}&ordenacao=${sort}`,
   );
 
   if (!response.data.value) {
@@ -29,7 +29,7 @@ const getByList = async (
 
 const getBySearch = async (pesquisa: string, appId: string, pagina = 1) => {
   const response = await useFetch<SearchProductResponse>(
-    `/webapi/product/search?appId=${appId}&pagina=${pagina}&pesquisa=${pesquisa}`,
+    `${apiPrefix}/product/search?appId=${appId}&pagina=${pagina}&pesquisa=${pesquisa}`,
   );
 
   if (!response.data.value) {
@@ -44,7 +44,7 @@ const getBySearch = async (pesquisa: string, appId: string, pagina = 1) => {
 
 const getProductByUrl = async (productUrl: string, appId: string) => {
   const response = await useFetch<SCNProductProps>(
-    `/webapi/product?appId=${appId}&productUrl=${productUrl}`,
+    `${apiPrefix}/product?appId=${appId}&productUrl=${productUrl}`,
   );
 
   return response.data.value;
@@ -52,7 +52,7 @@ const getProductByUrl = async (productUrl: string, appId: string) => {
 
 const getCategories = async (appId: string) => {
   const response = await useFetch<SCNCategory[]>(
-    `/webapi/categories?appId=${appId}`,
+    `${apiPrefix}/categories?appId=${appId}`,
   );
 
   return response.data.value;

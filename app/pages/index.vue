@@ -3,7 +3,7 @@ import { ProductService } from '~/services/product.service';
 
 const configStore = useConfigStore();
 
-if (!configStore.brand) {
+if (!configStore.brand.appId) {
   throw createError({
     status: 400,
     message: 'Marca não selecionada',
@@ -25,7 +25,7 @@ const searchProducts = async ({
   isLoading.value = true;
 
   try {
-    if (!configStore.brand) {
+    if (!configStore.brand.appId) {
       throw createError({
         status: 400,
         message: 'Marca não selecionada',

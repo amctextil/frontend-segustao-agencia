@@ -35,7 +35,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2026-06-30',
 
   nitro: {
-    apiBaseURL: '/webapi',
+    apiBaseURL: process.env.NODE_ENV === 'production' ? '/webapi' : '/api',
   },
 
   eslint: {

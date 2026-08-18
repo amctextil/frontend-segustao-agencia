@@ -121,7 +121,7 @@ const messages = ref<SnackbarMessage[]>([]);
 
 const productUrl = route.params.url as string;
 
-if (!configStore.brand) {
+if (!configStore.brand.appId) {
   throw createError({
     status: 400,
     message: 'Marca não selecionada',

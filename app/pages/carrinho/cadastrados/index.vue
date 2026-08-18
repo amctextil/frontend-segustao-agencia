@@ -20,7 +20,7 @@ import { CartService } from '~/services/cart.service';
 
 const configStore = useConfigStore();
 
-if (!configStore.brand) {
+if (!configStore.brand.appId) {
   throw createError({
     status: 400,
     message: 'Marca não selecionada',
