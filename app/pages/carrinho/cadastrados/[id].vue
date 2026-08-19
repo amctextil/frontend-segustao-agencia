@@ -85,7 +85,7 @@ const cartData = await CartService.get(configStore.brand.appId, Number(cartId));
 
 if (!cartData) {
   throw createError({
-    status: 401,
+    status: 404,
     message: 'Carrinho não encontrado',
   });
 }

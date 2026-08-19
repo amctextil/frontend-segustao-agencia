@@ -1,11 +1,11 @@
 import { UserProfile } from '~~/shared/enums/UserProfile';
 
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(() => {
   const { user } = useAuth();
 
   // redirect the user to the login screen if they're not authenticated
   if (!user) {
-    return navigateTo('/login');
+    return navigateTo('/login', { replace: true });
   }
 
   if (

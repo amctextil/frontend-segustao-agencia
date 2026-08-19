@@ -80,7 +80,7 @@ const data = !isNewUser ? await UserService.get(id) : null;
 
 if (!isNewUser && !data) {
   throw createError({
-    status: 401,
+    status: 404,
     message: 'Usuário não encontrado',
   });
 }

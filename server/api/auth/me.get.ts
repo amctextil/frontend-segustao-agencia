@@ -18,9 +18,7 @@ export default defineEventHandler(async (event) => {
       user,
     };
   } catch {
-    deleteCookie(event, 'auth_token', {
-      path: '/',
-    });
+    deleteCookie(event, 'auth_token', { path: '/' });
 
     throw createError({
       status: 401,

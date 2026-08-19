@@ -8,7 +8,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   // redirect the user to the login screen if they're not authenticated
   if (!user) {
-    return navigateTo('/login');
+    return navigateTo('/login', { replace: true });
   }
 
   await fetchUser();

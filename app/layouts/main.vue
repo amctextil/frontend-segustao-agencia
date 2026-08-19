@@ -138,7 +138,7 @@ if (pageTitle) {
 
 async function handleLogout() {
   await logout();
-  await navigateTo('/login');
+  await navigateTo('/login', { replace: true });
 }
 
 const isNavMenuExpanded = useState('isNavMenuExpanded', () => false);

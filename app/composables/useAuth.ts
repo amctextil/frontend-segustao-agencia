@@ -43,7 +43,7 @@ export const useAuth = () => {
       });
     } finally {
       authStore.clear();
-      await navigateTo('/login');
+      await navigateTo('/login', { replace: true });
     }
   }
 
