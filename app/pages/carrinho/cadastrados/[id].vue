@@ -3,7 +3,7 @@
     <div v-if="isLoading" class="align-center justify-center d-flex flex-fill">
       <v-progress-circular indeterminate size="100" />
     </div>
-    <div v-else class="d-flex flex-column px-16 pt-4">
+    <div v-else class="d-flex flex-column px-16 pt-4 overflow-hidden">
       <h2 v-if="cartData.nome" class="align-self-center">
         {{ cartData.nome }}
       </h2>
