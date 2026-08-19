@@ -7,7 +7,9 @@
     rounded="lg"
   >
     <template #title>
-      <v-card-title class="text-wrap">{{ cart.nome || '---' }}</v-card-title>
+      <v-card-title class="text-wrap">{{
+        cart.nome || `Carrinho ${cart.id}`
+      }}</v-card-title>
     </template>
 
     <v-list-item
@@ -30,7 +32,7 @@
     <v-list-item
       density="comfortable"
       prepend-icon="mdi-identifier"
-      :title="'#' + cart.id"
+      :title="cart.codigo"
     />
   </v-card>
 </template>
