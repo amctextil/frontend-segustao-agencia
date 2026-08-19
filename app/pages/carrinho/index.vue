@@ -101,7 +101,7 @@ const createCart = async () => {
 
     router.push(`/carrinho/cadastrados/${cartCreated.id}`);
     cartStore.clearCart();
-  } finally {
+  } catch {
     isLoading.value = false;
   }
 };

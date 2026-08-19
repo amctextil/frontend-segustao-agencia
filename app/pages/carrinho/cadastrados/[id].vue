@@ -109,6 +109,14 @@ const shareCart = async () => {
 };
 
 const copyText = async () => {
+  if (!import.meta.client) return;
+
+  if (!navigator?.clipboard) {
+    messages.value.push(
+      'API de clipboard não suportada ou ambiente inseguro (HTTP)',
+    );
+    return;
+  }
   try {
     await navigator.clipboard.writeText(cartData.link);
     messages.value.push({
