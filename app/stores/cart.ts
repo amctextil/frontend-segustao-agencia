@@ -86,7 +86,7 @@ export const useCartStore = defineStore('cart', () => {
       quantidade: 1,
       urlImagem: MediaPath,
       nome: productParent.Name,
-      paiProdutoId: String(productParent.ProductID),
+      paiProdutoId: productParent.ProductID,
       paiIntegracaoId: productParent.IntegrationID,
       url: productParent.Url,
 

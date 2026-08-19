@@ -31,7 +31,7 @@ export interface CartItemProps {
   tamanho: string;
   tamanhoId: string;
   paiIntegracaoId: string;
-  paiProdutoId: string;
+  paiProdutoId: number;
   url: string;
 }
 
