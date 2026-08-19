@@ -3,7 +3,7 @@
     <div v-if="isLoading" class="align-center justify-center d-flex flex-fill">
       <v-progress-circular indeterminate size="100" />
     </div>
-    <div v-else class="d-flex flex-column px-16 pt-4">
+    <div v-else class="d-flex flex-column px-16 pt-4 overflow-hidden">
       <v-text-field v-model="cartName" label="Nome do carrinho" />
 
       <h2 class="mx-16 mt-0">Produtos no carrinho</h2>
@@ -83,20 +83,27 @@ const cartName = ref('');
 const isLoading = ref(false);
 
 const createCart = async () => {
-  if (!config.brand) {
-    throw createError({
-      status: 400,
-      message: 'Marca não selecionada',
-    });
-  }
-  const cartCreated = await CartService.createLink(
-    config.brand.appId,
-    cartStore.items,
-    cartName.value,
-  );
+  try {
+    isLoading.value = true;
 
-  router.push(`/carrinho/cadastrados/${cartCreated.id}`);
-  cartStore.clearCart();
+    if (!config.brand) {
+      throw createError({
+        status: 400,
+        message: 'Marca não selecionada',
+      });
+    }
+
+    const cartCreated = await CartService.createLink(
+      config.brand.appId,
+      cartStore.items,
+      cartName.value,
+    );
+
+    router.push(`/carrinho/cadastrados/${cartCreated.id}`);
+    cartStore.clearCart();
+  } finally {
+    isLoading.value = false;
+  }
 };
 </script>
 
