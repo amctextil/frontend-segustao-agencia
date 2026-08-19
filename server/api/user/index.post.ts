@@ -7,6 +7,7 @@ const bodySchema = z.object({
   email: z.email(),
   ativo: z.boolean(),
   tipo: z.enum(UserProfile),
+  password: z.string(),
 });
 
 export default defineEventHandler(async (event) => {
@@ -36,7 +37,7 @@ export default defineEventHandler(async (event) => {
       status: requestBody.ativo,
       tipoUsuario: requestBody.tipo,
       idAgencia: user.idAgencia,
-      password: '',
+      password: requestBody.password,
     },
     headers: {
       Authorization: `Bearer ${token}`,

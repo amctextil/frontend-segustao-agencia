@@ -1,58 +1,125 @@
 <template>
   <NuxtLayout name="main" :admin="true">
     <v-card
-      class="pa-8 d-flex flex-column ma-8 overflow-hidden align-self-center"
+      class="ma-4 overflow-hidden d-flex flex-column align-self-center"
       width="760"
     >
-      <v-text-field
-        v-model="nome"
-        label="Nome"
-        :loading="isLoading"
-        :rules="[rules.required]"
-      />
-      <v-text-field
-        v-model="email"
-        label="E-mail"
-        :loading="isLoading"
-        ]
-        :rules="[rules.email, rules.required]"
-      />
+      <v-form
+        class="flex-fill d-flex flex-column overflow-hidden"
+        validate-on="submit lazy"
+        @submit.prevent="save"
+      >
+        <div class="flex-fill pa-8 pb-0 d-flex ga-4 flex-column overflow-auto">
+          <v-text-field
+            v-model="nome"
+            label="Nome"
+            :loading="isLoading"
+            :rules="[rules.required]"
+            prepend-inner-icon="mdi-account-outline"
+          />
+          <v-text-field
+            v-model="email"
+            label="E-mail"
+            :loading="isLoading"
+            :rules="[rules.email, rules.required]"
+            prepend-inner-icon="mdi-email-outline"
+          />
 
-      <v-switch
-        v-model="ativo"
-        :label="ativo ? 'Usuário ativo' : 'Usuário inativo'"
-        true-icon="mdi-check"
-        false-icon="mdi-close"
-        color="success"
-        :loading="isLoading"
-        :disabled="user?.id === data?.id"
-        :error-messages="
-          user?.id === data?.id
-            ? 'Você não pode desativar seu próprio usuário'
-            : ''
-        "
-      />
+          <v-switch
+            v-model="ativo"
+            prepend-icon="mdi-lightbulb"
+            :label="ativo ? 'Usuário ativo' : 'Usuário inativo'"
+            true-icon="mdi-check"
+            false-icon="mdi-close"
+            color="success"
+            :loading="isLoading"
+            :disabled="user?.id === data?.id"
+            :error-messages="
+              user?.id === data?.id
+                ? 'Você não pode desativar seu próprio usuário'
+                : ''
+            "
+          />
 
-      <v-select
-        v-model="perfil"
-        :items="profileMap"
-        :loading="isLoading"
-        :disabled="user?.id === data?.id"
-        :error-messages="
-          user?.id === data?.id ? 'Você não pode editar seu próprio perfil' : ''
-        "
-        :rules="[rules.requiredSelect]"
-      />
+          <v-select
+            v-model="perfil"
+            :items="profileMap"
+            prepend-inner-icon="mdi-account-hard-hat-outline"
+            :loading="isLoading"
+            :disabled="user?.id === data?.id"
+            :error-messages="
+              user?.id === data?.id
+                ? 'Você não pode editar seu próprio perfil'
+                : ''
+            "
+            :rules="[rules.required]"
+          />
 
-      <div class="d-flex flex-column ga-8 py-4">
-        <v-btn text="Salvar" :loading="isLoading" @click="save" />
-        <v-btn
-          text="Cancelar"
-          :loading="isLoading"
-          variant="tonal"
-          @click="router.back()"
-        />
-      </div>
+          <ClientOnly>
+            <v-text-field
+              v-model="newPass"
+              label="Nova senha"
+              counter
+              prepend-inner-icon="mdi-key-outline"
+              :append-inner-icon="newPassShow ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="newPassShow ? 'text' : 'password'"
+              :rules="passwordRules"
+              @click:append-inner="newPassShow = !newPassShow"
+            />
+
+            <template #fallback>
+              <v-text-field
+                label="Nova senha"
+                prepend-inner-icon="mdi-key-outline"
+                append-inner-icon="mdi-eye-off"
+                type="password"
+                :loading="true"
+              />
+            </template>
+          </ClientOnly>
+
+          <ClientOnly>
+            <v-text-field
+              v-model="newPassConfirm"
+              label="Confirmar senha"
+              counter
+              prepend-inner-icon="mdi-key-outline"
+              :append-inner-icon="newPassShow ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="newPassShow ? 'text' : 'password'"
+              :rules="passwordRules"
+              @click:append-inner="newPassShow = !newPassShow"
+            />
+
+            <template #fallback>
+              <v-text-field
+                label="Confirmar senha"
+                prepend-inner-icon="mdi-key-outline"
+                append-inner-icon="mdi-eye-off"
+                type="password"
+                :loading="true"
+              />
+            </template>
+          </ClientOnly>
+        </div>
+
+        <v-card-actions class="d-flex flex-column ga-4 py-4">
+          <v-btn
+            text="Salvar"
+            :loading="isLoading"
+            block
+            color="green"
+            type="submit"
+            variant="flat"
+          />
+          <v-btn
+            text="Cancelar"
+            :loading="isLoading"
+            variant="tonal"
+            block
+            @click="router.back()"
+          />
+        </v-card-actions>
+      </v-form>
     </v-card>
 
     <v-snackbar-queue
@@ -65,6 +132,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { SubmitEventPromise } from 'vuetify';
 import type { SnackbarMessage } from 'vuetify/lib/components/VSnackbarQueue/VSnackbarQueue.mjs';
 import { UserService } from '~/services/user.service';
 import { getUserProfileName, UserProfile } from '~~/shared/enums/UserProfile';
@@ -92,6 +160,14 @@ const nome = ref(data?.nome || '');
 const email = ref(data?.email || '');
 const ativo = ref(data?.status ?? true);
 const perfil = ref(data?.tipoUsuario || UserProfile.SELLER);
+const newPass = ref('');
+const newPassConfirm = ref('');
+const newPassShow = ref(false);
+
+const passwordRules = computed(() => [
+  isNewUser ? rules.required : true,
+  isNewUser ? rules.password : rules.passwordOptional,
+]);
 
 const profiles = Object.values(UserProfile).filter(Number).map(Number);
 const profileMap = profiles.map((item) => ({
@@ -99,12 +175,30 @@ const profileMap = profiles.map((item) => ({
   value: item,
 }));
 
-const save = async () => {
+const save = async (event: SubmitEventPromise) => {
   isLoading.value = true;
 
   try {
+    const results = await event;
+
+    if (!results.valid) {
+      throw new Error('Corrija os erros do formulário');
+    }
+
+    if (newPass.value || newPassConfirm.value) {
+      if (newPass.value !== newPassConfirm.value) {
+        throw new Error('As senhas não conferem');
+      }
+    }
+
     if (isNewUser) {
-      await UserService.add(nome.value, email.value, ativo.value, perfil.value);
+      await UserService.add(
+        nome.value,
+        email.value,
+        ativo.value,
+        perfil.value,
+        newPass.value,
+      );
     } else {
       await UserService.edit(
         id,
@@ -112,6 +206,7 @@ const save = async () => {
         email.value,
         ativo.value,
         perfil.value,
+        newPass.value,
       );
     }
 
@@ -120,7 +215,9 @@ const save = async () => {
       color: 'success',
     });
     router.back();
-  } catch {
+  } catch (error) {
+    messages.value.push((error as Error).message || 'Erro ao salvar usuário');
+
     isLoading.value = false;
   }
 };

@@ -14,12 +14,14 @@ const add = async (
   email: string,
   active: boolean,
   type: UserProfile,
+  password: string,
 ) => {
   const body = {
     nome: name,
     email,
     ativo: active,
     tipo: type,
+    password,
   };
 
   return await $fetch<UserProps>(`${apiPrefix}/user`, {
@@ -34,6 +36,7 @@ const edit = async (
   email: string,
   active: boolean,
   type: UserProfile,
+  password?: string,
 ) => {
   const body = {
     nome: name,
@@ -41,6 +44,7 @@ const edit = async (
     ativo: active,
     tipo: type,
     id,
+    password: password || undefined,
   };
 
   return await $fetch<UserProps>(`${apiPrefix}/user`, {
