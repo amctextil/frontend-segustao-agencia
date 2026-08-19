@@ -9,14 +9,14 @@ const bodySchema = z.object({
   produtos: z.array(
     z.object({
       preco: z.float32(),
-      produtoId: z.int(),
+      produtoId: z.string().or(z.number()),
       precoPromocional: z.float32(),
       varianteId: z.string(),
       quantidade: z.int(),
       urlImagem: z.string(),
       nome: z.string(),
-      paiProdutoId: z.string(),
-      paiIntegracaoId: z.string(),
+      paiProdutoId: z.string().or(z.number()),
+      paiIntegracaoId: z.string().or(z.number()),
       url: z.string(),
       cor: z.string(),
       corId: z.string(),
