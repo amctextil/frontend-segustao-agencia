@@ -22,6 +22,10 @@
           >
             <ProductGridItem :model-value="item" class="flex-fill" />
           </NuxtLink>
+
+          <h2 v-if="!data?.Products.length && status === 'success'">
+            Nenhum produto encontrado
+          </h2>
         </ul>
       </div>
     </v-card>
