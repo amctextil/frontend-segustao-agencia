@@ -69,7 +69,9 @@ watch(
 
 <template>
   <NuxtLayout name="main">
-    <div class="d-flex flex-column px-4 ga-4 ma-0 align-start overflow-hidden">
+    <div
+      class="d-flex flex-column px-4 ga-4 ma-0 pt-2 align-start overflow-hidden"
+    >
       <filters-modal @search="searchProducts" />
 
       <ul
