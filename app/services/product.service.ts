@@ -13,49 +13,40 @@ const getByList = async (
 ): Promise<ProductGrid | undefined> => {
   const fixedList = list.replace(/\/$/, '');
 
-  const response = await useFetch<ProductGrid>(
+  const response = await $fetch<ProductGrid>(
     `${apiPrefix}/product/list?lista=${fixedList}&appId=${appId}&pagina=${page}&ordenacao=${sort}`,
   );
 
-  if (!response.data.value) {
+  if (!response) {
     throw createError({
       status: 500,
       message: 'Produtos não encontrados',
     });
   }
 
-  return response.data.value;
+  return response;
 };
 
 const getBySearch = async (pesquisa: string, appId: string, pagina = 1) => {
-  const response = await useFetch<SearchProductResponse>(
+  return await $fetch<SearchProductResponse>(
     `${apiPrefix}/product/search?appId=${appId}&pagina=${pagina}&pesquisa=${pesquisa}`,
   );
-
-  if (!response.data.value) {
-    throw createError({
-      status: 500,
-      message: 'Nenhum produto encontrado',
-    });
-  }
-
-  return response.data.value;
 };
 
 const getProductByUrl = async (productUrl: string, appId: string) => {
-  const response = await useFetch<SCNProductProps>(
+  const response = await $fetch<SCNProductProps>(
     `${apiPrefix}/product?appId=${appId}&productUrl=${productUrl}`,
   );
 
-  return response.data.value;
+  return response;
 };
 
 const getCategories = async (appId: string) => {
-  const response = await useFetch<SCNCategory[]>(
+  const response = await $fetch<SCNCategory[]>(
     `${apiPrefix}/categories?appId=${appId}`,
   );
 
-  return response.data.value;
+  return response;
 };
 
 export const ProductService = {

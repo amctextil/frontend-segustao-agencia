@@ -55,7 +55,7 @@ watch([isActive], () => {
 });
 
 const { data, status } = await useAsyncData(
-  'search-results',
+  `search-results-${brandAppId.value}-${debouncedQuery.value}`,
   async () => {
     if (!brandAppId.value) {
       throw createError({

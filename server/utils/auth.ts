@@ -1,4 +1,5 @@
 import type { AppConfigProps } from '~~/shared/interfaces/AppConfigProps';
+import { apiApp } from '../services/apiApp.service';
 
 export function requireAuthToken(event: H3Event<EventHandlerRequest>) {
   const token = getCookie(event, 'auth_token');
@@ -19,16 +20,11 @@ export async function requireBrand(
 ) {
   const token = requireAuthToken(event);
 
-  const APIURL = process.env.API_URL || 'http://127.0.0.1:3333/api';
-
-  const [brand] = await $fetch<AppConfigProps[]>(
-    `${APIURL}/marcas?appid=${appId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+  const [brand] = await apiApp.get<AppConfigProps[]>(`/marcas?appId=${appId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
     },
-  );
+  });
 
   if (!brand) {
     throw createError({
