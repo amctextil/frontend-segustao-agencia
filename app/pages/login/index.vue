@@ -18,8 +18,11 @@ async function handleLogin() {
     await login(email.value, password.value);
 
     await navigateTo('/');
-    email.value = '';
-    password.value = '';
+
+    setTimeout(() => {
+      email.value = '';
+      password.value = '';
+    }, 2000);
   } catch (error) {
     isLoading.value = false;
 
@@ -27,7 +30,7 @@ async function handleLogin() {
       console.log('🚀 ~ login ~ error:', error);
     }
 
-    errorMessage.value = 'Erro ao fazer login';
+    errorMessage.value = 'Usuário ou senha inválidos';
   }
 }
 </script>
