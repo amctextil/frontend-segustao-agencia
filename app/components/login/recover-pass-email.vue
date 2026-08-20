@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-const email = ref('');
+const email = useState<string>('login-email');
 
 const { isLoading } = defineProps<{ isLoading: boolean }>();
 const emit = defineEmits<{

@@ -3,10 +3,8 @@ import { useAuth } from '~/composables/useAuth';
 
 const { login } = useAuth();
 
-const credentials = reactive({
-  email: '',
-  password: '',
-});
+const email = useState<string>('login-email');
+const password = ref('');
 
 const errorMessage = ref('');
 const isLoading = ref(false);
@@ -17,9 +15,11 @@ async function handleLogin() {
     errorMessage.value = '';
     isLoading.value = true;
 
-    await login(credentials.email, credentials.password);
+    await login(email.value, password.value);
 
     await navigateTo('/');
+    email.value = '';
+    password.value = '';
   } catch (error) {
     isLoading.value = false;
 
@@ -45,7 +45,7 @@ async function handleLogin() {
         @submit.prevent="handleLogin"
       >
         <v-text-field
-          v-model="credentials.email"
+          v-model="email"
           label="E-mail"
           prepend-inner-icon="mdi-email-outline"
           type="email"
@@ -53,7 +53,7 @@ async function handleLogin() {
 
         <ClientOnly>
           <v-text-field
-            v-model="credentials.password"
+            v-model="password"
             label="Senha"
             counter
             prepend-inner-icon="mdi-key-outline"
