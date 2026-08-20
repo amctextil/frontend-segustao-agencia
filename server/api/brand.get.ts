@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   const APIURL = process.env.API_URL || 'http://127.0.0.1:3333/api';
 
   const response = await $fetch<AppConfigProps[]>(
-    `${APIURL}/marcas?appid=${query.appId}`,
+    `${APIURL}/marcas?appId=${query.appId}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,

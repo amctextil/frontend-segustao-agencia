@@ -158,6 +158,12 @@ const save = async (event: SubmitEventPromise) => {
       //   newPass.value,
       // );
     }
+
+    messages.value.push({
+      text: 'Marca ' + (isNewItem ? 'cadastrada' : 'editada'),
+      color: 'success',
+    });
+    router.back();
   } catch (error) {
     messages.value.push((error as Error).message || 'Erro ao salvar marca');
     isLoading.value = false;
