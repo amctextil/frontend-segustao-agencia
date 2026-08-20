@@ -1,57 +1,80 @@
 <template>
   <NuxtLayout name="main" :admin="true">
     <v-card
-      class="pa-8 d-flex flex-column ma-8 overflow-hidden align-self-center ga-4"
+      class="ma-4 overflow-hidden d-flex flex-column align-self-center"
       width="760"
     >
-      <v-text-field
-        v-model="nome"
-        label="Nome"
-        :loading="isLoading"
-        :rules="[rules.required]"
-      />
+      <v-form
+        class="flex-fill d-flex flex-column overflow-hidden"
+        validate-on="submit lazy"
+        @submit.prevent="save"
+      >
+        <div class="flex-fill pa-8 pb-0 d-flex ga-4 flex-column overflow-auto">
+          <v-text-field
+            v-model="nome"
+            label="Nome"
+            :loading="isLoading"
+            :rules="[rules.required]"
+          />
 
-      <v-text-field
-        v-model="newAppId"
-        label="ID da Marca"
-        :loading="isLoading"
-        :rules="[rules.required]"
-      />
+          <v-text-field
+            v-model="newAppId"
+            label="ID da Marca"
+            :loading="isLoading"
+            :rules="[rules.required]"
+          />
 
-      <v-text-field
-        v-model="site"
-        label="Website URL"
-        type="url"
-        placeholder="https://example.com"
-        :rules="[rules.url, rules.required]"
-      />
+          <v-text-field
+            v-model="site"
+            label="Website URL"
+            type="url"
+            placeholder="https://example.com"
+            :rules="[rules.url, rules.required]"
+          />
 
-      <v-text-field
-        v-model="urlImagens"
-        label="Imagens URL"
-        type="url"
-        placeholder="https://example.com"
-        :rules="[rules.url, rules.required]"
-      />
+          <v-text-field
+            v-model="urlImagens"
+            label="Imagens URL"
+            type="url"
+            placeholder="https://example.com"
+            :rules="[rules.url, rules.required]"
+          />
 
-      <v-switch
-        v-model="ativo"
-        :label="ativo ? 'Marca ativa' : 'Marca inativa'"
-        true-icon="mdi-check"
-        false-icon="mdi-close"
-        color="success"
-        :loading="isLoading"
-      />
+          <v-number-input
+            v-model="expirarCarrinhoDias"
+            label="Dias para expiração do carrinho"
+            :rules="[rules.required]"
+          />
 
-      <div class="d-flex flex-column ga-8 py-4">
-        <v-btn text="Salvar" :loading="isLoading" @click="save" />
-        <v-btn
-          text="Cancelar"
-          :loading="isLoading"
-          variant="tonal"
-          @click="router.back()"
-        />
-      </div>
+          <v-switch
+            v-model="ativo"
+            :label="ativo ? 'Marca ativa' : 'Marca inativa'"
+            true-icon="mdi-check"
+            false-icon="mdi-close"
+            color="success"
+            :loading="isLoading"
+          />
+        </div>
+
+        <v-card-actions class="d-flex flex-column ga-4 py-4">
+          <v-btn
+            text="Salvar"
+            :loading="isLoading"
+            block
+            color="green"
+            type="submit"
+            variant="flat"
+          />
+
+          <v-btn
+            text="Cancelar"
+            :loading="isLoading"
+            variant="tonal"
+            block
+            @click="router.back()"
+          />
+        </v-card-actions>
+      </v-form>
     </v-card>
 
     <v-snackbar-queue
@@ -64,6 +87,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { SubmitEventPromise } from 'vuetify';
 import type { SnackbarMessage } from 'vuetify/lib/components/VSnackbarQueue/VSnackbarQueue.mjs';
 import { BrandService } from '~/services/brand.service';
 
@@ -71,10 +95,10 @@ const route = useRoute();
 const router = useRouter();
 const appId = route.params.appId as string;
 
-const isNewUser = appId === 'novo';
-const data = !isNewUser ? await BrandService.get(appId) : null;
+const isNewItem = appId === 'novo';
+const data = !isNewItem ? await BrandService.get(appId) : null;
 
-if (!isNewUser && !data) {
+if (!isNewItem && !data) {
   throw createError({
     status: 404,
     message: 'Usuário não encontrado',
@@ -89,9 +113,44 @@ const nome = ref(data?.nome || '');
 const site = ref(data?.urlSite || '');
 const urlImagens = ref(data?.urlImagens || '');
 const ativo = ref(data?.ativo ?? true);
+const expirarCarrinhoDias = ref(30);
 
-const save = () => {
-  messages.value.push('EM DESENVOLVIMENTO !!!');
+const save = async (event: SubmitEventPromise) => {
+  isLoading.value = true;
+
+  try {
+    const results = await event;
+
+    if (!results.valid) {
+      throw new Error('Corrija os erros do formulário');
+    }
+
+    if (isNewItem) {
+      isLoading.value = false;
+      return messages.value.push('EM DESENVOLVIMENTO !!!');
+      // await BrandService.add(
+      //   nome.value,
+      //   email.value,
+      //   ativo.value,
+      //   perfil.value,
+      //   newPass.value,
+      // );
+    } else {
+      isLoading.value = false;
+      return messages.value.push('EM DESENVOLVIMENTO !!!');
+      // await BrandService.edit(
+      //   id,
+      //   nome.value,
+      //   email.value,
+      //   ativo.value,
+      //   perfil.value,
+      //   newPass.value,
+      // );
+    }
+  } catch (error) {
+    messages.value.push((error as Error).message || 'Erro ao salvar marca');
+    isLoading.value = false;
+  }
 };
 </script>
 
