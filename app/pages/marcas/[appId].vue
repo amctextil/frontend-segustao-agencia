@@ -99,6 +99,7 @@ import type { SubmitEventPromise } from 'vuetify';
 import type { SnackbarMessage } from 'vuetify/lib/components/VSnackbarQueue/VSnackbarQueue.mjs';
 import { BrandService } from '~/services/brand.service';
 
+const configStore = useConfigStore();
 const route = useRoute();
 const router = useRouter();
 const appId = route.params.appId as string;
@@ -135,29 +136,36 @@ const save = async (event: SubmitEventPromise) => {
     }
 
     if (isNewItem) {
-      await BrandService.add(
-        nome.value,
-        newAppId.value,
-        ativo.value,
-        site.value,
-        urlImagens.value,
-        urlCarrinho.value,
-        {
+      await BrandService.add({
+        name: nome.value,
+        appId: newAppId.value,
+        active: ativo.value,
+        urlSite: site.value,
+        urlImages: urlImagens.value,
+        urlCart: urlCarrinho.value,
+        config: {
           cartDueDays: expirarCarrinhoDias.value,
         },
-      );
+      });
     } else {
-      isLoading.value = false;
-      return messages.value.push('EM DESENVOLVIMENTO !!!');
-      // await BrandService.edit(
-      //   id,
-      //   nome.value,
-      //   email.value,
-      //   ativo.value,
-      //   perfil.value,
-      //   newPass.value,
-      // );
+      if (!data?.id) {
+        throw new Error('Marca não encontrada para edição');
+      }
+
+      await BrandService.edit(data.id, {
+        name: nome.value,
+        appId: newAppId.value,
+        active: ativo.value,
+        urlSite: site.value,
+        urlImages: urlImagens.value,
+        urlCart: urlCarrinho.value,
+        config: {
+          cartDueDays: expirarCarrinhoDias.value,
+        },
+      });
     }
+
+    await configStore.loadBrands();
 
     messages.value.push({
       text: 'Marca ' + (isNewItem ? 'cadastrada' : 'editada'),

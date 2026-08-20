@@ -14,31 +14,30 @@ const activeList = async () => {
   return await $fetch<AppConfigProps[]>(`${apiPrefix}/brands/active`);
 };
 
-const add = async (
-  name: string,
-  appId: string,
-  active: boolean,
-  urlSite: string,
-  urlImages: string,
-  urlCart: string,
+type SaveProps = {
+  name: string;
+  appId: string;
+  active: boolean;
+  urlSite: string;
+  urlImages: string;
+  urlCart: string;
   config: {
     cartDueDays: number;
-  },
-) => {
-  const body = {
-    name,
-    appId,
-    active,
-    urlSite,
-    urlImages,
-    urlCart,
-    config,
   };
+};
 
+const add = async (params: SaveProps) => {
   return await $fetch<AppConfigProps>(`${apiPrefix}/brands`, {
     method: 'POST',
-    body,
+    body: params,
   });
 };
 
-export const BrandService = { get, list, activeList, add };
+const edit = async (id: number, params: SaveProps) => {
+  return await $fetch<AppConfigProps>(`${apiPrefix}/brands`, {
+    method: 'PUT',
+    body: { ...params, id },
+  });
+};
+
+export const BrandService = { get, list, activeList, add, edit };
