@@ -26,15 +26,15 @@
 
           <v-text-field
             v-model="site"
-            label="Website URL"
+            label="E-commerce URL"
             type="url"
             placeholder="https://example.com"
             :rules="[rules.url, rules.required]"
           />
 
           <v-text-field
-            v-model="urlImagens"
-            label="Imagens URL"
+            v-model="urlCarrinho"
+            label="Carrinho URL"
             type="url"
             placeholder="https://example.com"
             :rules="[rules.url, rules.required]"
@@ -44,6 +44,14 @@
             v-model="expirarCarrinhoDias"
             label="Dias para expiração do carrinho"
             :rules="[rules.required]"
+          />
+
+          <v-text-field
+            v-model="urlImagens"
+            label="Imagens URL"
+            type="url"
+            placeholder="https://example.com"
+            :rules="[rules.url, rules.required]"
           />
 
           <v-switch
@@ -112,6 +120,7 @@ const newAppId = ref(data?.appId || '');
 const nome = ref(data?.nome || '');
 const site = ref(data?.urlSite || '');
 const urlImagens = ref(data?.urlImagens || '');
+const urlCarrinho = ref(data?.link || '');
 const ativo = ref(data?.ativo ?? true);
 const expirarCarrinhoDias = ref(30);
 
@@ -126,15 +135,17 @@ const save = async (event: SubmitEventPromise) => {
     }
 
     if (isNewItem) {
-      isLoading.value = false;
-      return messages.value.push('EM DESENVOLVIMENTO !!!');
-      // await BrandService.add(
-      //   nome.value,
-      //   email.value,
-      //   ativo.value,
-      //   perfil.value,
-      //   newPass.value,
-      // );
+      await BrandService.add(
+        nome.value,
+        newAppId.value,
+        ativo.value,
+        site.value,
+        urlImagens.value,
+        urlCarrinho.value,
+        {
+          cartDueDays: expirarCarrinhoDias.value,
+        },
+      );
     } else {
       isLoading.value = false;
       return messages.value.push('EM DESENVOLVIMENTO !!!');

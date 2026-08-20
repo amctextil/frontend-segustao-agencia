@@ -7,4 +7,5 @@ export interface AppConfigProps {
   criadoEm: string;
   atualizadoEm: string;
   ativo: boolean;
+  link: string;
 }

@@ -14,4 +14,31 @@ const activeList = async () => {
   return await $fetch<AppConfigProps[]>(`${apiPrefix}/brands/active`);
 };
 
-export const BrandService = { get, list, activeList };
+const add = async (
+  name: string,
+  appId: string,
+  active: boolean,
+  urlSite: string,
+  urlImages: string,
+  urlCart: string,
+  config: {
+    cartDueDays: number;
+  },
+) => {
+  const body = {
+    name,
+    appId,
+    active,
+    urlSite,
+    urlImages,
+    urlCart,
+    config,
+  };
+
+  return await $fetch<AppConfigProps>(`${apiPrefix}/brands`, {
+    method: 'POST',
+    body,
+  });
+};
+
+export const BrandService = { get, list, activeList, add };
