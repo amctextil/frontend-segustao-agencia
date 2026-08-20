@@ -31,7 +31,7 @@ const add = async (
 };
 
 const edit = async (
-  id: string,
+  id: number,
   name: string,
   email: string,
   active: boolean,

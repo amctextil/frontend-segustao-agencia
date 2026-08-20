@@ -200,8 +200,12 @@ const save = async (event: SubmitEventPromise) => {
         newPass.value,
       );
     } else {
+      if (!data?.id) {
+        throw new Error('Usuário não encontrado');
+      }
+
       await UserService.edit(
-        id,
+        data.id,
         nome.value,
         email.value,
         ativo.value,

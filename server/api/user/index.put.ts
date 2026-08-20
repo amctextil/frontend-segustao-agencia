@@ -3,7 +3,7 @@ import { UserProfile } from '~~/shared/enums/UserProfile';
 import type { UserProps } from '~~/shared/interfaces/UserProps';
 
 const bodySchema = z.object({
-  id: z.string(),
+  id: z.number(),
   nome: z.string(),
   email: z.email(),
   ativo: z.boolean(),
