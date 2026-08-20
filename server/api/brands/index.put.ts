@@ -4,7 +4,6 @@ import type { AppConfigProps } from '~~/shared/interfaces/AppConfigProps';
 const bodySchema = z.object({
   id: z.number(),
   name: z.string(),
-  appId: z.string(),
   urlSite: z.url(),
   urlImages: z.url(),
   urlCart: z.url(),
@@ -26,7 +25,6 @@ export default defineEventHandler(async (event) => {
       method: 'PUT',
       body: {
         nome: requestBody.name,
-        appId: requestBody.appId,
         ativo: requestBody.active,
         urlSite: requestBody.urlSite,
         urlImagens: requestBody.urlImages,

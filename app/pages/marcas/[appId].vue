@@ -22,6 +22,7 @@
             label="ID da Marca"
             :loading="isLoading"
             :rules="[rules.required]"
+            :disabled="!isNewItem"
           />
 
           <v-text-field
@@ -154,7 +155,6 @@ const save = async (event: SubmitEventPromise) => {
 
       await BrandService.edit(data.id, {
         name: nome.value,
-        appId: newAppId.value,
         active: ativo.value,
         urlSite: site.value,
         urlImages: urlImagens.value,

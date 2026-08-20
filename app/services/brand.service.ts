@@ -33,7 +33,7 @@ const add = async (params: SaveProps) => {
   });
 };
 
-const edit = async (id: number, params: SaveProps) => {
+const edit = async (id: number, params: Omit<SaveProps, 'appId'>) => {
   return await $fetch<AppConfigProps>(`${apiPrefix}/brands`, {
     method: 'PUT',
     body: { ...params, id },
