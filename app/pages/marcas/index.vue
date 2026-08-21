@@ -44,7 +44,7 @@
 import { WDStrings } from 'widelab-utils';
 import { BrandService } from '../../services/brand.service';
 
-definePageMeta({ middleware: ['admin'] });
+definePageMeta({ middleware: ['03-admin'] });
 
 const searchQuery = ref('');
 
