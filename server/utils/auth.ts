@@ -1,3 +1,4 @@
+import type { EventHandlerRequest, H3Event } from 'h3';
 import type { AppConfigProps } from '~~/shared/interfaces/AppConfigProps';
 import { apiApp } from '../services/apiApp.service';
 
