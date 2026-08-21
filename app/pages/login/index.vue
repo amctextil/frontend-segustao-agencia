@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { useAuth } from '~/composables/useAuth';
-
-const { login } = useAuth();
+const { login } = useAuthStore();
 
 const email = useState<string>('login-email');
 const password = ref('');

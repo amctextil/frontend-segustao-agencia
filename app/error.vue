@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { NuxtError } from '#app';
 
-const { logout } = useAuth();
+const { logout } = useAuthStore();
 
 defineProps({
   error: {

@@ -141,7 +141,7 @@ const route = useRoute();
 const router = useRouter();
 const id = route.params.id as string;
 
-const { user } = useAuth();
+const { user } = useAuthStore();
 
 const isNewUser = id === 'novo';
 const data = !isNewUser ? await UserService.get(id) : null;

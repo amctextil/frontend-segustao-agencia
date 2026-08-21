@@ -1,17 +1,16 @@
 import { UserProfile } from '~~/shared/enums/UserProfile';
 
-export default defineNuxtRouteMiddleware(() => {
-  const { user } = useAuth();
+export default defineNuxtRouteMiddleware(async () => {
+  const { fetchUser, user } = useAuthStore();
+
+  await fetchUser();
 
   // redirect the user to the login screen if they're not authenticated
-  if (!user.value) {
+  if (!user) {
     return navigateTo('/login', { replace: true });
   }
 
-  if (
-    !user.value?.tipoUsuario ||
-    ![UserProfile.ADMIN].includes(user.value.tipoUsuario)
-  ) {
+  if (!user?.tipoUsuario || ![UserProfile.ADMIN].includes(user.tipoUsuario)) {
     return navigateTo('/');
   }
 });

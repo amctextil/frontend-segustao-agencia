@@ -99,7 +99,7 @@
       <v-card title="Deseja realmente sair?">
         <v-card-actions>
           <v-btn text="Ficar" @click="logoutDialog = false" />
-          <v-btn text="Sair" color="red" @click="handleLogout" />
+          <v-btn text="Sair" color="red" @click="logout" />
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -111,7 +111,7 @@ import { WDStrings } from 'widelab-utils';
 import { SITEMAP } from '~~/shared/constants/config';
 import { UserProfile } from '~~/shared/enums/UserProfile';
 
-const { user, logout } = useAuth();
+const { user, logout } = useAuthStore();
 const route = useRoute();
 const cartStore = useCartStore();
 
@@ -150,11 +150,6 @@ if (pageTitle) {
   useHead({ title: pageTitle });
 }
 
-async function handleLogout() {
-  await logout();
-  await navigateTo('/login', { replace: true });
-}
-
 const isNavMenuExpanded = useState('isNavMenuExpanded', () => false);
 
 const NAV_ITEMS = [
@@ -172,7 +167,7 @@ const NAV_ITEMS = [
   },
 ];
 
-if (user.value?.tipoUsuario === UserProfile.ADMIN) {
+if (user?.tipoUsuario === UserProfile.ADMIN) {
   NAV_ITEMS.push(
     {
       path: '/usuarios',
