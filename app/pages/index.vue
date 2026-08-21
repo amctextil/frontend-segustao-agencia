@@ -14,6 +14,43 @@ const list = ref(
   await ProductService.getByList(configStore.brand.appId, 1, 'roupas/'),
 );
 const isLoading = ref(false);
+const isLoadingMore = ref(false);
+const productsContainer = ref<HTMLElement>();
+const loadMoreTrigger = ref<HTMLElement>();
+const currentCategory = ref('');
+const currentPage = ref(1);
+let intersectionObserver: IntersectionObserver | undefined;
+
+const loadNextPage = async () => {
+  if (
+    isLoadingMore.value ||
+    !list.value?.HasNextPage ||
+    !configStore.brand.appId
+  ) {
+    return;
+  }
+
+  isLoadingMore.value = true;
+
+  try {
+    const nextPage = currentPage.value + 1;
+    const nextList = await ProductService.getByList(
+      configStore.brand.appId,
+      nextPage,
+      'roupas/' + currentCategory.value,
+    );
+
+    if (nextList) {
+      list.value = {
+        ...nextList,
+        Products: [...(list.value.Products ?? []), ...nextList.Products],
+      };
+      currentPage.value = nextPage;
+    }
+  } finally {
+    isLoadingMore.value = false;
+  }
+};
 
 const searchProducts = async ({
   category,
@@ -32,11 +69,15 @@ const searchProducts = async ({
       });
     }
 
-    list.value = await ProductService.getByList(
+    const nextList = await ProductService.getByList(
       configStore.brand.appId,
       1,
       'roupas/' + category,
     );
+
+    list.value = nextList;
+    currentCategory.value = category;
+    currentPage.value = 1;
 
     resolve();
   } finally {
@@ -58,6 +99,8 @@ watch(
       }
 
       list.value = await ProductService.getByList(appId, 1, 'roupas/');
+      currentCategory.value = '';
+      currentPage.value = 1;
     } catch {
       list.value = undefined;
     } finally {
@@ -65,6 +108,29 @@ watch(
     }
   },
 );
+
+onMounted(() => {
+  intersectionObserver = new IntersectionObserver(
+    ([entry]) => {
+      if (entry?.isIntersecting) {
+        void loadNextPage();
+      }
+    },
+    { root: productsContainer.value, threshold: 0.1 },
+  );
+
+  observeLoadMoreTrigger();
+});
+
+const observeLoadMoreTrigger = () => {
+  if (loadMoreTrigger.value) {
+    intersectionObserver?.observe(loadMoreTrigger.value);
+  }
+};
+
+watch(loadMoreTrigger, observeLoadMoreTrigger);
+
+onBeforeUnmount(() => intersectionObserver?.disconnect());
 </script>
 
 <template>
@@ -83,16 +149,34 @@ watch(
       <div v-else-if="!list?.Products.length" class="pa-4">
         <h2>nenhum produto cadastrado</h2>
       </div>
-      <ul v-else class="d-flex flex-row pa-0 ga-4 flex-wrap ma-0 overflow-auto">
-        <NuxtLink
-          v-for="item in list?.Products"
-          :key="item.ProductID"
-          :to="`/produto${item.Url}`"
-          class="text-decoration-none text-black"
+      <div
+        v-else
+        ref="productsContainer"
+        class="flex-grow-1 w-100 min-h-0 overflow-auto"
+      >
+        <ul class="d-flex flex-row pa-0 ga-4 flex-wrap ma-0">
+          <NuxtLink
+            v-for="item in list?.Products"
+            :key="item.ProductID"
+            :to="`/produto${item.Url}`"
+            class="text-decoration-none text-black"
+          >
+            <ProductGridItem :model-value="item" class="flex-fill" />
+          </NuxtLink>
+        </ul>
+        <div
+          v-if="list.HasNextPage"
+          ref="loadMoreTrigger"
+          class="d-flex justify-center w-100 pa-4"
+          aria-hidden="true"
         >
-          <ProductGridItem :model-value="item" class="flex-fill" />
-        </NuxtLink>
-      </ul>
+          <v-progress-circular
+            v-if="isLoadingMore"
+            indeterminate
+            class="ma-4"
+          />
+        </div>
+      </div>
     </div>
   </NuxtLayout>
 </template>
