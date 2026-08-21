@@ -60,6 +60,9 @@ const setNewPass = (newPass: string) => {
     router.replace('/login');
     step.value = 1;
   } catch (error) {
+    if (import.meta.dev) {
+      console.log('🚀 ~ setNewPass ~ error:', error);
+    }
   } finally {
     isLoading.value = false;
   }
