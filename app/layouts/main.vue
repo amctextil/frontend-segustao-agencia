@@ -118,13 +118,27 @@ const cartStore = useCartStore();
 const searchModalActive = ref(false);
 const logoutDialog = ref(false);
 
-const uniqueRouteParts = route.path
-  .split('/')
-  .map(parseRouteLinks)
-  .filter(
-    (item, index, arr) =>
-      arr.findIndex((fItem) => fItem.segment === item.segment) === index,
-  );
+const uniqueRouteParts = computed(() => {
+  let currentPath = '';
+
+  return ['', ...route.path.split('/').filter(Boolean)]
+    .map((segment) => {
+      if (segment) {
+        currentPath += `/${segment}`;
+      }
+
+      const item = parseRouteLinks(segment);
+
+      return {
+        ...item,
+        to: item.to === `/${segment}` ? currentPath : item.to,
+      };
+    })
+    .filter(
+      (item, index, arr) =>
+        arr.findIndex((fItem) => fItem.segment === item.segment) === index,
+    );
+});
 
 const routePath = route.path
   .replace(/(produto)\/(.+)/g, '$1/id')

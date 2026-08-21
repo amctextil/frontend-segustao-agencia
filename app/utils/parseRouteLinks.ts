@@ -2,37 +2,37 @@ const ROUTE_MAP = [
   {
     segment: '',
     title: 'Início',
-    href: '/',
+    to: '/',
   },
   {
     title: 'Produto',
     segment: 'produto',
-    href: '/',
+    to: '/',
   },
   {
     title: 'Carrinho',
     segment: 'carrinho',
-    href: '/carrinho',
+    to: '/carrinho',
   },
   {
     title: 'Cadastrados',
     segment: 'cadastrados',
-    href: '/carrinho/cadastrados',
+    to: '/carrinho/cadastrados',
   },
   {
     title: 'Usuários',
     segment: 'usuarios',
-    href: '/usuarios',
+    to: '/usuarios',
   },
   {
     title: 'Marcas',
     segment: 'marcas',
-    href: '/marcas',
+    to: '/marcas',
   },
 ];
 
 export default (segment: string) => {
   const routeData = ROUTE_MAP.find((item) => item.segment === segment);
 
-  return routeData ?? { title: segment, segment, href: '/' + segment };
+  return routeData ?? { title: segment, segment, to: '/' + segment };
 };
