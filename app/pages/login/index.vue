@@ -50,6 +50,7 @@ async function handleLogin() {
           label="E-mail"
           prepend-inner-icon="mdi-email-outline"
           type="email"
+          :disabled="isLoading"
         />
 
         <ClientOnly>
@@ -60,6 +61,7 @@ async function handleLogin() {
             prepend-inner-icon="mdi-key-outline"
             :append-inner-icon="passShow ? 'mdi-eye' : 'mdi-eye-off'"
             :type="passShow ? 'text' : 'password'"
+            :disabled="isLoading"
             @click:append-inner="passShow = !passShow"
           />
 
