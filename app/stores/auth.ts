@@ -18,7 +18,10 @@ export const useAuthStore = defineStore('auth', () => {
       user.value = response.user;
 
       return response.user;
-    } catch {
+    } catch (error) {
+      if (import.meta.dev) {
+        console.log('🚀 ~ fetchUser ~ error:', error);
+      }
       await logout();
     }
   }
@@ -43,7 +46,6 @@ export const useAuthStore = defineStore('auth', () => {
       });
     } finally {
       user.value = null;
-      await navigateTo('/login', { replace: true });
     }
   }
 

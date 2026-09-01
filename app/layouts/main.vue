@@ -99,7 +99,7 @@
       <v-card title="Deseja realmente sair?">
         <v-card-actions>
           <v-btn text="Ficar" @click="logoutDialog = false" />
-          <v-btn text="Sair" color="red" @click="logout" />
+          <v-btn text="Sair" color="red" @click="handleLogout" />
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -113,6 +113,7 @@ import { UserProfile } from '~~/shared/enums/UserProfile';
 
 const { user, logout } = useAuthStore();
 const route = useRoute();
+const router = useRouter();
 const cartStore = useCartStore();
 
 const searchModalActive = ref(false);
@@ -197,6 +198,10 @@ const activePath = computed(() =>
 );
 
 const attrs = useAttrs();
+
+const handleLogout = () => {
+  logout().finally(() => router.replace('/login'));
+};
 </script>
 
 <style>

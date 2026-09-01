@@ -6,10 +6,16 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return;
   }
 
-  await fetchUser();
+  try {
+    await fetchUser();
 
-  // redirect the user to the login screen if they're not authenticated
-  if (!user) {
-    return navigateTo('/login', { replace: true });
+    // redirect the user to the login screen if they're not authenticated
+    if (!user) {
+      return navigateTo('/login', { replace: true });
+    }
+  } catch (error) {
+    if (import.meta.dev) {
+      console.log('🚀 ~ 02.authenticated ~ error:', error);
+    }
   }
 });
