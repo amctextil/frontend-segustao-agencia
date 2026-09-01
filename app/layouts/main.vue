@@ -12,7 +12,7 @@
 
       <v-divider />
 
-      <v-list nav>
+      <v-list nav :class="{ 'is-navigating': isPageLoading }">
         <v-list-item
           v-for="item in NAV_ITEMS"
           :key="item.path"
@@ -90,7 +90,10 @@
     <v-main
       class="d-flex flex-column overflow-hidden h-screen bg-grey-lighten-5"
     >
-      <v-breadcrumbs :items="uniqueRouteParts" class="ma-0 pb-2" />
+      <v-breadcrumbs
+        :items="uniqueRouteParts"
+        :class="`ma-0 pb-2 ${isPageLoading && 'is-navigating'}`"
+      />
 
       <slot />
     </v-main>
@@ -118,6 +121,17 @@ const cartStore = useCartStore();
 
 const searchModalActive = ref(false);
 const logoutDialog = ref(false);
+
+const nuxtApp = useNuxtApp();
+const isPageLoading = ref(false);
+
+// Toggle interaction based on Nuxt Hooks
+nuxtApp.hook('page:start', () => {
+  isPageLoading.value = true;
+});
+nuxtApp.hook('page:finish', () => {
+  isPageLoading.value = false;
+});
 
 const uniqueRouteParts = computed(() => {
   let currentPath = '';
@@ -207,5 +221,10 @@ const handleLogout = () => {
 <style>
 .v-input.expanding-search {
   transition: max-width 0.5s;
+}
+
+.is-navigating {
+  pointer-events: none;
+  opacity: 0.6;
 }
 </style>
