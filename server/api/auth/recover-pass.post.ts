@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
     email,
     idAgencia: agencyId,
     token,
-    senha: password,
+    password,
   };
 
   const authorization =
@@ -29,28 +29,25 @@ export default defineEventHandler(async (event) => {
   try {
     switch (step) {
       case 3:
-        await $fetch(`${APIURL}/alteraSenha`, {
+        return await $fetch(`${APIURL}/alteraSenha`, {
           method: 'POST',
           headers: { authorization },
           body,
         });
-        break;
 
       case 2:
-        await $fetch(`${APIURL}/aprovaToken`, {
+        return await $fetch(`${APIURL}/aprovaToken`, {
           method: 'POST',
           headers: { authorization },
           body,
         });
-        break;
 
       default:
-        await $fetch(`${APIURL}/enviaToken`, {
+        return await $fetch(`${APIURL}/enviaToken`, {
           method: 'POST',
           headers: { authorization },
           body,
         });
-        break;
     }
   } catch {
     throw new Error('Erro ao recuperar senha');

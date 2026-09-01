@@ -83,7 +83,7 @@ const validateCode = async (token: string) => {
       body: {
         step: 2,
         email: values.value.email,
-        agencyId: values.value.email,
+        agencyId: values.value.agencyId,
         token,
       },
     });
@@ -112,7 +112,7 @@ const setNewPass = async (newPass: string) => {
       body: {
         step: 3,
         email: values.value.email,
-        agencyId: values.value.email,
+        agencyId: values.value.agencyId,
         token: values.value.code,
         password: newPass,
       },
