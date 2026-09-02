@@ -1,11 +1,15 @@
 import type { CartProps, NewCartItem } from '#shared/interfaces/CartProps';
 
 const list = async (appId: string) => {
-  return await $fetch<CartProps[]>(`${apiPrefix}/cart/list?appId=${appId}`);
+  return await useRequestFetch()<CartProps[]>(
+    `${apiPrefix}/cart/list?appId=${appId}`,
+  );
 };
 
 const get = async (appId: string, id: number) => {
-  return await $fetch<CartProps>(`${apiPrefix}/cart/${id}?appId=${appId}`);
+  return await useRequestFetch()<CartProps>(
+    `${apiPrefix}/cart/${id}?appId=${appId}`,
+  );
 };
 
 const createLink = async (
@@ -19,7 +23,7 @@ const createLink = async (
     nome,
   };
 
-  return await $fetch<CartProps>(`${apiPrefix}/cart `, {
+  return await useRequestFetch()<CartProps>(`${apiPrefix}/cart `, {
     method: 'POST',
     body,
   });

@@ -13,7 +13,7 @@ const getByList = async (
 ): Promise<ProductGrid | undefined> => {
   const fixedList = list.replace(/\/$/, '');
 
-  const response = await $fetch<ProductGrid>(
+  const response = await useRequestFetch()<ProductGrid>(
     `${apiPrefix}/product/list?lista=${fixedList}&appId=${appId}&pagina=${page}&ordenacao=${sort}`,
   );
 
@@ -28,13 +28,13 @@ const getByList = async (
 };
 
 const getBySearch = async (pesquisa: string, appId: string, pagina = 1) => {
-  return await $fetch<SearchProductResponse>(
+  return await useRequestFetch()<SearchProductResponse>(
     `${apiPrefix}/product/search?appId=${appId}&pagina=${pagina}&pesquisa=${pesquisa}`,
   );
 };
 
 const getProductByUrl = async (productUrl: string, appId: string) => {
-  const response = await $fetch<SCNProductProps>(
+  const response = await useRequestFetch()<SCNProductProps>(
     `${apiPrefix}/product?appId=${appId}&productUrl=${productUrl}`,
   );
 
@@ -42,7 +42,7 @@ const getProductByUrl = async (productUrl: string, appId: string) => {
 };
 
 const getCategories = async (appId: string) => {
-  const response = await $fetch<SCNCategory[]>(
+  const response = await useRequestFetch()<SCNCategory[]>(
     `${apiPrefix}/categories?appId=${appId}`,
   );
 

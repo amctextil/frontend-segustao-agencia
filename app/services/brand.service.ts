@@ -1,17 +1,19 @@
 import type { AppConfigProps } from '~~/shared/interfaces/AppConfigProps';
 
 const get = async (appId: string) => {
-  return await $fetch<AppConfigProps | undefined>(
+  return await useRequestFetch()<AppConfigProps | undefined>(
     `${apiPrefix}/brand?appId=${appId}`,
   );
 };
 
 const list = async () => {
-  return await $fetch<AppConfigProps[]>(`${apiPrefix}/brands`);
+  return await useRequestFetch()<AppConfigProps[]>(`${apiPrefix}/brands`);
 };
 
 const activeList = async () => {
-  return await $fetch<AppConfigProps[]>(`${apiPrefix}/brands/active`);
+  return await useRequestFetch()<AppConfigProps[]>(
+    `${apiPrefix}/brands/active`,
+  );
 };
 
 type SaveProps = {
@@ -27,14 +29,14 @@ type SaveProps = {
 };
 
 const add = async (params: SaveProps) => {
-  return await $fetch<AppConfigProps>(`${apiPrefix}/brands`, {
+  return await useRequestFetch()<AppConfigProps>(`${apiPrefix}/brands`, {
     method: 'POST',
     body: params,
   });
 };
 
 const edit = async (id: number, params: Omit<SaveProps, 'appId'>) => {
-  return await $fetch<AppConfigProps>(`${apiPrefix}/brands`, {
+  return await useRequestFetch()<AppConfigProps>(`${apiPrefix}/brands`, {
     method: 'PUT',
     body: { ...params, id },
   });
