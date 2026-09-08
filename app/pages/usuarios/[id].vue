@@ -100,6 +100,13 @@
               />
             </template>
           </ClientOnly>
+
+          <v-text-field
+            v-if="!!data"
+            :value="data?.cupom"
+            label="Cupom"
+            prepend-inner-icon="mdi-ticket-percent-outline"
+          />
         </div>
 
         <v-card-actions class="d-flex flex-column ga-4 py-4">

@@ -7,4 +7,5 @@ export interface UserProps {
   email: string;
   status: boolean;
   tipoUsuario: UserProfile;
+  cupom?: string;
 }
