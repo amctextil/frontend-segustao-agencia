@@ -2,7 +2,7 @@
 const titleTemplate = '%s | AMC';
 const title = 'Sugestão da Agência';
 const description =
-  'A production-ready starter template powered by Nuxt UI. Build beautiful, accessible, and performant applications in minutes, not hours.';
+  'Aplicativo para criação de carrinhos sugeridos pela Agência da AMC Têxtil para os clientes da AMC.';
 
 useHead({
   meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
@@ -19,7 +19,7 @@ useSeoMeta({
   description,
   ogTitle: title,
   ogDescription: description,
-  ogImage: 'https://ui.nuxt.com/assets/templates/nuxt/starter-light.png',
+  ogImage: '/ogImage.png',
   twitterCard: 'summary_large_image',
 });
 </script>
