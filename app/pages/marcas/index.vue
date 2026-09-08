@@ -27,7 +27,7 @@
       <v-card-actions>
         <v-btn
           block
-          prepend-icon="mdi-account-plus"
+          prepend-icon="mdi-store-plus-outline"
           variant="tonal"
           color="primary"
           size="large"
