@@ -103,9 +103,10 @@
 
           <v-text-field
             v-if="!!data"
-            :value="data?.cupom"
-            label="Cupom"
+            :value="data?.cupons?.at(0)?.cupom || 'Nenhum cupom vinculado'"
             prepend-inner-icon="mdi-ticket-percent-outline"
+            disabled
+            error-messages="O cupom não pode ser editado"
           />
         </div>
 
