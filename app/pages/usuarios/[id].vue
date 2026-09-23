@@ -102,11 +102,18 @@
           </ClientOnly>
 
           <v-text-field
-            v-if="!!data"
-            :value="data?.cupons?.at(0)?.cupom || 'Nenhum cupom vinculado'"
+            v-for="cupom in data?.cupons"
+            :key="cupom.id"
+            :value="`${brandName(cupom.appId)}: ${cupom.cupom}`"
             prepend-inner-icon="mdi-ticket-percent-outline"
             disabled
             error-messages="O cupom não pode ser editado"
+          />
+          <v-text-field
+            v-if="!data?.cupons?.length"
+            value="Nenhum cupom vinculado"
+            prepend-inner-icon="mdi-ticket-percent-outline"
+            disabled
           />
         </div>
 
@@ -150,6 +157,7 @@ const router = useRouter();
 const id = route.params.id as string;
 
 const { user } = useAuthStore();
+const { brandList } = useConfigStore();
 
 const isNewUser = id === 'novo';
 const data = !isNewUser ? await UserService.get(id) : null;
@@ -232,6 +240,12 @@ const save = async (event: SubmitEventPromise) => {
 
     isLoading.value = false;
   }
+};
+
+const brandName = (appId?: string) => {
+  const brand = brandList.find((item) => item.appId === appId);
+
+  return brand?.nome || appId || 'Geral';
 };
 </script>
 

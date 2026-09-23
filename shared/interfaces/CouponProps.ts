@@ -4,4 +4,5 @@ export interface CouponProps {
   idUsuario: number;
   status: boolean;
   appId?: string;
+  ecomCodeId?: string;
 }
